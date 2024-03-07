@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 
 import {SONG} from "../contracts/SONG.sol";
 import {PLAYLIST} from "../contracts/PLAYLIST.sol";
-import {ALBUM_REDEMPTION} from "../contracts/ALBUM_REDEMPTION.sol";
+// import {ALBUM_REDEMPTION} from "../contracts/ALBUM_REDEMPTION.sol";
 import {ALBUM} from "../contracts/ALBUM.sol";
 
 contract YourContractTest is Test {
@@ -15,6 +15,9 @@ contract YourContractTest is Test {
     function setUp() public {
         s_artist = vm.addr(1);
         s_user = vm.addr(2);
+
+        console.log("Artist: ", address(s_artist));
+        console.log("User: ", address(s_user));
 
         SONG song1 = new SONG(s_artist, "Song 1", "S1", 0.1 ether, "ipfs");
         console.log("Song1:", address(song1));
@@ -30,17 +33,24 @@ contract YourContractTest is Test {
         address[] memory admins = new address[](1);
         admins[0] = s_artist;
 
-        ALBUM album = new ALBUM(s_artist, admins, "Album 1", "A1", "ipfs");
-
-        ALBUM_REDEMPTION album_redemption = new ALBUM_REDEMPTION(
-            s_artist,
+        ALBUM album = new ALBUM(
             address(playlist),
-            address(album)
+            s_artist,
+            admins,
+            "Album 1",
+            "A1",
+            "ipfs"
         );
 
-        vm.startPrank(s_artist);
-        album.grantRole(album.DEFAULT_ADMIN_ROLE(), address(album_redemption));
-        vm.stopPrank();
+        // ALBUM_REDEMPTION album_redemption = new ALBUM_REDEMPTION(
+        //     s_artist,
+        //     address(playlist),
+        //     address(album)
+        // );
+
+        // vm.startPrank(s_artist);
+        // album.grantRole(album.DEFAULT_ADMIN_ROLE(), address(album_redemption));
+        // vm.stopPrank();
 
         vm.startPrank(s_artist);
         playlist.ADD_SONG(address(song1));
@@ -55,7 +65,7 @@ contract YourContractTest is Test {
             console.log(songs[i]);
         }
 
-        console.log(album_redemption.CHECK_IF_OWNS_COLLECTION(s_user));
+        console.log(album.CHECK_IF_OWNS_COLLECTION(s_user));
 
         vm.deal(s_user, 0.4 ether);
 
@@ -66,10 +76,20 @@ contract YourContractTest is Test {
         song4.MINT{value: 0.1 ether}(s_user);
         vm.stopPrank();
 
-        console.log(album_redemption.CHECK_IF_OWNS_COLLECTION(s_user));
+        console.log(album.CHECK_IF_OWNS_COLLECTION(s_user));
 
-        album_redemption.MINT_IF_COMPLETE_OWNERSHIP(s_user);
+        album.claim(s_user);
         console.log(album.balanceOf(s_user));
+
+        console.log(album.ownerOf(0));
+
+        vm.startPrank(s_user);
+        song2.transferFrom(s_user, s_artist, 0);
+        vm.stopPrank();
+
+        console.log(album.balanceOf(s_user));
+
+        console.log(album.ownerOf(0));
 
         console.log(playlist.getSongByIndex(4));
         console.log(playlist.getSongByIndex(1));

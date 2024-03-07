@@ -4,12 +4,24 @@ pragma solidity >=0.8.0 <0.9.0;
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
+import {PLAYLIST} from "./PLAYLIST.sol";
 
 contract ALBUM is Ownable, AccessControl, ERC721 {
+    error ALBUM__CANNOT_TRANSFER_SOULBOUND_TOKEN(
+        address from,
+        address to,
+        uint256 tokenId
+    );
+
+    error ALBUM__DOES_NOT_OWN_ENTIRE_COLLECTION();
+
     string S_URI;
     uint256 S_MINT_COUNT;
 
+    PLAYLIST S_PLAYLIST;
+
     constructor(
+        address NEW_PLAYLIST,
         address OWNER,
         address[] memory admins,
         string memory NAME,
@@ -21,11 +33,7 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         }
 
         S_URI = URI;
-    }
-
-    function mint(address TARGET) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        _mint(TARGET, S_MINT_COUNT);
-        S_MINT_COUNT++;
+        S_PLAYLIST = PLAYLIST(NEW_PLAYLIST);
     }
 
     function tokenURI(
@@ -39,5 +47,57 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         bytes4 interfaceId
     ) public view override(ERC721, AccessControl) returns (bool) {
         return super.supportsInterface(interfaceId);
+    }
+
+    function balanceOf(
+        address owner
+    ) public view virtual override returns (uint256) {
+        if (!CHECK_IF_OWNS_COLLECTION(owner)) {
+            return 0;
+        }
+
+        return super.balanceOf(owner);
+    }
+
+    function ownerOf(
+        uint256 tokenId
+    ) public view virtual override returns (address) {
+        address owner = _ownerOf(tokenId);
+
+        if (!CHECK_IF_OWNS_COLLECTION(owner)) {
+            return address(0);
+        }
+
+        return _requireOwned(tokenId);
+    }
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public virtual override {
+        revert ALBUM__CANNOT_TRANSFER_SOULBOUND_TOKEN(from, to, tokenId);
+    }
+
+    function CHECK_IF_OWNS_COLLECTION(
+        address TARGET
+    ) public view returns (bool) {
+        address[] memory songs = S_PLAYLIST.getAllSongs();
+        uint256 ownedCount = 0;
+        for (uint256 i = 0; i < songs.length; i++) {
+            if (ERC721(songs[i]).balanceOf(TARGET) > 0) {
+                ownedCount++;
+            }
+        }
+
+        return ownedCount == songs.length;
+    }
+
+    function claim(address TARGET) external {
+        if (!CHECK_IF_OWNS_COLLECTION(TARGET))
+            revert ALBUM__DOES_NOT_OWN_ENTIRE_COLLECTION();
+
+        _mint(TARGET, S_MINT_COUNT);
+        S_MINT_COUNT++;
     }
 }
