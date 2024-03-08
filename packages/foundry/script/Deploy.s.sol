@@ -39,7 +39,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "NO",
             "NO",
             0.001 ether,
-            "ipfs://bafkreihib5py6fn6uvbvlknnce7msb3lbc4v22wefeovi5a4cgjm7kbnnu"
+            "ipfs://bafkreiefug6orin7nzf2s26gnzn63ji4jd6r5ljoklovjd4ahlshzld63q"
         );
         console.log("Song1:", address(song1));
         SONG2 song2 = new SONG2(
@@ -47,7 +47,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "BAABY",
             "BAABY",
             0.002 ether,
-            "ipfs://bafkreidrrk7k3cbawbub5paqydwxl5z4dryu2k5y77ltl6wznd5mnff2ne"
+            "ipfs://bafkreiglcjqxy2rhgvn6wppbqmq4kjkazwluz3duqpf2tapdfejjm5nm4i"
         );
         console.log("Song2:", address(song2));
         SONG3 song3 = new SONG3(
@@ -55,7 +55,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "TREES",
             "TREES",
             0.003 ether,
-            "ipfs://bafkreidqqojqqi2y4uyr7v72nhii2we72q2unzsszoztb33hdcilszarf4"
+            "ipfs://bafkreidmqjaxso62i6fkmrrldp7mksjfmzugrvsmmktaokbr5t4gahw6pe"
         );
         console.log("Song3:", address(song3));
         SONG4 song4 = new SONG4(
@@ -63,7 +63,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "ONCE YOU FIND OUT",
             "OYFO",
             0.004 ether,
-            "ipfs://bafkreigknn45ifoyd6n2rywtcekvm4xbjmn57tncazy63rqhwbwovjpzzu"
+            "ipfs://bafkreiefhkpgtfuhvpdxt36uirsoh42znuydcyxiybtcnfqxs2eiwkwr4y"
         );
 
         PLAYLIST playlist = new PLAYLIST(deployerPubKey);

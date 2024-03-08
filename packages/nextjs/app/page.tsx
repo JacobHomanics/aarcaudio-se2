@@ -1,5 +1,7 @@
 "use client";
 
+import Player from "@madzadev/audio-player";
+import "@madzadev/audio-player/dist/index.css";
 import type { NextPage } from "next";
 import { useFetch } from "usehooks-ts";
 import { formatEther } from "viem";
@@ -116,9 +118,47 @@ const Home: NextPage = () => {
     disabled: !hasRedeemed ? !ownsCollection : true,
   };
 
+  const tracks = [];
+
+  if (song1TokenData) {
+    tracks.push({
+      url: song1TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+      title: nft.name,
+      tags: ["house"],
+    });
+  }
+  if (song2TokenData) {
+    tracks.push({
+      url: song2TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+      title: nft2.name,
+      tags: ["dnb"],
+    });
+  }
+  if (song3TokenData) {
+    tracks.push({
+      url: song3TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+      title: nft3.name,
+      tags: ["dubstep"],
+    });
+  }
+  if (song4TokenData) {
+    tracks.push({
+      url: song4TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+      title: nft4.name,
+      tags: ["dubstep"],
+    });
+  }
+
   return (
     <>
       <div className="flex items-center flex-col flex-grow pt-10">
+        <div className="items-center bg-slate m-1 p-1">
+          {tracks.length > 0 ? (
+            <Player trackList={tracks} includeTags={false} includeSearch={false} showPlaylist={false} />
+          ) : (
+            <></>
+          )}
+        </div>
         <p className="text-primary-content text-2xl">BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.</p>
         <NftCard nft={albumNft} buttonObj={albumBtnObj} />
         <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">
