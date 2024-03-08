@@ -49,19 +49,19 @@ export const Footer = () => {
           <div className="flex justify-center items-center gap-2 text-sm w-full">
             <div className="text-center text-accent">
               <a href="https://www.instagram.com/travisivart101/" target="_blank" rel="noreferrer" className="link">
-                Instagram
+                INSTAGRAM
               </a>
             </div>
             <span className="text-accent">·</span>
             <div className="text-center text-accent">
               <a href="https://www.youtube.com/watch?v=-ujP6Gcg8gU" target="_blank" rel="noreferrer" className="link">
-                Youtube
+                YOUTUBE
               </a>
             </div>
             <span className="text-accent">·</span>
             <div className="text-center text-accent">
               <a href="https://linktr.ee/aarcaudio" target="_blank" rel="noreferrer" className="link">
-                LinkTree
+                LINKTREE
               </a>
             </div>
           </div>

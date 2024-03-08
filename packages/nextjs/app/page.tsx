@@ -154,7 +154,13 @@ const Home: NextPage = () => {
       <div className="flex items-center flex-col flex-grow pt-10">
         <div className="items-center bg-slate m-1 p-1">
           {tracks.length > 0 ? (
-            <Player trackList={tracks} includeTags={false} includeSearch={false} showPlaylist={false} />
+            <Player
+              trackList={tracks}
+              includeTags={false}
+              includeSearch={false}
+              showPlaylist={false}
+              sortTracks={false}
+            />
           ) : (
             <></>
           )}
