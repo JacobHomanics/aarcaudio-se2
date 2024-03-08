@@ -14,6 +14,14 @@ contract SONG is Ownable, ERC721 {
     string S_URI;
     uint256 S_MINT_COUNT;
 
+    function getPrice() external view returns (uint256) {
+        return S_PRICE;
+    }
+
+    function getURI() external view returns (string memory) {
+        return S_URI;
+    }
+
     constructor(
         address OWNER,
         string memory NAME,

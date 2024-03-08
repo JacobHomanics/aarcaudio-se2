@@ -5,8 +5,9 @@ import "forge-std/Test.sol";
 
 import {SONG} from "../contracts/SONG.sol";
 import {PLAYLIST} from "../contracts/PLAYLIST.sol";
-// import {ALBUM_REDEMPTION} from "../contracts/ALBUM_REDEMPTION.sol";
 import {ALBUM} from "../contracts/ALBUM.sol";
+
+// import {ALBUM_REDEMPTION} from "../contracts/ALBUM_REDEMPTION.sol";
 
 contract YourContractTest is Test {
     address s_artist;

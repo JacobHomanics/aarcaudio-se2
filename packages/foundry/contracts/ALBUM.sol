@@ -14,11 +14,14 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
     );
 
     error ALBUM__DOES_NOT_OWN_ENTIRE_COLLECTION();
+    error ALBUM__ALREADY_CLAIMED();
 
     string S_URI;
     uint256 S_MINT_COUNT;
 
     PLAYLIST S_PLAYLIST;
+
+    mapping(address user => bool) s_hasRedeemed;
 
     constructor(
         address NEW_PLAYLIST,
@@ -79,6 +82,12 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         revert ALBUM__CANNOT_TRANSFER_SOULBOUND_TOKEN(from, to, tokenId);
     }
 
+    function getHasRedeemed(
+        address user
+    ) public view returns (bool hasRedeemed) {
+        hasRedeemed = s_hasRedeemed[user];
+    }
+
     function CHECK_IF_OWNS_COLLECTION(
         address TARGET
     ) public view returns (bool) {
@@ -97,7 +106,15 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         if (!CHECK_IF_OWNS_COLLECTION(TARGET))
             revert ALBUM__DOES_NOT_OWN_ENTIRE_COLLECTION();
 
+        if (getHasRedeemed(TARGET)) {
+            revert ALBUM__ALREADY_CLAIMED();
+        }
         _mint(TARGET, S_MINT_COUNT);
+        s_hasRedeemed[TARGET] = true;
         S_MINT_COUNT++;
+    }
+
+    function getURI() external view returns (string memory) {
+        return S_URI;
     }
 }

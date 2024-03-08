@@ -1,67 +1,130 @@
 "use client";
 
-import Link from "next/link";
 import type { NextPage } from "next";
+import { useFetch } from "usehooks-ts";
+import { formatEther } from "viem";
 import { useAccount } from "wagmi";
-import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Address } from "~~/components/scaffold-eth";
+import { NftCard } from "~~/components/NftCard/NftCard";
+import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
+  const { data: album1URI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "getURI" });
+  const album1URICorrected = album1URI?.replace("ipfs://", "https://ipfs.io/ipfs/");
+
+  const { data: album1Metadata } = useFetch<any>(album1URICorrected);
+
+  const albumNft = {
+    name: album1Metadata?.name,
+    image: album1Metadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+  };
+
+  const { data: ownsCollection } = useScaffoldContractRead({
+    contractName: "ALBUM",
+    functionName: "CHECK_IF_OWNS_COLLECTION",
+    args: [connectedAddress],
+  });
+
+  const { data: hasRedeemed } = useScaffoldContractRead({
+    contractName: "ALBUM",
+    functionName: "getHasRedeemed",
+    args: [connectedAddress],
+  });
+
+  const { writeAsync: claimAlbum } = useScaffoldContractWrite({
+    contractName: "ALBUM",
+    functionName: "claim",
+    args: [connectedAddress],
+  });
+
+  const { data: song1Price } = useScaffoldContractRead({ contractName: "SONG1", functionName: "getPrice" });
+  const { data: song2Price } = useScaffoldContractRead({ contractName: "SONG2", functionName: "getPrice" });
+  const { data: song3Price } = useScaffoldContractRead({ contractName: "SONG3", functionName: "getPrice" });
+  const { data: song4Price } = useScaffoldContractRead({ contractName: "SONG4", functionName: "getPrice" });
+
+  const { data: song1URI } = useScaffoldContractRead({ contractName: "SONG1", functionName: "getURI" });
+  const { data: song2URI } = useScaffoldContractRead({ contractName: "SONG2", functionName: "getURI" });
+  const { data: song3URI } = useScaffoldContractRead({ contractName: "SONG3", functionName: "getURI" });
+  const { data: song4URI } = useScaffoldContractRead({ contractName: "SONG4", functionName: "getURI" });
+
+  const { writeAsync: mintSong1 } = useScaffoldContractWrite({
+    contractName: "SONG1",
+    functionName: "MINT",
+    args: [connectedAddress],
+    value: song1Price,
+  });
+
+  const { writeAsync: mintSong2 } = useScaffoldContractWrite({
+    contractName: "SONG2",
+    functionName: "MINT",
+    args: [connectedAddress],
+    value: song2Price,
+  });
+
+  const { writeAsync: mintSong3 } = useScaffoldContractWrite({
+    contractName: "SONG3",
+    functionName: "MINT",
+    args: [connectedAddress],
+    value: song3Price,
+  });
+
+  const { writeAsync: mintSong4 } = useScaffoldContractWrite({
+    contractName: "SONG4",
+    functionName: "MINT",
+    args: [connectedAddress],
+    value: song4Price,
+  });
+
+  const song1URICorrected = song1URI?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  const song2URICorrected = song2URI?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  const song3URICorrected = song3URI?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  const song4URICorrected = song4URI?.replace("ipfs://", "https://ipfs.io/ipfs/");
+
+  const { data: song1TokenData } = useFetch<any>(song1URICorrected);
+  const { data: song2TokenData } = useFetch<any>(song2URICorrected);
+  const { data: song3TokenData } = useFetch<any>(song3URICorrected);
+  const { data: song4TokenData } = useFetch<any>(song4URICorrected);
+
+  const nft = {
+    name: song1TokenData?.name,
+    image: song1TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+    price: formatEther(song1Price || BigInt(0)),
+  };
+
+  const nft2 = {
+    name: song2TokenData?.name,
+    image: song2TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+    price: formatEther(song2Price || BigInt(0)),
+  };
+
+  const nft3 = {
+    name: song3TokenData?.name,
+    image: song3TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+    price: formatEther(song3Price || BigInt(0)),
+  };
+
+  const nft4 = {
+    name: song4TokenData?.name,
+    image: song4TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+    price: formatEther(song4Price || BigInt(0)),
+  };
+
+  const albumBtnObj = {
+    text: !hasRedeemed ? "Claim" : "Claimed!",
+    onClaimed: claimAlbum,
+    disabled: !hasRedeemed ? !ownsCollection : true,
+  };
+
   return (
     <>
       <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
-          </h1>
-          <div className="flex justify-center items-center space-x-2">
-            <p className="my-2 font-medium">Connected Address:</p>
-            <Address address={connectedAddress} />
-          </div>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/app/page.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
-        </div>
-
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contracts
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-          </div>
+        <NftCard nft={albumNft} buttonObj={albumBtnObj} />
+        <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">
+          <NftCard nft={nft} buttonObj={{ text: "Buy", onClaimed: mintSong1 }} />
+          <NftCard nft={nft2} buttonObj={{ text: "Buy", onClaimed: mintSong2 }} />
+          <NftCard nft={nft3} buttonObj={{ text: "Buy", onClaimed: mintSong3 }} />
+          <NftCard nft={nft4} buttonObj={{ text: "Buy", onClaimed: mintSong4 }} />
         </div>
       </div>
     </>
