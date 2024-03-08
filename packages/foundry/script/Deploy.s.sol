@@ -83,7 +83,7 @@ contract DeployScript is ScaffoldETHDeploy {
             admins,
             "AARCADE RUN",
             "AAR",
-            "ipfs://bafkreibbzylk4dyauktmrrpg5g6ylx4dwg4h42pchlv6cf4aoz7iewtpu4"
+            "ipfs://bafkreienrelxkykta5n5ox77mntpnuqjcgb3ddaizdngvxkp67mfafyxgm"
         );
 
         // AARCAUDIO_VOLUME_1 yourContract = new AARCAUDIO_VOLUME_1();

@@ -3544,7 +3544,7 @@ const deployedContracts = {
   },
   11155111: {
     SONG1: {
-      address: "0x9Dd9240783801B2a4238e6f1Bbc8ECE46A6540F4",
+      address: "0x1C83633808B9Dc2840C55d67B4d625B5D86Df7fA",
       abi: [
         {
           type: "constructor",
@@ -4165,7 +4165,7 @@ const deployedContracts = {
       },
     },
     SONG2: {
-      address: "0x295383Cb170E455a8d50789CDAA6875525CE8e89",
+      address: "0x4E69a1E5b6D40BE40dcF673b78acCAaEFa783512",
       abi: [
         {
           type: "constructor",
@@ -4786,7 +4786,7 @@ const deployedContracts = {
       },
     },
     SONG3: {
-      address: "0x0aaE8991362A4B1B7750432a7d88F02bFB3BAAeB",
+      address: "0x5A7Bb23A198c0a4Ca2E5e154f7eEea4eDEDb4fEb",
       abi: [
         {
           type: "constructor",
@@ -5407,7 +5407,7 @@ const deployedContracts = {
       },
     },
     SONG4: {
-      address: "0xc96043Ef44d8929188aC0Bb1157C01EbC64da3bB",
+      address: "0x0C73398ee985d0a71Ad518388395Bd1D05f4BA8e",
       abi: [
         {
           type: "constructor",
@@ -6028,7 +6028,7 @@ const deployedContracts = {
       },
     },
     PLAYLIST: {
-      address: "0x981c366bEC534982c67143c0A0194ee33daE9F32",
+      address: "0x5ABFAD515011AaDAdb450F79A304A961A0E43d54",
       abi: [
         {
           type: "constructor",
@@ -6207,7 +6207,7 @@ const deployedContracts = {
       },
     },
     ALBUM: {
-      address: "0x8D8b3dB864bf2908cebea75510bbe8EF71ac405C",
+      address: "0xDeE3f9FBe5aC9A712644bD9F5105244617723615",
       abi: [
         {
           type: "constructor",
