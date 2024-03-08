@@ -119,35 +119,66 @@ const Home: NextPage = () => {
   };
 
   const tracks = [];
-
-  if (song1TokenData) {
+  if (song1TokenData && song2TokenData && song3TokenData && song4TokenData) {
     tracks.push({
       url: song1TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
       title: nft.name,
       tags: ["house"],
     });
-  }
-  if (song2TokenData) {
+
     tracks.push({
       url: song2TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
       title: nft2.name,
-      tags: ["dnb"],
+      tags: ["house"],
     });
-  }
-  if (song3TokenData) {
+
+    tracks.push({
+      url: song2TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+      title: nft2.name,
+      tags: ["house"],
+    });
+
     tracks.push({
       url: song3TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
       title: nft3.name,
-      tags: ["dubstep"],
+      tags: ["house"],
     });
-  }
-  if (song4TokenData) {
+
     tracks.push({
       url: song4TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
       title: nft4.name,
-      tags: ["dubstep"],
+      tags: ["house"],
     });
   }
+
+  // if (song1TokenData) {
+  //   tracks.push({
+  //     url: song1TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+  //     title: nft.name,
+  //     tags: ["house"],
+  //   });
+  // }
+  // if (song2TokenData) {
+  //   tracks.push({
+  //     url: song2TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+  //     title: nft2.name,
+  //     tags: ["house"],
+  //   });
+  // }
+  // if (song3TokenData) {
+  //   tracks.push({
+  //     url: song3TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+  //     title: nft3.name,
+  //     tags: ["house"],
+  //   });
+  // }
+  // if (song4TokenData) {
+  //   tracks.push({
+  //     url: song4TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+  //     title: nft4.name,
+  //     tags: ["house"],
+  //   });
+  // }
 
   return (
     <>
