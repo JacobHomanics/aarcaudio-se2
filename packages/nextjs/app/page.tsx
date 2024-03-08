@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Player from "@madzadev/audio-player";
 import "@madzadev/audio-player/dist/index.css";
 import type { NextPage } from "next";
@@ -7,6 +8,7 @@ import { useFetch } from "usehooks-ts";
 import { formatEther } from "viem";
 import { useAccount } from "wagmi";
 import { NftCard } from "~~/components/NftCard/NftCard";
+// import { useAudio } from "~~/components/hooks/hooks";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const Home: NextPage = () => {
@@ -118,34 +120,44 @@ const Home: NextPage = () => {
     disabled: !hasRedeemed ? !ownsCollection : true,
   };
 
+  let song1AudioURICorrected = "";
+  if (song1TokenData) {
+    song1AudioURICorrected = song1TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  }
+  let song2AudioURICorrected = "";
+  if (song2TokenData) {
+    song2AudioURICorrected = song2TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  }
+  let song3AudioURICorrected = "";
+  if (song3TokenData) {
+    song3AudioURICorrected = song3TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  }
+  let songAudio4URICorrected = "";
+  if (song4TokenData) {
+    songAudio4URICorrected = song4TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  }
   const tracks = [];
   if (song1TokenData && song2TokenData && song3TokenData && song4TokenData) {
     tracks.push({
-      url: song1TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+      url: song1AudioURICorrected,
       title: nft.name,
       tags: ["house"],
     });
 
     tracks.push({
-      url: song2TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+      url: song2AudioURICorrected,
       title: nft2.name,
       tags: ["house"],
     });
 
     tracks.push({
-      url: song2TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
-      title: nft2.name,
-      tags: ["house"],
-    });
-
-    tracks.push({
-      url: song3TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+      url: song3AudioURICorrected,
       title: nft3.name,
       tags: ["house"],
     });
 
     tracks.push({
-      url: song4TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+      url: songAudio4URICorrected,
       title: nft4.name,
       tags: ["house"],
     });
@@ -180,11 +192,54 @@ const Home: NextPage = () => {
   //   });
   // }
 
+  const [selectedSong, setSelectedSong] = useState("");
+
+  // const [playing, toggle] = useAudio(selectedSong);
+
+  // console.log(playing);
+
+  async function handleTogglePlay(newSong: any) {
+    setSelectedSong(newSong);
+  }
+
   return (
     <>
-      <div className="min-h-0 py-5 px-1 mb-11 lg:mb-0">
+      <div className="flex items-center flex-col flex-grow pt-10">
+        {tracks.length > 0 ? (
+          <Player
+            trackList={tracks}
+            includeTags={false}
+            includeSearch={false}
+            showPlaylist={false}
+            sortTracks={false}
+          />
+        ) : (
+          <></>
+        )}
+        <p className="text-primary-content text-2xl">BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.</p>
+        <NftCard nft={albumNft} buttonObj={albumBtnObj} />
+        <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">
+          <NftCard
+            nft={nft}
+            buttonObj={{ text: "Buy", onClaimed: mintSong1 }}
+            toggleButtonObj={{
+              text: "Play",
+              onTogglePlay: async () => {
+                handleTogglePlay(song1AudioURICorrected);
+              },
+            }}
+          />
+          <NftCard nft={nft2} buttonObj={{ text: "Buy", onClaimed: mintSong2 }} />
+          <NftCard nft={nft3} buttonObj={{ text: "Buy", onClaimed: mintSong3 }} />
+          <NftCard nft={nft4} buttonObj={{ text: "Buy", onClaimed: mintSong4 }} />
+        </div>
+      </div>
+
+      {selectedSong ? <audio src={selectedSong} /> : <></>}
+
+      {/* <div className="min-h-0 py-5 px-1 mb-11 lg:mb-0 z-20">
         <div>
-          <div className="fixed flex justify-between items-center w-full z-10 p-4 bottom-0 left-0 pointer-events-none">
+          <div className="fixed flex justify-between items-center w-full z-20 p-4 bottom-0 left-0 pointer-events-none">
             <div></div>
             {tracks.length > 0 ? (
               <Player
@@ -199,18 +254,7 @@ const Home: NextPage = () => {
             )}
           </div>
         </div>
-      </div>
-
-      <div className="flex items-center flex-col flex-grow pt-10">
-        <p className="text-primary-content text-2xl">BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.</p>
-        <NftCard nft={albumNft} buttonObj={albumBtnObj} />
-        <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">
-          <NftCard nft={nft} buttonObj={{ text: "Buy", onClaimed: mintSong1 }} />
-          <NftCard nft={nft2} buttonObj={{ text: "Buy", onClaimed: mintSong2 }} />
-          <NftCard nft={nft3} buttonObj={{ text: "Buy", onClaimed: mintSong3 }} />
-          <NftCard nft={nft4} buttonObj={{ text: "Buy", onClaimed: mintSong4 }} />
-        </div>
-      </div>
+      </div> */}
     </>
   );
 };

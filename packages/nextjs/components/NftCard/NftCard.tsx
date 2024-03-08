@@ -5,6 +5,10 @@ interface NftCardProps {
     disabled?: boolean;
     onClaimed?: () => Promise<any>;
   };
+  toggleButtonObj?: {
+    text: string;
+    onTogglePlay?: () => Promise<any>;
+  };
 }
 
 export const NftCard = (props: NftCardProps) => {
@@ -42,6 +46,13 @@ export const NftCard = (props: NftCardProps) => {
       <img className="rounded-2xl" src={props?.nft?.image} width={256} height={256} />
       {priceOutput}
       {buttonOutput}
+      {/* <button
+        onClick={async () => {
+          if (props?.toggleButtonObj?.onTogglePlay) await props.toggleButtonObj.onTogglePlay();
+        }}
+      >
+        {props?.toggleButtonObj?.text}
+      </button> */}
     </div>
   );
 };
