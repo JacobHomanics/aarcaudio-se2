@@ -47,15 +47,21 @@ export const Footer = () => {
       <div className="w-full">
         <ul className="menu menu-horizontal w-full">
           <div className="flex justify-center items-center gap-2 text-sm w-full">
-            <div className="text-center text-black">
+            <div className="text-center text-accent">
               <a href="https://www.instagram.com/travisivart101/" target="_blank" rel="noreferrer" className="link">
                 Instagram
               </a>
             </div>
-            <span className="text-black">·</span>
-            <div className="text-center text-black">
+            <span className="text-accent">·</span>
+            <div className="text-center text-accent">
               <a href="https://www.youtube.com/watch?v=-ujP6Gcg8gU" target="_blank" rel="noreferrer" className="link">
                 Youtube
+              </a>
+            </div>
+            <span className="text-accent">·</span>
+            <div className="text-center text-accent">
+              <a href="https://linktr.ee/aarcaudio" target="_blank" rel="noreferrer" className="link">
+                LinkTree
               </a>
             </div>
           </div>
