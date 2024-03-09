@@ -69,7 +69,9 @@ export const NftCard = (props: NftCardProps) => {
   if (props.nft?.price) {
     priceOutput = (
       <>
-        <p className="text-black text-center sm:text-lg lg:text-xl text-primary-content">{props.nft.price} ether</p>
+        <p className="text-black p-1 m-1 text-center text-lg lg:text-xl text-primary-content">
+          {props.nft.price} ether
+        </p>
       </>
     );
   }
@@ -97,9 +99,9 @@ export const NftCard = (props: NftCardProps) => {
           }}
         >
           {props.isPlaying ? (
-            <PauseIcon className="sm:h-8 sm:w-8 md:h-8 md:w-8 lg:h-12 lg:w-12" aria-hidden="true" />
+            <PauseIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
           ) : (
-            <PlayIcon className="sm:h-8 sm:w-8 md:h-8 md:w-8 lg:h-12 lg:w-12" aria-hidden="true" />
+            <PlayIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
           )}
         </button>
       </div>
@@ -110,12 +112,14 @@ export const NftCard = (props: NftCardProps) => {
   //large 64
   return (
     <div
-      className={`flex flex-col items-center justify-center bg-primary m-1 p-4 border-[8px] sm:w-${
+      className={`flex flex-col items-center justify-center bg-primary m-1 border-[1px] lg:border-[8px] sm:w-${
         props.smallSize
       } lg:w-${props.largeSize} border-accent border ${props.isRounded ? "rounded-full" : ""}`}
     >
-      <p className="sm:text-xl lg:text-4xl text-center p-3 text-center text-primary-content">{props.nft.name}</p>
-      <img className="rounded-2xl" src={props?.nft?.image} width={256} height={256} alt="NFT" />
+      <p className="text-xl m-0 mt-8 lg:text-4xl text-center text-center text-primary-content text-align-bottom align-bottom">
+        {props.nft.name}
+      </p>
+      <img className="w-24 h-24 lg:w-64 lg:h-64 p-1 lg:p-8 rounded-2xl" src={props?.nft?.image} alt="NFT" />
 
       {audioOutput}
 
