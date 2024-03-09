@@ -11,6 +11,10 @@ interface NftCardProps {
 
   onAudioToggle?: () => Promise<any>;
 
+  smallSize: string;
+  largeSize: string;
+  isRounded: boolean;
+
   // onAudioToggle?: () => Promise<any>;
   isPlaying?: boolean;
 
@@ -102,9 +106,15 @@ export const NftCard = (props: NftCardProps) => {
     );
   }
 
+  //small 50
+  //large 64
   return (
-    <div className="flex flex-col items-center justify-center bg-primary m-1 p-4 border-[8px] sm:w-64 lg:w-64 border-accent border rounded-full">
-      <p className="text-4xl text-center text-primary-content">{props.nft.name}</p>
+    <div
+      className={`flex flex-col items-center justify-center bg-primary m-1 p-4 border-[8px] sm:w-${
+        props.smallSize
+      } lg:w-${props.largeSize} border-accent border ${props.isRounded ? "rounded-full" : ""}`}
+    >
+      <p className="text-4xl text-center p-3 text-center text-primary-content">{props.nft.name}</p>
       <img className="rounded-2xl" src={props?.nft?.image} width={256} height={256} alt="NFT" />
 
       {audioOutput}

@@ -326,32 +326,46 @@ const Home: NextPage = () => {
         ) : (
           <></>
         )}
-        <p className="text-primary-content text-2xl">BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.</p>
-        <NftCard nft={albumNft} buttonObj={albumBtnObj} />
+        <p className="text-primary-content text-2xl text-center">
+          BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.
+        </p>
+        <NftCard nft={albumNft} buttonObj={albumBtnObj} smallSize="64" largeSize="64" isRounded={false} />
         <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">
           <NftCard
             nft={nft}
             buttonObj={{ text: "Buy", onClaimed: mintSong1 }}
             onAudioToggle={handleAudio1Toggle1}
             isPlaying={nft1isPlaying}
+            smallSize="50"
+            largeSize="64"
+            isRounded={true}
           />
           <NftCard
             nft={nft2}
             buttonObj={{ text: "Buy", onClaimed: mintSong2 }}
             onAudioToggle={handleAudio1Toggle2}
             isPlaying={nft2isPlaying}
+            smallSize="50"
+            largeSize="64"
+            isRounded={true}
           />
           <NftCard
             nft={nft3}
             buttonObj={{ text: "Buy", onClaimed: mintSong3 }}
             onAudioToggle={handleAudio1Toggle3}
             isPlaying={nft3isPlaying}
+            smallSize="50"
+            largeSize="64"
+            isRounded={true}
           />
           <NftCard
             nft={nft4}
             buttonObj={{ text: "Buy", onClaimed: mintSong4 }}
             onAudioToggle={handleAudio1Toggle4}
             isPlaying={nft4isPlaying}
+            smallSize="50"
+            largeSize="64"
+            isRounded={true}
           />
         </div>
       </div>
