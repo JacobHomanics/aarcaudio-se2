@@ -14,27 +14,46 @@ import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaf
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
-  const { data: album1URI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "getURI" });
-  const album1URICorrected = album1URI?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  const { data: album1GoodURI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "getGoodURI" });
+  const { data: album1BadURI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "getBadURI" });
+  const album1GoodURICorrected = album1GoodURI?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  const album1BadURICorrected = album1BadURI?.replace("ipfs://", "https://ipfs.io/ipfs/");
 
-  const { data: album1Metadata } = useFetch<any>(album1URICorrected);
+  const { data: album1GoodMetadata } = useFetch<any>(album1GoodURICorrected);
+  const { data: album1BadMetadata } = useFetch<any>(album1BadURICorrected);
 
-  const albumNft = {
-    name: album1Metadata?.name,
-    image: album1Metadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
-  };
-
-  const { data: ownsCollection } = useScaffoldContractRead({
+  const { data: ownsCollection, refetch: refetchCheckIfOwnsCollection } = useScaffoldContractRead({
     contractName: "ALBUM",
     functionName: "CHECK_IF_OWNS_COLLECTION",
     args: [connectedAddress],
   });
 
-  const { data: hasRedeemed } = useScaffoldContractRead({
+  const { data: hasRedeemed, refetch: refetchHasRedeemed } = useScaffoldContractRead({
     contractName: "ALBUM",
     functionName: "getHasRedeemed",
     args: [connectedAddress],
   });
+
+  let albumNft;
+
+  if (hasRedeemed) {
+    if (ownsCollection) {
+      albumNft = {
+        name: album1GoodMetadata?.name,
+        image: album1GoodMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+      };
+    } else {
+      albumNft = {
+        name: album1BadMetadata?.name,
+        image: album1BadMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+      };
+    }
+  } else {
+    albumNft = {
+      name: album1BadMetadata?.name,
+      image: album1BadMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+    };
+  }
 
   const { writeAsync: claimAlbum } = useScaffoldContractWrite({
     contractName: "ALBUM",
@@ -120,7 +139,10 @@ const Home: NextPage = () => {
 
   const albumBtnObj = {
     text: !hasRedeemed ? "Claim" : "Claimed!",
-    onClaimed: claimAlbum,
+    onClaimed: async () => {
+      await claimAlbum();
+      await refetchHasRedeemed();
+    },
     disabled: !hasRedeemed ? !ownsCollection : true,
   };
 
@@ -333,7 +355,13 @@ const Home: NextPage = () => {
         <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">
           <NftCard
             nft={nft}
-            buttonObj={{ text: "Buy", onClaimed: mintSong1 }}
+            buttonObj={{
+              text: "Buy",
+              onClaimed: async () => {
+                await mintSong1();
+                await refetchCheckIfOwnsCollection();
+              },
+            }}
             onAudioToggle={handleAudio1Toggle1}
             isPlaying={nft1isPlaying}
             smallSize="50"
@@ -343,7 +371,13 @@ const Home: NextPage = () => {
           />
           <NftCard
             nft={nft2}
-            buttonObj={{ text: "Buy", onClaimed: mintSong2 }}
+            buttonObj={{
+              text: "Buy",
+              onClaimed: async () => {
+                await mintSong2();
+                await refetchCheckIfOwnsCollection();
+              },
+            }}
             onAudioToggle={handleAudio1Toggle2}
             isPlaying={nft2isPlaying}
             smallSize="50"
@@ -353,7 +387,13 @@ const Home: NextPage = () => {
           />
           <NftCard
             nft={nft3}
-            buttonObj={{ text: "Buy", onClaimed: mintSong3 }}
+            buttonObj={{
+              text: "Buy",
+              onClaimed: async () => {
+                await mintSong3();
+                await refetchCheckIfOwnsCollection();
+              },
+            }}
             onAudioToggle={handleAudio1Toggle3}
             isPlaying={nft3isPlaying}
             smallSize="50"
@@ -363,19 +403,15 @@ const Home: NextPage = () => {
           />
           <NftCard
             nft={nft4}
-            buttonObj={{ text: "Buy", onClaimed: mintSong4 }}
+            buttonObj={{
+              text: "Buy",
+              onClaimed: async () => {
+                await mintSong4();
+                await refetchCheckIfOwnsCollection();
+              },
+            }}
             onAudioToggle={handleAudio1Toggle4}
             isPlaying={nft4isPlaying}
-            smallSize="50"
-            largeSize="64"
-            isRounded={true}
-            imgProps="rounded-2xl lg:rounded-[56px]"
-          />
-          <NftCard
-            nft={nft3}
-            buttonObj={{ text: "Buy", onClaimed: mintSong3 }}
-            onAudioToggle={handleAudio1Toggle3}
-            isPlaying={nft3isPlaying}
             smallSize="50"
             largeSize="64"
             isRounded={true}

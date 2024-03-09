@@ -28,6 +28,8 @@ interface NftCardProps {
 }
 
 export const NftCard = (props: NftCardProps) => {
+  console.log(props);
+
   // const [play, setPlay] = useState(false);
   // const oceanRef = useRef<HTMLAudioElement>(null);
 
@@ -84,30 +86,32 @@ export const NftCard = (props: NftCardProps) => {
   //   setPlay(false);
   // }
 
-  if (props.nft["audio_url"]) {
-    // console.log(props.nft["audio_url"]);
+  if (props.nft) {
+    if (props.nft["audio_url"]) {
+      // console.log(props.nft["audio_url"]);
 
-    audioOutput = (
-      <div>
-        {/* <audio ref={oceanRef} src={props.nft["audio_url"]} onEnded={handleEnded} /> */}
-        {/* <button type="button" onClick={toggleAudio}> */}
-        <button
-          type="button"
-          onClick={async () => {
-            if (props.onAudioToggle) props.onAudioToggle();
+      audioOutput = (
+        <div>
+          {/* <audio ref={oceanRef} src={props.nft["audio_url"]} onEnded={handleEnded} /> */}
+          {/* <button type="button" onClick={toggleAudio}> */}
+          <button
+            type="button"
+            onClick={async () => {
+              if (props.onAudioToggle) props.onAudioToggle();
 
-            // toggleAudio();
-            // if (props.onAudioToggle) await props.onAudioToggle();
-          }}
-        >
-          {props.isPlaying ? (
-            <PauseIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
-          ) : (
-            <PlayIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
-          )}
-        </button>
-      </div>
-    );
+              // toggleAudio();
+              // if (props.onAudioToggle) await props.onAudioToggle();
+            }}
+          >
+            {props.isPlaying ? (
+              <PauseIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
+            ) : (
+              <PlayIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
+            )}
+          </button>
+        </div>
+      );
+    }
   }
 
   //small 50
@@ -119,10 +123,10 @@ export const NftCard = (props: NftCardProps) => {
       } lg:w-${props.largeSize} border-accent border ${props.isRounded ? "rounded-full" : ""}`}
     >
       <p className="text-xl m-1 mt-[60px] lg:mt-[120px] lg:text-4xl line-clamp-1  text-center text-primary-content">
-        {props.nft.name}
+        {props.nft?.name}
       </p>
 
-      <img className={`w-24 h-24 lg:w-64 lg:h-64 p-1 lg:p-8 ${props.imgProps}`} src={props?.nft?.image} alt="NFT" />
+      <img className={`w-24 h-24 lg:w-64 lg:h-64 p-1 lg:p-8 ${props.imgProps}`} src={props.nft?.image} alt="NFT" />
 
       {audioOutput}
 

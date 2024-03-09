@@ -16,7 +16,8 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
     error ALBUM__DOES_NOT_OWN_ENTIRE_COLLECTION();
     error ALBUM__ALREADY_CLAIMED();
 
-    string S_URI;
+    string S_GOOD_URI;
+    string S_BAD_URI;
     uint256 S_MINT_COUNT;
 
     PLAYLIST S_PLAYLIST;
@@ -29,13 +30,15 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         address[] memory admins,
         string memory NAME,
         string memory SYMBOL,
-        string memory URI
+        string memory GOOD_URI,
+        string memory BAD_URI
     ) Ownable(OWNER) ERC721(NAME, SYMBOL) {
         for (uint256 i = 0; i < admins.length; i++) {
             _grantRole(DEFAULT_ADMIN_ROLE, admins[i]);
         }
 
-        S_URI = URI;
+        S_GOOD_URI = GOOD_URI;
+        S_BAD_URI = BAD_URI;
         S_PLAYLIST = PLAYLIST(NEW_PLAYLIST);
     }
 
@@ -43,7 +46,12 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         uint256 tokenId
     ) public view override returns (string memory) {
         _requireOwned(tokenId);
-        return S_URI;
+
+        if (!CHECK_IF_OWNS_COLLECTION(ownerOf(tokenId))) {
+            return S_BAD_URI;
+        }
+
+        return S_GOOD_URI;
     }
 
     function supportsInterface(
@@ -114,7 +122,11 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         S_MINT_COUNT++;
     }
 
-    function getURI() external view returns (string memory) {
-        return S_URI;
+    function getGoodURI() external view returns (string memory) {
+        return S_GOOD_URI;
+    }
+
+    function getBadURI() external view returns (string memory) {
+        return S_BAD_URI;
     }
 }

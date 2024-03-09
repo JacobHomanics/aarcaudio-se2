@@ -40,7 +40,8 @@ contract YourContractTest is Test {
             admins,
             "Album 1",
             "A1",
-            "ipfs"
+            "ipfs",
+            "ipfs2"
         );
 
         // ALBUM_REDEMPTION album_redemption = new ALBUM_REDEMPTION(

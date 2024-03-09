@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     SONG1: {
-      address: "0x46b142DD1E924FAb83eCc3c08e4D46E82f005e0E",
+      address: "0x4EE6eCAD1c2Dae9f525404De8555724e3c35d07B",
       abi: [
         {
           type: "constructor",
@@ -628,7 +628,7 @@ const deployedContracts = {
       },
     },
     SONG2: {
-      address: "0xC9a43158891282A2B1475592D5719c001986Aaec",
+      address: "0xBEc49fA140aCaA83533fB00A2BB19bDdd0290f25",
       abi: [
         {
           type: "constructor",
@@ -1249,7 +1249,7 @@ const deployedContracts = {
       },
     },
     SONG3: {
-      address: "0x1c85638e118b37167e9298c2268758e058DdfDA0",
+      address: "0xD84379CEae14AA33C123Af12424A37803F885889",
       abi: [
         {
           type: "constructor",
@@ -1870,7 +1870,7 @@ const deployedContracts = {
       },
     },
     SONG4: {
-      address: "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb",
+      address: "0x2B0d36FACD61B71CC05ab8F3D2355ec3631C0dd5",
       abi: [
         {
           type: "constructor",
@@ -2491,7 +2491,7 @@ const deployedContracts = {
       },
     },
     PLAYLIST: {
-      address: "0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901",
+      address: "0xfbC22278A96299D91d41C453234d97b4F5Eb9B2d",
       abi: [
         {
           type: "constructor",
@@ -2670,7 +2670,7 @@ const deployedContracts = {
       },
     },
     ALBUM: {
-      address: "0xf953b3A269d80e3eB0F2947630Da976B896A8C5b",
+      address: "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9",
       abi: [
         {
           type: "constructor",
@@ -2701,7 +2701,12 @@ const deployedContracts = {
               internalType: "string",
             },
             {
-              name: "URI",
+              name: "GOOD_URI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "BAD_URI",
               type: "string",
               internalType: "string",
             },
@@ -2811,6 +2816,32 @@ const deployedContracts = {
         },
         {
           type: "function",
+          name: "getBadURI",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "string",
+              internalType: "string",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getGoodURI",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "string",
+              internalType: "string",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
           name: "getHasRedeemed",
           inputs: [
             {
@@ -2843,19 +2874,6 @@ const deployedContracts = {
               name: "",
               type: "bytes32",
               internalType: "bytes32",
-            },
-          ],
-          stateMutability: "view",
-        },
-        {
-          type: "function",
-          name: "getURI",
-          inputs: [],
-          outputs: [
-            {
-              name: "",
-              type: "string",
-              internalType: "string",
             },
           ],
           stateMutability: "view",
@@ -3544,7 +3562,7 @@ const deployedContracts = {
   },
   11155111: {
     SONG1: {
-      address: "0x945343c4298AbEDAb83A07E930f3d708EBfa03ef",
+      address: "0xFc13630050B8C2b6F6C47831d9E0F0a02F59476F",
       abi: [
         {
           type: "constructor",
@@ -4165,7 +4183,7 @@ const deployedContracts = {
       },
     },
     SONG2: {
-      address: "0xa830441fB464B3F3B7a21d20FBd7B9d9804ebddd",
+      address: "0xb466F90c9d09C8c4a5f6C073dec0893ada6c3FbD",
       abi: [
         {
           type: "constructor",
@@ -4786,7 +4804,7 @@ const deployedContracts = {
       },
     },
     SONG3: {
-      address: "0xda6E4203244d72552acC52b49b58e647CFA50648",
+      address: "0xe0ac9a2Af39C31EAa9607fA8aF6FBD71AEBA1239",
       abi: [
         {
           type: "constructor",
@@ -5407,7 +5425,7 @@ const deployedContracts = {
       },
     },
     SONG4: {
-      address: "0x0935745D1d3032093DAB1D06F51307dCfE71f8a8",
+      address: "0x26e73b8AF925FE241fAc3C565b42e5f82aEF7a84",
       abi: [
         {
           type: "constructor",
@@ -6028,7 +6046,7 @@ const deployedContracts = {
       },
     },
     PLAYLIST: {
-      address: "0xe2451911698dB648A1E2D3E6A8f03f06bAe3269B",
+      address: "0x4Ffb36C6EbE7e2A56a7DE2FfDcb99aFa92A57a08",
       abi: [
         {
           type: "constructor",
@@ -6207,7 +6225,7 @@ const deployedContracts = {
       },
     },
     ALBUM: {
-      address: "0x7e91cB923e63dCb2015418e460C029B090154508",
+      address: "0xdDBdBedB4C24c8329645Cff6076dF373F50d21e7",
       abi: [
         {
           type: "constructor",
@@ -6238,7 +6256,12 @@ const deployedContracts = {
               internalType: "string",
             },
             {
-              name: "URI",
+              name: "GOOD_URI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "BAD_URI",
               type: "string",
               internalType: "string",
             },
@@ -6348,6 +6371,32 @@ const deployedContracts = {
         },
         {
           type: "function",
+          name: "getBadURI",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "string",
+              internalType: "string",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getGoodURI",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "string",
+              internalType: "string",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
           name: "getHasRedeemed",
           inputs: [
             {
@@ -6380,19 +6429,6 @@ const deployedContracts = {
               name: "",
               type: "bytes32",
               internalType: "bytes32",
-            },
-          ],
-          stateMutability: "view",
-        },
-        {
-          type: "function",
-          name: "getURI",
-          inputs: [],
-          outputs: [
-            {
-              name: "",
-              type: "string",
-              internalType: "string",
             },
           ],
           stateMutability: "view",
