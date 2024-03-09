@@ -5,6 +5,7 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import {PLAYLIST} from "./PLAYLIST.sol";
+import {SONG} from "./SONG.sol";
 
 contract ALBUM is Ownable, AccessControl, ERC721 {
     error ALBUM__CANNOT_TRANSFER_SOULBOUND_TOKEN(
@@ -47,7 +48,7 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
     ) public view override returns (string memory) {
         _requireOwned(tokenId);
 
-        if (!CHECK_IF_OWNS_COLLECTION(ownerOf(tokenId))) {
+        if (!CHECK_IF_OWNS_COLLECTION(_ownerOf(tokenId))) {
             return S_BAD_URI;
         }
 
@@ -110,7 +111,27 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         return ownedCount == songs.length;
     }
 
-    function claim(address TARGET) external {
+    function MINT_ALL(address TARGET) external payable {
+        address[] memory songs = S_PLAYLIST.getAllSongs();
+        for (uint256 i = 0; i < songs.length; i++) {
+            SONG(songs[i]).MINT{value: SONG(songs[i]).getPrice()}(TARGET);
+        }
+
+        claim(TARGET);
+    }
+
+    function getTotalPrice() external view returns (uint256) {
+        uint256 totalCost = 0;
+        address[] memory songs = S_PLAYLIST.getAllSongs();
+
+        for (uint256 i = 0; i < songs.length; i++) {
+            totalCost += SONG(songs[i]).getPrice();
+        }
+
+        return totalCost;
+    }
+
+    function claim(address TARGET) public {
         if (!CHECK_IF_OWNS_COLLECTION(TARGET))
             revert ALBUM__DOES_NOT_OWN_ENTIRE_COLLECTION();
 

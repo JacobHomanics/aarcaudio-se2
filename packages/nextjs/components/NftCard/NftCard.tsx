@@ -15,7 +15,11 @@ interface NftCardProps {
   largeSize: string;
   isRounded: boolean;
 
+  nameMargin?: string;
+
   imgProps?: string;
+
+  bottomMargin?: string;
 
   // onAudioToggle?: () => Promise<any>;
   isPlaying?: boolean;
@@ -122,17 +126,17 @@ export const NftCard = (props: NftCardProps) => {
         props.smallSize
       } lg:w-${props.largeSize} border-accent border ${props.isRounded ? "rounded-full" : ""}`}
     >
-      <p className="text-xl m-1 mt-[60px] lg:mt-[120px] lg:text-4xl line-clamp-1  text-center text-primary-content">
+      <p className={`text-xl ${props.nameMargin}  lg:text-4xl line-clamp-1  text-center text-primary-content`}>
         {props.nft?.name}
       </p>
 
-      <img className={`w-24 h-24 lg:w-64 lg:h-64 p-1 lg:p-8 ${props.imgProps}`} src={props.nft?.image} alt="NFT" />
+      <img className={`p-1 lg:p-8 ${props.imgProps}`} src={props.nft?.image} alt="NFT" />
 
       {audioOutput}
 
       {priceOutput}
       {buttonOutput}
-      <div className="mt-[60px] lg:mt-[120px]"></div>
+      <div className={props.bottomMargin}></div>
     </div>
   );
 };

@@ -34,6 +34,11 @@ const Home: NextPage = () => {
     args: [connectedAddress],
   });
 
+  const { data: totalPrice } = useScaffoldContractRead({
+    contractName: "ALBUM",
+    functionName: "getTotalPrice",
+  });
+
   let albumNft;
 
   if (hasRedeemed) {
@@ -59,6 +64,13 @@ const Home: NextPage = () => {
     contractName: "ALBUM",
     functionName: "claim",
     args: [connectedAddress],
+  });
+
+  const { writeAsync: mintAll } = useScaffoldContractWrite({
+    contractName: "ALBUM",
+    functionName: "MINT_ALL",
+    args: [connectedAddress],
+    value: totalPrice,
   });
 
   const { data: song1Price } = useScaffoldContractRead({ contractName: "SONG1", functionName: "getPrice" });
@@ -351,7 +363,24 @@ const Home: NextPage = () => {
         <p className="text-primary-content text-2xl text-center">
           BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.
         </p>
-        <NftCard nft={albumNft} buttonObj={albumBtnObj} smallSize="64" largeSize="64" isRounded={false} />
+        <NftCard
+          nft={albumNft}
+          buttonObj={albumBtnObj}
+          smallSize="96"
+          largeSize="96"
+          isRounded={false}
+          nameMargin="m-1"
+          imgProps="w-36 h-36 lg:w-64 lg:h-64"
+        />
+        <button
+          className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
+          onClick={async () => {
+            await mintAll();
+            await refetchCheckIfOwnsCollection();
+          }}
+        >
+          {`Buy Album (${formatEther(totalPrice || BigInt(0))} ether)`}
+        </button>
         <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">
           <NftCard
             nft={nft}
@@ -367,7 +396,9 @@ const Home: NextPage = () => {
             smallSize="50"
             largeSize="64"
             isRounded={true}
-            imgProps="rounded-2xl lg:rounded-[56px]"
+            imgProps="w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
+            nameMargin="m-1 mt-[60px] lg:mt-[120px]"
+            bottomMargin="mt-[60px] lg:mt-[120px]"
           />
           <NftCard
             nft={nft2}
@@ -383,7 +414,9 @@ const Home: NextPage = () => {
             smallSize="50"
             largeSize="64"
             isRounded={true}
-            imgProps="rounded-2xl lg:rounded-[56px]"
+            imgProps="w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
+            nameMargin="m-1 mt-[60px] lg:mt-[120px]"
+            bottomMargin="mt-[60px] lg:mt-[120px]"
           />
           <NftCard
             nft={nft3}
@@ -399,7 +432,9 @@ const Home: NextPage = () => {
             smallSize="50"
             largeSize="64"
             isRounded={true}
-            imgProps="rounded-2xl lg:rounded-[56px]"
+            imgProps="w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
+            nameMargin="m-1 mt-[60px] lg:mt-[120px]"
+            bottomMargin="mt-[60px] lg:mt-[120px]"
           />
           <NftCard
             nft={nft4}
@@ -415,7 +450,9 @@ const Home: NextPage = () => {
             smallSize="50"
             largeSize="64"
             isRounded={true}
-            imgProps="rounded-2xl lg:rounded-[56px]"
+            imgProps="w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
+            nameMargin="m-1 mt-[60px] lg:mt-[120px]"
+            bottomMargin="mt-[60px] lg:mt-[120px]"
           />
         </div>
       </div>

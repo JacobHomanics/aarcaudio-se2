@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     SONG1: {
-      address: "0x4EE6eCAD1c2Dae9f525404De8555724e3c35d07B",
+      address: "0xaca81583840B1bf2dDF6CDe824ada250C1936B4D",
       abi: [
         {
           type: "constructor",
@@ -628,7 +628,7 @@ const deployedContracts = {
       },
     },
     SONG2: {
-      address: "0xBEc49fA140aCaA83533fB00A2BB19bDdd0290f25",
+      address: "0x70bDA08DBe07363968e9EE53d899dFE48560605B",
       abi: [
         {
           type: "constructor",
@@ -1249,7 +1249,7 @@ const deployedContracts = {
       },
     },
     SONG3: {
-      address: "0xD84379CEae14AA33C123Af12424A37803F885889",
+      address: "0x26B862f640357268Bd2d9E95bc81553a2Aa81D7E",
       abi: [
         {
           type: "constructor",
@@ -1870,7 +1870,7 @@ const deployedContracts = {
       },
     },
     SONG4: {
-      address: "0x2B0d36FACD61B71CC05ab8F3D2355ec3631C0dd5",
+      address: "0xA56F946D6398Dd7d9D4D9B337Cf9E0F68982ca5B",
       abi: [
         {
           type: "constructor",
@@ -2491,7 +2491,7 @@ const deployedContracts = {
       },
     },
     PLAYLIST: {
-      address: "0xfbC22278A96299D91d41C453234d97b4F5Eb9B2d",
+      address: "0x5D42EBdBBa61412295D7b0302d6F50aC449Ddb4F",
       abi: [
         {
           type: "constructor",
@@ -2670,7 +2670,7 @@ const deployedContracts = {
       },
     },
     ALBUM: {
-      address: "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9",
+      address: "0x2b5A4e5493d4a54E717057B127cf0C000C876f9B",
       abi: [
         {
           type: "constructor",
@@ -2744,6 +2744,19 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "MINT_ALL",
+          inputs: [
+            {
+              name: "TARGET",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "payable",
         },
         {
           type: "function",
@@ -2874,6 +2887,19 @@ const deployedContracts = {
               name: "",
               type: "bytes32",
               internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getTotalPrice",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
             },
           ],
           stateMutability: "view",
@@ -3562,7 +3588,7 @@ const deployedContracts = {
   },
   11155111: {
     SONG1: {
-      address: "0xFc13630050B8C2b6F6C47831d9E0F0a02F59476F",
+      address: "0x68b7F291A9F5c87F57Fa70F8A9f70F0FF49d527e",
       abi: [
         {
           type: "constructor",
@@ -4183,7 +4209,7 @@ const deployedContracts = {
       },
     },
     SONG2: {
-      address: "0xb466F90c9d09C8c4a5f6C073dec0893ada6c3FbD",
+      address: "0x8Fb23eC9d26217b566961e1F0f1bE8026B37De1F",
       abi: [
         {
           type: "constructor",
@@ -4804,7 +4830,7 @@ const deployedContracts = {
       },
     },
     SONG3: {
-      address: "0xe0ac9a2Af39C31EAa9607fA8aF6FBD71AEBA1239",
+      address: "0x89AA7Bed64d552Dd42450631d7ddC14DD7aEe51E",
       abi: [
         {
           type: "constructor",
@@ -5425,7 +5451,7 @@ const deployedContracts = {
       },
     },
     SONG4: {
-      address: "0x26e73b8AF925FE241fAc3C565b42e5f82aEF7a84",
+      address: "0x8e26d211c79106784246B3a20FBdAF9246Ad2B46",
       abi: [
         {
           type: "constructor",
@@ -6046,7 +6072,7 @@ const deployedContracts = {
       },
     },
     PLAYLIST: {
-      address: "0x4Ffb36C6EbE7e2A56a7DE2FfDcb99aFa92A57a08",
+      address: "0x342cb18fd08a297677CC86ca7b39407eE776039D",
       abi: [
         {
           type: "constructor",
@@ -6225,7 +6251,7 @@ const deployedContracts = {
       },
     },
     ALBUM: {
-      address: "0xdDBdBedB4C24c8329645Cff6076dF373F50d21e7",
+      address: "0x5E6F20AEaB04d249B905105f44A19965E8C0bC8b",
       abi: [
         {
           type: "constructor",
@@ -6299,6 +6325,19 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "MINT_ALL",
+          inputs: [
+            {
+              name: "TARGET",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "payable",
         },
         {
           type: "function",
@@ -6429,6 +6468,19 @@ const deployedContracts = {
               name: "",
               type: "bytes32",
               internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getTotalPrice",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
             },
           ],
           stateMutability: "view",
