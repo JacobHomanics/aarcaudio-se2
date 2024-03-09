@@ -39,6 +39,12 @@ const Home: NextPage = () => {
     functionName: "getTotalPrice",
   });
 
+  const { data: totalPriceUnowned, refetch: getTotalPriceUnowned } = useScaffoldContractRead({
+    contractName: "ALBUM",
+    functionName: "getUnownedTotalPrice",
+    args: [connectedAddress],
+  });
+
   let albumNft;
 
   if (hasRedeemed) {
@@ -71,6 +77,13 @@ const Home: NextPage = () => {
     functionName: "MINT_ALL",
     args: [connectedAddress],
     value: totalPrice,
+  });
+
+  const { writeAsync: mintAllUnowned } = useScaffoldContractWrite({
+    contractName: "ALBUM",
+    functionName: "MINT_ONLY_UNOWNED",
+    args: [connectedAddress],
+    value: totalPriceUnowned,
   });
 
   const { data: song1Price } = useScaffoldContractRead({ contractName: "SONG1", functionName: "getPrice" });
@@ -153,7 +166,7 @@ const Home: NextPage = () => {
     text: !hasRedeemed ? "Claim" : "Claimed!",
     onClaimed: async () => {
       await claimAlbum();
-      await refetchHasRedeemed();
+      await refreshData();
     },
     disabled: !hasRedeemed ? !ownsCollection : true,
   };
@@ -344,6 +357,12 @@ const Home: NextPage = () => {
     }
   }
 
+  async function refreshData() {
+    await refetchCheckIfOwnsCollection();
+    await getTotalPriceUnowned();
+    await refetchHasRedeemed();
+  }
+
   return (
     <>
       <audio ref={oceanRef} src={selectedSong} onEnded={handleEnded} />
@@ -376,11 +395,22 @@ const Home: NextPage = () => {
           className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
           onClick={async () => {
             await mintAll();
-            await refetchCheckIfOwnsCollection();
+            await refreshData();
           }}
         >
           {`Buy Album (${formatEther(totalPrice || BigInt(0))} ether)`}
         </button>
+
+        <button
+          className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
+          onClick={async () => {
+            await mintAllUnowned();
+            await refreshData();
+          }}
+        >
+          {`Buy Album - Remaining (${formatEther(totalPriceUnowned || BigInt(0))} ether)`}
+        </button>
+
         <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">
           <NftCard
             nft={nft}
@@ -388,7 +418,7 @@ const Home: NextPage = () => {
               text: "Buy",
               onClaimed: async () => {
                 await mintSong1();
-                await refetchCheckIfOwnsCollection();
+                await refreshData();
               },
             }}
             onAudioToggle={handleAudio1Toggle1}
@@ -406,7 +436,7 @@ const Home: NextPage = () => {
               text: "Buy",
               onClaimed: async () => {
                 await mintSong2();
-                await refetchCheckIfOwnsCollection();
+                await refreshData();
               },
             }}
             onAudioToggle={handleAudio1Toggle2}
@@ -424,7 +454,7 @@ const Home: NextPage = () => {
               text: "Buy",
               onClaimed: async () => {
                 await mintSong3();
-                await refetchCheckIfOwnsCollection();
+                await refreshData();
               },
             }}
             onAudioToggle={handleAudio1Toggle3}
@@ -442,7 +472,7 @@ const Home: NextPage = () => {
               text: "Buy",
               onClaimed: async () => {
                 await mintSong4();
-                await refetchCheckIfOwnsCollection();
+                await refreshData();
               },
             }}
             onAudioToggle={handleAudio1Toggle4}

@@ -111,6 +111,17 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         return ownedCount == songs.length;
     }
 
+    function MINT_ONLY_UNOWNED(address TARGET) external payable {
+        address[] memory songs = S_PLAYLIST.getAllSongs();
+        for (uint256 i = 0; i < songs.length; i++) {
+            if (SONG(songs[i]).balanceOf(TARGET) <= 0) {
+                SONG(songs[i]).MINT{value: SONG(songs[i]).getPrice()}(TARGET);
+            }
+        }
+
+        claim(TARGET);
+    }
+
     function MINT_ALL(address TARGET) external payable {
         address[] memory songs = S_PLAYLIST.getAllSongs();
         for (uint256 i = 0; i < songs.length; i++) {
@@ -118,6 +129,21 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         }
 
         claim(TARGET);
+    }
+
+    function getUnownedTotalPrice(
+        address TARGET
+    ) external view returns (uint256) {
+        uint256 totalCost = 0;
+        address[] memory songs = S_PLAYLIST.getAllSongs();
+
+        for (uint256 i = 0; i < songs.length; i++) {
+            if (SONG(songs[i]).balanceOf(TARGET) <= 0) {
+                totalCost += SONG(songs[i]).getPrice();
+            }
+        }
+
+        return totalCost;
     }
 
     function getTotalPrice() external view returns (uint256) {
