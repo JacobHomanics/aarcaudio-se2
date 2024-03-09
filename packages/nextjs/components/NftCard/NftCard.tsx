@@ -53,7 +53,7 @@ export const NftCard = (props: NftCardProps) => {
       <>
         <button
           disabled={props.buttonObj.disabled}
-          className="m-1 btn btn-neutral btn-md shadow-md dropdown-toggle gap-0 "
+          className="m-1 btn btn-neutral btn-md shadow-md dropdown-toggle gap-0"
           type="button"
           onClick={async () => {
             if (props?.buttonObj?.onClaimed) await props.buttonObj.onClaimed();
@@ -112,19 +112,21 @@ export const NftCard = (props: NftCardProps) => {
   //large 64
   return (
     <div
-      className={`flex flex-col items-center justify-center bg-primary m-1 border-[1px] lg:border-[8px] sm:w-${
+      className={`flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-${
         props.smallSize
       } lg:w-${props.largeSize} border-accent border ${props.isRounded ? "rounded-full" : ""}`}
     >
-      <p className="text-xl m-0 mt-8 lg:text-4xl text-center text-center text-primary-content text-align-bottom align-bottom">
+      <p className="text-xl m-1 mt-[60px] lg:mt-[120px] lg:text-4xl line-clamp-1  text-center text-primary-content">
         {props.nft.name}
       </p>
+
       <img className="w-24 h-24 lg:w-64 lg:h-64 p-1 lg:p-8 rounded-2xl" src={props?.nft?.image} alt="NFT" />
 
       {audioOutput}
 
       {priceOutput}
       {buttonOutput}
+      <div className="mt-[60px] lg:mt-[120px]"></div>
     </div>
   );
 };

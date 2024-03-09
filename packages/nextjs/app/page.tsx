@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Player from "@madzadev/audio-player";
+// import Player from "@madzadev/audio-player";
 import "@madzadev/audio-player/dist/index.css";
 import type { NextPage } from "next";
 import { useFetch } from "usehooks-ts";
@@ -315,7 +315,7 @@ const Home: NextPage = () => {
       <audio ref={oceanRef} src={selectedSong} onEnded={handleEnded} />
 
       <div className="flex items-center flex-col flex-grow pt-10">
-        {tracks.length > 0 ? (
+        {/* {tracks.length > 0 ? (
           <Player
             trackList={tracks}
             includeTags={false}
@@ -325,7 +325,7 @@ const Home: NextPage = () => {
           />
         ) : (
           <></>
-        )}
+        )} */}
         <p className="text-primary-content text-2xl text-center">
           BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.
         </p>
@@ -363,6 +363,15 @@ const Home: NextPage = () => {
             buttonObj={{ text: "Buy", onClaimed: mintSong4 }}
             onAudioToggle={handleAudio1Toggle4}
             isPlaying={nft4isPlaying}
+            smallSize="50"
+            largeSize="64"
+            isRounded={true}
+          />
+          <NftCard
+            nft={nft3}
+            buttonObj={{ text: "Buy", onClaimed: mintSong3 }}
+            onAudioToggle={handleAudio1Toggle3}
+            isPlaying={nft3isPlaying}
             smallSize="50"
             largeSize="64"
             isRounded={true}
