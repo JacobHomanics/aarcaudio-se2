@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Player from "@madzadev/audio-player";
 import "@madzadev/audio-player/dist/index.css";
 import type { NextPage } from "next";
@@ -94,24 +94,28 @@ const Home: NextPage = () => {
     name: song1TokenData?.name,
     image: song1TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
     price: formatEther(song1Price || BigInt(0)),
+    audio_url: song1TokenData ? song1TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
   };
 
   const nft2 = {
     name: song2TokenData?.name,
     image: song2TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
     price: formatEther(song2Price || BigInt(0)),
+    audio_url: song2TokenData ? song2TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
   };
 
   const nft3 = {
     name: song3TokenData?.name,
     image: song3TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
     price: formatEther(song3Price || BigInt(0)),
+    audio_url: song3TokenData ? song3TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
   };
 
   const nft4 = {
     name: song4TokenData?.name,
     image: song4TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
     price: formatEther(song4Price || BigInt(0)),
+    audio_url: song4TokenData ? song4TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
   };
 
   const albumBtnObj = {
@@ -192,18 +196,124 @@ const Home: NextPage = () => {
   //   });
   // }
 
-  const [selectedSong, setSelectedSong] = useState("");
+  const [selectedSong, setSelectedSong] = useState<string>();
 
   // const [playing, toggle] = useAudio(selectedSong);
 
   // console.log(playing);
 
-  async function handleTogglePlay(newSong: any) {
-    setSelectedSong(newSong);
+  // async function handleTogglePlay(newSong: any) {
+  //   setSelectedSong(newSong);
+  // }
+
+  const [play, setPlay] = useState(false);
+  const oceanRef = useRef<HTMLAudioElement>(null);
+
+  // function toggleAudio() {
+  //   console.log("toggling audio");
+
+  //   if (play) {
+  //     oceanRef.current?.pause();
+  //     setPlay(false);
+  //   } else {
+  //     oceanRef.current?.play();
+
+  //     setPlay(true);
+  //   }
+  // }
+
+  function handleEnded() {
+    setPlay(false);
+    setNft1IsPlaying(false);
+    setNft2IsPlaying(false);
+    setNft3IsPlaying(false);
+    setNft4IsPlaying(false);
+  }
+
+  useEffect(() => {
+    if (play) {
+      oceanRef.current?.play();
+    }
+  }, [selectedSong, play]);
+
+  // async function test(song: string) {
+  //   console.log("HERE UE");
+  //   setSelectedSong(song);
+  //   // toggleAudio();
+  // }
+
+  const [nft1isPlaying, setNft1IsPlaying] = useState(false);
+  const [nft2isPlaying, setNft2IsPlaying] = useState(false);
+  const [nft3isPlaying, setNft3IsPlaying] = useState(false);
+  const [nft4isPlaying, setNft4IsPlaying] = useState(false);
+
+  async function handleAudio1Toggle1() {
+    setNft1IsPlaying(!nft1isPlaying);
+
+    if (!nft1isPlaying) {
+      setSelectedSong(song1TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
+      setPlay(true);
+      setNft2IsPlaying(false);
+      setNft3IsPlaying(false);
+      setNft4IsPlaying(false);
+    } else {
+      oceanRef.current?.pause();
+      setPlay(false);
+    }
+  }
+
+  async function handleAudio1Toggle2() {
+    setNft2IsPlaying(!nft2isPlaying);
+
+    if (!nft2isPlaying) {
+      setSelectedSong(song2TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
+      setPlay(true);
+
+      setNft1IsPlaying(false);
+      setNft3IsPlaying(false);
+      setNft4IsPlaying(false);
+    } else {
+      oceanRef.current?.pause();
+      setPlay(false);
+    }
+  }
+
+  async function handleAudio1Toggle3() {
+    setNft3IsPlaying(!nft3isPlaying);
+
+    if (!nft3isPlaying) {
+      setSelectedSong(song3TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
+      setPlay(true);
+
+      setNft1IsPlaying(false);
+      setNft2IsPlaying(false);
+      setNft4IsPlaying(false);
+    } else {
+      oceanRef.current?.pause();
+      setPlay(false);
+    }
+  }
+
+  async function handleAudio1Toggle4() {
+    setNft4IsPlaying(!nft4isPlaying);
+
+    if (!nft4isPlaying) {
+      setSelectedSong(song4TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
+      setPlay(true);
+
+      setNft1IsPlaying(false);
+      setNft2IsPlaying(false);
+      setNft3IsPlaying(false);
+    } else {
+      oceanRef.current?.pause();
+      setPlay(false);
+    }
   }
 
   return (
     <>
+      <audio ref={oceanRef} src={selectedSong} onEnded={handleEnded} />
+
       <div className="flex items-center flex-col flex-grow pt-10">
         {tracks.length > 0 ? (
           <Player
@@ -218,24 +328,35 @@ const Home: NextPage = () => {
         )}
         <p className="text-primary-content text-2xl">BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.</p>
         <NftCard nft={albumNft} buttonObj={albumBtnObj} />
-        <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">
+        <div className="lg:grid lg:grid-cols-3 items-center bg-slate m-1 p-1">
           <NftCard
             nft={nft}
             buttonObj={{ text: "Buy", onClaimed: mintSong1 }}
-            toggleButtonObj={{
-              text: "Play",
-              onTogglePlay: async () => {
-                handleTogglePlay(song1AudioURICorrected);
-              },
-            }}
+            onAudioToggle={handleAudio1Toggle1}
+            isPlaying={nft1isPlaying}
           />
-          <NftCard nft={nft2} buttonObj={{ text: "Buy", onClaimed: mintSong2 }} />
-          <NftCard nft={nft3} buttonObj={{ text: "Buy", onClaimed: mintSong3 }} />
-          <NftCard nft={nft4} buttonObj={{ text: "Buy", onClaimed: mintSong4 }} />
+          <NftCard
+            nft={nft2}
+            buttonObj={{ text: "Buy", onClaimed: mintSong2 }}
+            onAudioToggle={handleAudio1Toggle2}
+            isPlaying={nft2isPlaying}
+          />
+          <NftCard
+            nft={nft3}
+            buttonObj={{ text: "Buy", onClaimed: mintSong3 }}
+            onAudioToggle={handleAudio1Toggle3}
+            isPlaying={nft3isPlaying}
+          />
+          <NftCard
+            nft={nft4}
+            buttonObj={{ text: "Buy", onClaimed: mintSong4 }}
+            onAudioToggle={handleAudio1Toggle4}
+            isPlaying={nft4isPlaying}
+          />
         </div>
       </div>
 
-      {selectedSong ? <audio src={selectedSong} /> : <></>}
+      {/* {selectedSong ? <audio src={selectedSong} /> : <></>} */}
 
       {/* <div className="min-h-0 py-5 px-1 mb-11 lg:mb-0 z-20">
         <div>
