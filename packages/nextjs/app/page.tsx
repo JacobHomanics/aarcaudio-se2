@@ -326,11 +326,9 @@ const Home: NextPage = () => {
         ) : (
           <></>
         )}
-        <p className="text-primary-content text-center text-2xl">
-          BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.
-        </p>
+        <p className="text-primary-content text-2xl">BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.</p>
         <NftCard nft={albumNft} buttonObj={albumBtnObj} />
-        <div className="sm:grid sm:grid-cols-3 md:grid md:grid-cols-3 lg:grid lg:grid-cols-3 items-center bg-slate m-1 p-1">
+        <div className="lg:grid lg:grid-cols-3 items-center bg-slate m-1 p-1">
           <NftCard
             nft={nft}
             buttonObj={{ text: "Buy", onClaimed: mintSong1 }}

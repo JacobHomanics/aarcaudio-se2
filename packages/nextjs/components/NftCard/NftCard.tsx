@@ -103,9 +103,9 @@ export const NftCard = (props: NftCardProps) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center bg-primary m-1 p-4 border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full">
-      <p className="text-4xl p-2 text-center text-primary-content">{props.nft.name}</p>
-      <img className="rounded-2xl sm:w-32 lg:w-96" src={props?.nft?.image} alt="NFT" />
+    <div className="flex flex-col items-center justify-center bg-primary m-1 p-4 border-[8px] w-64 border-accent border rounded-full">
+      <p className="text-4xl text-center text-primary-content">{props.nft.name}</p>
+      <img className="rounded-2xl" src={props?.nft?.image} width={256} height={256} alt="NFT" />
 
       {audioOutput}
 
