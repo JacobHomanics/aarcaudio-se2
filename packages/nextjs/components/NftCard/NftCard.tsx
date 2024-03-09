@@ -15,6 +15,8 @@ interface NftCardProps {
   largeSize: string;
   isRounded: boolean;
 
+  imgProps?: string;
+
   // onAudioToggle?: () => Promise<any>;
   isPlaying?: boolean;
 
@@ -120,7 +122,7 @@ export const NftCard = (props: NftCardProps) => {
         {props.nft.name}
       </p>
 
-      <img className="w-24 h-24 lg:w-64 lg:h-64 p-1 lg:p-8 rounded-2xl" src={props?.nft?.image} alt="NFT" />
+      <img className={`w-24 h-24 lg:w-64 lg:h-64 p-1 lg:p-8 ${props.imgProps}`} src={props?.nft?.image} alt="NFT" />
 
       {audioOutput}
 

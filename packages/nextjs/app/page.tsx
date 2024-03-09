@@ -339,6 +339,7 @@ const Home: NextPage = () => {
             smallSize="50"
             largeSize="64"
             isRounded={true}
+            imgProps="rounded-2xl lg:rounded-[56px]"
           />
           <NftCard
             nft={nft2}
@@ -348,6 +349,7 @@ const Home: NextPage = () => {
             smallSize="50"
             largeSize="64"
             isRounded={true}
+            imgProps="rounded-2xl lg:rounded-[56px]"
           />
           <NftCard
             nft={nft3}
@@ -357,6 +359,7 @@ const Home: NextPage = () => {
             smallSize="50"
             largeSize="64"
             isRounded={true}
+            imgProps="rounded-2xl lg:rounded-[56px]"
           />
           <NftCard
             nft={nft4}
@@ -366,6 +369,7 @@ const Home: NextPage = () => {
             smallSize="50"
             largeSize="64"
             isRounded={true}
+            imgProps="rounded-2xl lg:rounded-[56px]"
           />
           <NftCard
             nft={nft3}
@@ -375,6 +379,7 @@ const Home: NextPage = () => {
             smallSize="50"
             largeSize="64"
             isRounded={true}
+            imgProps="rounded-2xl lg:rounded-[56px]"
           />
         </div>
       </div>
