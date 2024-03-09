@@ -53,7 +53,7 @@ export const NftCard = (props: NftCardProps) => {
       <>
         <button
           disabled={props.buttonObj.disabled}
-          className="m-1 btn btn-neutral btn-sm shadow-md dropdown-toggle gap-0 !h-auto"
+          className="m-1 btn btn-neutral btn-md shadow-md dropdown-toggle gap-0 "
           type="button"
           onClick={async () => {
             if (props?.buttonObj?.onClaimed) await props.buttonObj.onClaimed();
@@ -69,7 +69,7 @@ export const NftCard = (props: NftCardProps) => {
   if (props.nft?.price) {
     priceOutput = (
       <>
-        <p className="text-black text-center text-xl text-primary-content">{props.nft.price} ether</p>
+        <p className="text-black text-center sm:text-lg lg:text-xl text-primary-content">{props.nft.price} ether</p>
       </>
     );
   }
@@ -97,9 +97,9 @@ export const NftCard = (props: NftCardProps) => {
           }}
         >
           {props.isPlaying ? (
-            <PauseIcon className="h-12 w-12" aria-hidden="true" />
+            <PauseIcon className="sm:h-8 sm:w-8 md:h-8 md:w-8 lg:h-12 lg:w-12" aria-hidden="true" />
           ) : (
-            <PlayIcon className="h-12 w-12" aria-hidden="true" />
+            <PlayIcon className="sm:h-8 sm:w-8 md:h-8 md:w-8 lg:h-12 lg:w-12" aria-hidden="true" />
           )}
         </button>
       </div>
@@ -114,7 +114,7 @@ export const NftCard = (props: NftCardProps) => {
         props.smallSize
       } lg:w-${props.largeSize} border-accent border ${props.isRounded ? "rounded-full" : ""}`}
     >
-      <p className="text-4xl text-center p-3 text-center text-primary-content">{props.nft.name}</p>
+      <p className="sm:text-xl lg:text-4xl text-center p-3 text-center text-primary-content">{props.nft.name}</p>
       <img className="rounded-2xl" src={props?.nft?.image} width={256} height={256} alt="NFT" />
 
       {audioOutput}
