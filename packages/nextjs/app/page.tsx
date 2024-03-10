@@ -138,28 +138,28 @@ const Home: NextPage = () => {
     name: song1TokenData?.name,
     image: song1TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
     price: formatEther(song1Price || BigInt(0)),
-    audio_url: song1TokenData ? song1TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
+    // audio_url: song1TokenData ? song1TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
   };
 
   const nft2 = {
     name: song2TokenData?.name,
     image: song2TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
     price: formatEther(song2Price || BigInt(0)),
-    audio_url: song2TokenData ? song2TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
+    // audio_url: song2TokenData ? song2TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
   };
 
   const nft3 = {
     name: song3TokenData?.name,
     image: song3TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
     price: formatEther(song3Price || BigInt(0)),
-    audio_url: song3TokenData ? song3TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
+    // audio_url: song3TokenData ? song3TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
   };
 
   const nft4 = {
     name: song4TokenData?.name,
     image: song4TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
     price: formatEther(song4Price || BigInt(0)),
-    audio_url: song4TokenData ? song4TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
+    // audio_url: song4TokenData ? song4TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
   };
 
   const albumBtnObj = {
@@ -385,11 +385,9 @@ const Home: NextPage = () => {
         <NftCard
           nft={albumNft}
           buttonObj={albumBtnObj}
-          smallSize="96"
-          largeSize="96"
-          isRounded={false}
-          nameMargin="m-1"
-          imgProps="w-36 h-36 lg:w-64 lg:h-64"
+          nameClasses="m-1"
+          imgProps="p-1 lg:p-8 w-36 h-36 lg:w-64 lg:h-64"
+          cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-96 lg:w-96 border-accent border"
         />
         <button
           className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
@@ -421,14 +419,14 @@ const Home: NextPage = () => {
                 await refreshData();
               },
             }}
-            onAudioToggle={handleAudio1Toggle1}
-            isPlaying={nft1isPlaying}
-            smallSize="50"
-            largeSize="64"
-            isRounded={true}
-            imgProps="w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
-            nameMargin="m-1 mt-[60px] lg:mt-[120px]"
+            audioObj={{
+              isPlaying: nft1isPlaying,
+              onAudioToggle: handleAudio1Toggle1,
+            }}
+            imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
+            nameClasses="m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content"
             bottomMargin="mt-[60px] lg:mt-[120px]"
+            cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
           <NftCard
             nft={nft2}
@@ -439,14 +437,14 @@ const Home: NextPage = () => {
                 await refreshData();
               },
             }}
-            onAudioToggle={handleAudio1Toggle2}
-            isPlaying={nft2isPlaying}
-            smallSize="50"
-            largeSize="64"
-            isRounded={true}
-            imgProps="w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
-            nameMargin="m-1 mt-[60px] lg:mt-[120px]"
+            audioObj={{
+              isPlaying: nft2isPlaying,
+              onAudioToggle: handleAudio1Toggle2,
+            }}
+            imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
+            nameClasses="m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content"
             bottomMargin="mt-[60px] lg:mt-[120px]"
+            cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
           <NftCard
             nft={nft3}
@@ -457,14 +455,14 @@ const Home: NextPage = () => {
                 await refreshData();
               },
             }}
-            onAudioToggle={handleAudio1Toggle3}
-            isPlaying={nft3isPlaying}
-            smallSize="50"
-            largeSize="64"
-            isRounded={true}
-            imgProps="w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
-            nameMargin="m-1 mt-[60px] lg:mt-[120px]"
+            audioObj={{
+              isPlaying: nft3isPlaying,
+              onAudioToggle: handleAudio1Toggle3,
+            }}
+            imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px] "
+            nameClasses="m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content"
             bottomMargin="mt-[60px] lg:mt-[120px]"
+            cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
           <NftCard
             nft={nft4}
@@ -475,14 +473,14 @@ const Home: NextPage = () => {
                 await refreshData();
               },
             }}
-            onAudioToggle={handleAudio1Toggle4}
-            isPlaying={nft4isPlaying}
-            smallSize="50"
-            largeSize="64"
-            isRounded={true}
-            imgProps="w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
-            nameMargin="m-1 mt-[60px] lg:mt-[120px]"
+            audioObj={{
+              isPlaying: nft4isPlaying,
+              onAudioToggle: handleAudio1Toggle4,
+            }}
+            imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
+            nameClasses="m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content"
             bottomMargin="mt-[60px] lg:mt-[120px]"
+            cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
         </div>
       </div>

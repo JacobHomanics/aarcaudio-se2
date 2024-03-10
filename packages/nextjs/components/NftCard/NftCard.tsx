@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import { PauseIcon, PlayIcon } from "@heroicons/react/24/outline";
 
 interface NftCardProps {
@@ -9,51 +8,21 @@ interface NftCardProps {
     onClaimed?: () => Promise<any>;
   };
 
-  onAudioToggle?: () => Promise<any>;
+  audioObj?: {
+    isPlaying?: boolean;
+    onAudioToggle?: () => Promise<any>;
+  };
 
-  smallSize: string;
-  largeSize: string;
-  isRounded: boolean;
+  cardClasses?: string;
 
-  nameMargin?: string;
+  nameClasses?: string;
 
   imgProps?: string;
 
   bottomMargin?: string;
-
-  // onAudioToggle?: () => Promise<any>;
-  isPlaying?: boolean;
-
-  // onAudioToggle?: () => Promise<any>;
-  // onPlay?: () => Promise<any>;
-  // onPause?: () => Promise<any>;
-  // onActiveSongSet?: () => Promise<any>;
-  // onSongState?: any;
 }
 
 export const NftCard = (props: NftCardProps) => {
-  console.log(props);
-
-  // const [play, setPlay] = useState(false);
-  // const oceanRef = useRef<HTMLAudioElement>(null);
-
-  // useEffect(() => {
-  //   setPlay(props.onSongState);
-  // }, [props.onSongState]);
-
-  // function toggleAudio() {
-  //   if (play) {
-  //     if (props.onPause) props.onPause();
-  //     // oceanRef.current?.pause();
-  //     // setPlay(false);
-  //   } else {
-  //     if (props.onPlay) props.onPlay();
-
-  //     // oceanRef.current?.play();
-  //     // setPlay(true);
-  //   }
-  // }
-
   let buttonOutput;
 
   if (props.buttonObj) {
@@ -86,54 +55,29 @@ export const NftCard = (props: NftCardProps) => {
 
   let audioOutput;
 
-  // function handleEnded() {
-  //   setPlay(false);
-  // }
-
-  if (props.nft) {
-    if (props.nft["audio_url"]) {
-      // console.log(props.nft["audio_url"]);
-
-      audioOutput = (
-        <div>
-          {/* <audio ref={oceanRef} src={props.nft["audio_url"]} onEnded={handleEnded} /> */}
-          {/* <button type="button" onClick={toggleAudio}> */}
-          <button
-            type="button"
-            onClick={async () => {
-              if (props.onAudioToggle) props.onAudioToggle();
-
-              // toggleAudio();
-              // if (props.onAudioToggle) await props.onAudioToggle();
-            }}
-          >
-            {props.isPlaying ? (
-              <PauseIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
-            ) : (
-              <PlayIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
-            )}
-          </button>
-        </div>
-      );
-    }
+  if (props.audioObj?.isPlaying !== undefined) {
+    audioOutput = (
+      <div>
+        <button
+          type="button"
+          onClick={async () => {
+            if (props.audioObj?.onAudioToggle) props.audioObj?.onAudioToggle();
+          }}
+        >
+          {props.audioObj?.isPlaying ? (
+            <PauseIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
+          ) : (
+            <PlayIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
+          )}
+        </button>
+      </div>
+    );
   }
-
-  //small 50
-  //large 64
   return (
-    <div
-      className={`flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-${
-        props.smallSize
-      } lg:w-${props.largeSize} border-accent border ${props.isRounded ? "rounded-full" : ""}`}
-    >
-      <p className={`text-xl ${props.nameMargin}  lg:text-4xl line-clamp-1  text-center text-primary-content`}>
-        {props.nft?.name}
-      </p>
-
-      <img className={`p-1 lg:p-8 ${props.imgProps}`} src={props.nft?.image} alt="NFT" />
-
+    <div className={props.cardClasses}>
+      <p className={props.nameClasses}>{props.nft?.name}</p>
+      <img className={props.imgProps} src={props.nft?.image} alt="NFT" />
       {audioOutput}
-
       {priceOutput}
       {buttonOutput}
       <div className={props.bottomMargin}></div>
