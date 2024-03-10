@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@madzadev/audio-player/dist/index.css";
 import type { NextPage } from "next";
 import { useFetch } from "usehooks-ts";
@@ -95,13 +95,19 @@ const Home: NextPage = () => {
 
   const [allSongDatas, setAllSongDatas] = useState<any[]>();
 
+  const [isPlayings, setIsPlayings] = useState<{ id: number; value: boolean }[]>([]);
+
   useEffect(() => {
     async function yeah() {
       if (!allSongs) return;
 
       const songDatas = [];
+      const audioComps = [];
 
       for (let i = 0; i < allSongs?.length; i++) {
+        const audioComp = { id: i, value: false };
+        audioComps.push(audioComp);
+
         const price = await publicClient.readContract({
           address: allSongs[i],
           abi,
@@ -153,6 +159,7 @@ const Home: NextPage = () => {
       }
 
       setAllSongDatas([...songDatas]);
+      setIsPlayings([...audioComps]);
     }
 
     yeah();
@@ -172,13 +179,9 @@ const Home: NextPage = () => {
 
   // const { oceanRef, selectedSong, handleEnded, handleAudio } = useMe();
 
-  const [allTheNfts, setAllTheNfts] = useState<any[]>([]);
+  const builtNfts: any[] = [];
 
-  useEffect(() => {
-    if (!allSongDatas) return;
-
-    const builtNfts: any[] = [];
-
+  if (allSongDatas) {
     for (let i = 0; i < allSongDatas.length; i++) {
       const nft = {
         name: allSongDatas[i].tokenData?.name,
@@ -194,28 +197,102 @@ const Home: NextPage = () => {
             }
           : undefined,
 
-        // audioControls: {
-        //   isPlaying: nft1isPlaying,
-        //   onToggle: () => {
-        //     handleAudio(nft1isPlaying, setNft1IsPlaying, song1Data.tokenData["audio_url"], [
-        //       setNft2IsPlaying,
-        //       setNft3IsPlaying,
-        //       setNft4IsPlaying,
-        //     ]);
-        //   },
-        // },
+        audioControls: {
+          isPlaying: isPlayings[i].value,
+          onToggle: () => {
+            handleMe(
+              isPlayings[i].id,
+              isPlayings,
+              allSongDatas[i].tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+            );
+          },
+        },
       };
 
       builtNfts.push(nft);
     }
+  }
 
-    setAllTheNfts([...builtNfts]);
-  }, [allSongDatas]);
+  // const [allTheNfts, setAllTheNfts] = useState<any[]>([]);
 
-  console.log("alll");
-  console.log(allTheNfts);
+  // useEffect(() => {
+  //   if (!allSongDatas) return;
 
-  const allNftsCards = allTheNfts.map((anNft, index) => (
+  //   const builtNfts: any[] = [];
+
+  //   for (let i = 0; i < allSongDatas.length; i++) {
+  //     const nft = {
+  //       name: allSongDatas[i].tokenData?.name,
+  //       image: allSongDatas[i].tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+  //       price: formatEther(allSongDatas[i].price || BigInt(0)),
+  //       actionBtn: allSongDatas[i].theMint
+  //         ? {
+  //             text: "Buy",
+  //             onAction: async () => {
+  //               await allSongDatas[i].theMint();
+  //               await refreshData();
+  //             },
+  //           }
+  //         : undefined,
+
+  //       audioControls: {
+  //         isPlaying: isPlayings[i].value,
+  //         onToggle: () => {
+  //           handleMe(isPlayings[i].id, isPlayings);
+  //         },
+  //       },
+  //       // audioControls: {
+  //       //   isPlaying: nft1isPlaying,
+  //       //   onToggle: () => {
+  //       //     handleAudio(nft1isPlaying, setNft1IsPlaying, song1Data.tokenData["audio_url"], [
+  //       //       setNft2IsPlaying,
+  //       //       setNft3IsPlaying,
+  //       //       setNft4IsPlaying,
+  //       //     ]);
+  //       //   },
+  //       // },
+  //     };
+
+  //     builtNfts.push(nft);
+  //   }
+
+  //   setAllTheNfts([...builtNfts]);
+  // }, [allSongDatas]);
+
+  const [play, setPlay] = useState(false);
+  const [selectedSong, setSelectedSong] = useState<string>();
+  const oceanRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    console.log("step 0");
+    if (play) {
+      console.log("step 1");
+
+      oceanRef.current?.play();
+    }
+  }, [selectedSong, play, oceanRef]);
+
+  function handleMe(idToSetTrue: number, allSets: { id: number; value: boolean }[], url: string) {
+    for (let i = 0; i < allSets.length; i++) {
+      if (idToSetTrue === allSets[i].id) {
+        if (!allSets[i].value) {
+          allSets[i].value = true;
+          setSelectedSong(url);
+          setPlay(true);
+        } else {
+          allSets[i].value = false;
+          setPlay(false);
+          oceanRef.current?.pause();
+        }
+      } else {
+        allSets[i].value = false;
+      }
+    }
+
+    setIsPlayings([...allSets]);
+  }
+
+  const allNftsCards = builtNfts.map((anNft, index) => (
     <NftCard
       key={index}
       name={{
@@ -244,15 +321,22 @@ const Home: NextPage = () => {
     await refetchHasRedeemed();
   }
 
+  function handleEnded(otherSets: any[]) {
+    setPlay(false);
+    for (let i = 0; i < otherSets.length; i++) {
+      otherSets[i](false);
+    }
+  }
+
   return (
     <>
-      {/* <audio
+      <audio
         ref={oceanRef}
         src={selectedSong}
         onEnded={() => {
           handleEnded;
         }}
-      /> */}
+      />
 
       <div className="flex items-center flex-col flex-grow pt-10">
         <p className="text-primary-content text-2xl text-center">
