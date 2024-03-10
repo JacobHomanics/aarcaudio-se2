@@ -206,10 +206,10 @@ contract DeployScript is ScaffoldETHDeploy {
 
         SONG song20 = new SONG(
             s_artist,
-            "ME & YOU",
-            "M&Y",
+            "ME & YOU!",
+            "M&Y!",
             0.0020 ether,
-            "ipfs://bafkreigugtchuhi67umj7eh63iyvka7hs7osger3ise5wtvn7g5slydypa"
+            "ipfs://bafkreidcfsjkqrgmagffir5ubfvtecixmgstzlb5l5ei7szs4wqppqbpuy"
         );
 
         SONG song21 = new SONG(
