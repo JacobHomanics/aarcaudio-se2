@@ -297,15 +297,20 @@ const Home: NextPage = () => {
           }}
           cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-96 lg:w-96 border-accent border"
         />
-        <button
-          className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
-          onClick={async () => {
-            await mintAll();
-            await refreshData();
-          }}
-        >
-          {`Buy Album (${formatEther(totalPrice || BigInt(0))} ether)`}
-        </button>
+
+        {connectedAddress ? (
+          <button
+            className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
+            onClick={async () => {
+              await mintAll();
+              await refreshData();
+            }}
+          >
+            {`Buy Album (${formatEther(totalPrice || BigInt(0))} ether)`}
+          </button>
+        ) : (
+          <></>
+        )}
 
         {connectedAddress ? (
           <button
