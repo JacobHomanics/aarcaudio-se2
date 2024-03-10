@@ -269,6 +269,25 @@ contract DeployScript is ScaffoldETHDeploy {
         playlist.ADD_SONG(address(song7));
         playlist.ADD_SONG(address(song8));
         playlist.ADD_SONG(address(song9));
+        playlist.ADD_SONG(address(song10));
+        playlist.ADD_SONG(address(song11));
+        playlist.ADD_SONG(address(song12));
+        playlist.ADD_SONG(address(song13));
+        playlist.ADD_SONG(address(song14));
+        playlist.ADD_SONG(address(song15));
+        playlist.ADD_SONG(address(song16));
+        playlist.ADD_SONG(address(song17));
+        playlist.ADD_SONG(address(song18));
+        playlist.ADD_SONG(address(song19));
+        playlist.ADD_SONG(address(song20));
+        playlist.ADD_SONG(address(song21));
+        playlist.ADD_SONG(address(song22));
+        playlist.ADD_SONG(address(song23));
+        playlist.ADD_SONG(address(song24));
+        playlist.ADD_SONG(address(song25));
+        playlist.ADD_SONG(address(song26));
+        playlist.ADD_SONG(address(song27));
+        playlist.ADD_SONG(address(song28));
         playlist.transferOwnership(s_artist);
 
         address[] memory admins = new address[](1);
