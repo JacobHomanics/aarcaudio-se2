@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "@madzadev/audio-player/dist/index.css";
 import type { NextPage } from "next";
 import { useFetch } from "usehooks-ts";
 import { formatEther } from "viem";
 import { useAccount } from "wagmi";
 import { NftCard } from "~~/components/NftCard/NftCard";
-import { useSongData } from "~~/components/hooks/hooks";
+import { useMe, useSongData } from "~~/components/hooks/hooks";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const Home: NextPage = () => {
@@ -90,122 +90,275 @@ const Home: NextPage = () => {
   const { songData: song3Data } = useSongData("SONG3", connectedAddress);
   const { songData: song4Data } = useSongData("SONG4", connectedAddress);
 
-  // const { data: song1Price } = useScaffoldContractRead({ contractName: "SONG1", functionName: "getPrice" });
-  // const { data: song2Price } = useScaffoldContractRead({ contractName: "SONG2", functionName: "getPrice" });
-  // const { data: song3Price } = useScaffoldContractRead({ contractName: "SONG3", functionName: "getPrice" });
-  // const { data: song4Price } = useScaffoldContractRead({ contractName: "SONG4", functionName: "getPrice" });
-
-  // const { data: song1URI } = useScaffoldContractRead({ contractName: "SONG1", functionName: "getURI" });
-  // const { data: song2URI } = useScaffoldContractRead({ contractName: "SONG2", functionName: "getURI" });
-  // const { data: song3URI } = useScaffoldContractRead({ contractName: "SONG3", functionName: "getURI" });
-  // const { data: song4URI } = useScaffoldContractRead({ contractName: "SONG4", functionName: "getURI" });
-
-  // const { writeAsync: mintSong1 } = useScaffoldContractWrite({
-  //   contractName: "SONG1",
-  //   functionName: "MINT",
-  //   args: [connectedAddress],
-  //   value: song1Price,
-  // });
-
-  // const { writeAsync: mintSong2 } = useScaffoldContractWrite({
-  //   contractName: "SONG2",
-  //   functionName: "MINT",
-  //   args: [connectedAddress],
-  //   value: song2Price,
-  // });
-
-  // const { writeAsync: mintSong3 } = useScaffoldContractWrite({
-  //   contractName: "SONG3",
-  //   functionName: "MINT",
-  //   args: [connectedAddress],
-  //   value: song3Price,
-  // });
-
-  // const { writeAsync: mintSong4 } = useScaffoldContractWrite({
-  //   contractName: "SONG4",
-  //   functionName: "MINT",
-  //   args: [connectedAddress],
-  //   value: song4Price,
-  // });
-
-  const song1URICorrected = song1Data.uri?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  const song2URICorrected = song2Data.uri?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  const song3URICorrected = song3Data.uri?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  const song4URICorrected = song4Data.uri?.replace("ipfs://", "https://ipfs.io/ipfs/");
-
-  const { data: song1TokenData } = useFetch<any>(song1URICorrected);
-  const { data: song2TokenData } = useFetch<any>(song2URICorrected);
-  const { data: song3TokenData } = useFetch<any>(song3URICorrected);
-  const { data: song4TokenData } = useFetch<any>(song4URICorrected);
-
   const [nft1isPlaying, setNft1IsPlaying] = useState(false);
   const [nft2isPlaying, setNft2IsPlaying] = useState(false);
   const [nft3isPlaying, setNft3IsPlaying] = useState(false);
   const [nft4isPlaying, setNft4IsPlaying] = useState(false);
 
-  const nft = {
-    name: song1TokenData?.name,
-    image: song1TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
-    price: formatEther(song1Data.price || BigInt(0)),
-    onAction: async () => {
-      await song1Data.mint();
-      await refreshData();
-    },
-    onToggle: handleAudio1Toggle1,
-    audioControls: {
-      isPlaying: nft1isPlaying,
-      onToggle: handleAudio1Toggle1,
-    },
-  };
+  // async function handleAudio1Toggle1() {
+  //   setNft1IsPlaying(!nft1isPlaying);
 
-  const nft2 = {
-    name: song2TokenData?.name,
-    image: song2TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
-    price: formatEther(song2Data.price || BigInt(0)),
-    onAction: async () => {
-      await song2Data.mint();
-      await refreshData();
-    },
-    audioControls: {
-      isPlaying: nft2isPlaying,
-      onToggle: handleAudio1Toggle2,
-    },
-  };
+  //   if (!nft1isPlaying) {
+  //     setSelectedSong(song1Data.tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
+  //     setPlay(true);
+  //     setNft2IsPlaying(false);
+  //     setNft3IsPlaying(false);
+  //     setNft4IsPlaying(false);
+  //   } else {
+  //     oceanRef.current?.pause();
+  //     setPlay(false);
+  //   }
+  // }
 
-  const nft3 = {
-    name: song3TokenData?.name,
-    image: song3TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
-    price: formatEther(song3Data.price || BigInt(0)),
-    onAction: async () => {
-      await song3Data.mint();
-      await refreshData();
-    },
-    onToggle: handleAudio1Toggle3,
-    audioControls: {
-      isPlaying: nft3isPlaying,
-      onToggle: handleAudio1Toggle3,
-    },
-  };
+  // async function handleAudio1Toggle2() {
+  //   setNft2IsPlaying(!nft2isPlaying);
 
-  const nft4 = {
-    name: song4TokenData?.name,
-    image: song4TokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
-    price: formatEther(song4Data.price || BigInt(0)),
-    onAction: async () => {
-      await song4Data.mint();
-      await refreshData();
-    },
-    audioControls: {
-      isPlaying: nft4isPlaying,
-      onToggle: handleAudio1Toggle4,
-    },
-  };
+  //   if (!nft2isPlaying) {
+  //     setSelectedSong(song2Data.tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
+  //     setPlay(true);
 
-  const allNfts: any[] = [];
-  allNfts.push(nft);
-  allNfts.push(nft2);
-  allNfts.push(nft3);
-  allNfts.push(nft4);
+  //     setNft1IsPlaying(false);
+  //     setNft3IsPlaying(false);
+  //     setNft4IsPlaying(false);
+  //   } else {
+  //     oceanRef.current?.pause();
+  //     setPlay(false);
+  //   }
+  // }
+
+  // async function handleAudio1Toggle3() {
+  //   setNft3IsPlaying(!nft3isPlaying);
+
+  //   if (!nft3isPlaying) {
+  //     setSelectedSong(song3Data.tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
+  //     setPlay(true);
+
+  //     setNft1IsPlaying(false);
+  //     setNft2IsPlaying(false);
+  //     setNft4IsPlaying(false);
+  //   } else {
+  //     oceanRef.current?.pause();
+  //     setPlay(false);
+  //   }
+  // }
+
+  // async function handleAudio1Toggle4() {
+  //   setNft4IsPlaying(!nft4isPlaying);
+
+  //   if (!nft4isPlaying) {
+  //     setSelectedSong(song4Data.tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
+  //     setPlay(true);
+
+  //     setNft1IsPlaying(false);
+  //     setNft2IsPlaying(false);
+  //     setNft3IsPlaying(false);
+  //   } else {
+  //     oceanRef.current?.pause();
+  //     setPlay(false);
+  //   }
+  // }
+
+  const { oceanRef, selectedSong, handleEnded, handleAudio } = useMe();
+
+  // const [nft, setNft] = useState<any>(undefined);
+  // const [nft2, setNft2] = useState<any>();
+  // const [nft3, setNft3] = useState<any>();
+  // const [nft4, setNft4] = useState<any>();
+
+  useEffect(() => {
+    if (!song1Data || !song2Data || !song3Data || !song4Data) return;
+
+    if (!song1Data.tokenData || !song2Data.tokenData || !song3Data.tokenData || !song4Data.tokenData) return;
+
+    console.log(nft1isPlaying);
+
+    const nftUno = {
+      name: song1Data.tokenData?.name,
+      image: song1Data.tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+      price: formatEther(song1Data.price || BigInt(0)),
+      onAction: async () => {
+        await song1Data.mint();
+        await refreshData();
+      },
+      audioControls: {
+        isPlaying: nft1isPlaying,
+        onToggle: () => {
+          handleAudio(nft1isPlaying, setNft1IsPlaying, song1Data.tokenData["audio_url"], [
+            setNft2IsPlaying,
+            setNft3IsPlaying,
+            setNft4IsPlaying,
+          ]);
+        },
+      },
+    };
+
+    const nftDos = {
+      name: song2Data.tokenData?.name,
+      image: song2Data.tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+      price: formatEther(song2Data.price || BigInt(0)),
+      onAction: async () => {
+        await song2Data.mint();
+        await refreshData();
+      },
+      audioControls: {
+        isPlaying: nft2isPlaying,
+        onToggle: () => {
+          handleAudio(nft2isPlaying, setNft2IsPlaying, song2Data.tokenData["audio_url"], [
+            setNft1IsPlaying,
+            setNft3IsPlaying,
+            setNft4IsPlaying,
+          ]);
+        },
+      },
+    };
+
+    const nftTres = {
+      name: song3Data.tokenData?.name,
+      image: song3Data.tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+      price: formatEther(song3Data.price || BigInt(0)),
+      onAction: async () => {
+        await song3Data.mint();
+        await refreshData();
+      },
+      audioControls: {
+        isPlaying: nft3isPlaying,
+        onToggle: () => {
+          handleAudio(nft3isPlaying, setNft3IsPlaying, song3Data.tokenData["audio_url"], [
+            setNft2IsPlaying,
+            setNft1IsPlaying,
+            setNft4IsPlaying,
+          ]);
+        },
+      },
+    };
+
+    const nftQuatro = {
+      name: song4Data.tokenData?.name,
+      image: song4Data.tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+      price: formatEther(song4Data.price || BigInt(0)),
+      onAction: async () => {
+        await song4Data.mint();
+        await refreshData();
+      },
+      audioControls: {
+        isPlaying: nft4isPlaying,
+        onToggle: () => {
+          handleAudio(nft4isPlaying, setNft4IsPlaying, song4Data.tokenData["audio_url"], [
+            setNft2IsPlaying,
+            setNft3IsPlaying,
+            setNft1IsPlaying,
+          ]);
+        },
+      },
+    };
+
+    // setNft(nftUno);
+
+    const theNfts: any[] = [];
+    theNfts.push(nftUno);
+    theNfts.push(nftDos);
+    theNfts.push(nftTres);
+    theNfts.push(nftQuatro);
+
+    // allNfts.push(nft2);
+    // allNfts.push(nft3);
+    // allNfts.push(nft4);
+
+    setAllNfts([...theNfts]);
+  }, [
+    song1Data.tokenData,
+    song2Data.tokenData,
+    song3Data.tokenData,
+    song4Data.tokenData,
+    nft1isPlaying,
+    nft2isPlaying,
+    nft3isPlaying,
+    nft4isPlaying,
+  ]);
+
+  // useEffect(() => {
+  //   // const theNfts: any[] = [];
+  //   // theNfts.push(nft);
+  //   // console.log(nft);
+  //   // // allNfts.push(nft2);
+  //   // // allNfts.push(nft3);
+  //   // // allNfts.push(nft4);
+  //   // setAllNfts([...theNfts]);
+  // }, [nft]);
+
+  // const nft = {
+  //   name: song1Data.tokenData?.name,
+  //   image: song1Data.tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+  //   price: formatEther(song1Data.price || BigInt(0)),
+  //   onAction: async () => {
+  //     await song1Data.mint();
+  //     await refreshData();
+  //   },
+  //   audioControls: {
+  //     isPlaying: nft1isPlaying,
+  //     onToggle: handleAudio(nft1isPlaying, setNft1IsPlaying, song1Data.tokenData["audio_url"], [
+  //       setNft2IsPlaying,
+  //       setNft3IsPlaying,
+  //       setNft4IsPlaying,
+  //     ]),
+  //   },
+  // };
+
+  // const nft2 = {
+  //   name: song2Data.tokenData?.name,
+  //   image: song2Data.tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+  //   price: formatEther(song2Data.price || BigInt(0)),
+  //   onAction: async () => {
+  //     await song2Data.mint();
+  //     await refreshData();
+  //   },
+  //   audioControls: {
+  //     isPlaying: nft2isPlaying,
+  //     onToggle: handleAudio(nft2isPlaying, setNft2IsPlaying, song2Data.tokenData["audio_url"], [
+  //       setNft1IsPlaying,
+  //       setNft3IsPlaying,
+  //       setNft4IsPlaying,
+  //     ]),
+  //   },
+  // };
+
+  // const nft3 = {
+  //   name: song3Data.tokenData?.name,
+  //   image: song3Data.tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+  //   price: formatEther(song3Data.price || BigInt(0)),
+  //   onAction: async () => {
+  //     await song3Data.mint();
+  //     await refreshData();
+  //   },
+  //   audioControls: {
+  //     isPlaying: nft3isPlaying,
+  //     onToggle: handleAudio(nft3isPlaying, setNft3IsPlaying, song3Data.tokenData["audio_url"], [
+  //       setNft2IsPlaying,
+  //       setNft1IsPlaying,
+  //       setNft4IsPlaying,
+  //     ]),
+  //   },
+  // };
+
+  // const nft4 = {
+  //   name: song4Data.tokenData?.name,
+  //   image: song4Data.tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+  //   price: formatEther(song4Data.price || BigInt(0)),
+  //   onAction: async () => {
+  //     await song4Data.mint();
+  //     await refreshData();
+  //   },
+  //   audioControls: {
+  //     isPlaying: nft4isPlaying,
+  //     onToggle: handleAudio(nft4isPlaying, setNft4IsPlaying, song4Data.tokenData["audio_url"], [
+  //       setNft2IsPlaying,
+  //       setNft3IsPlaying,
+  //       setNft1IsPlaying,
+  //     ]),
+  //   },
+  // };
+
+  const [allNfts, setAllNfts] = useState<any[]>([]);
 
   const allNftsCards = allNfts.map((anNft, index) => (
     <NftCard
@@ -233,130 +386,24 @@ const Home: NextPage = () => {
     />
   ));
 
-  let song1AudioURICorrected = "";
-  if (song1TokenData) {
-    song1AudioURICorrected = song1TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  }
-  let song2AudioURICorrected = "";
-  if (song2TokenData) {
-    song2AudioURICorrected = song2TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  }
-  let song3AudioURICorrected = "";
-  if (song3TokenData) {
-    song3AudioURICorrected = song3TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  }
-  let songAudio4URICorrected = "";
-  if (song4TokenData) {
-    songAudio4URICorrected = song4TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  }
-  const tracks = [];
-  if (song1TokenData && song2TokenData && song3TokenData && song4TokenData) {
-    tracks.push({
-      url: song1AudioURICorrected,
-      title: nft.name,
-      tags: ["house"],
-    });
+  // const [selectedSong, setSelectedSong] = useState<string>();
 
-    tracks.push({
-      url: song2AudioURICorrected,
-      title: nft2.name,
-      tags: ["house"],
-    });
+  // const [play, setPlay] = useState(false);
+  // const oceanRef = useRef<HTMLAudioElement>(null);
 
-    tracks.push({
-      url: song3AudioURICorrected,
-      title: nft3.name,
-      tags: ["house"],
-    });
+  // function handleEnded() {
+  //   setPlay(false);
+  //   setNft1IsPlaying(false);
+  //   setNft2IsPlaying(false);
+  //   setNft3IsPlaying(false);
+  //   setNft4IsPlaying(false);
+  // }
 
-    tracks.push({
-      url: songAudio4URICorrected,
-      title: nft4.name,
-      tags: ["house"],
-    });
-  }
-
-  const [selectedSong, setSelectedSong] = useState<string>();
-
-  const [play, setPlay] = useState(false);
-  const oceanRef = useRef<HTMLAudioElement>(null);
-
-  function handleEnded() {
-    setPlay(false);
-    setNft1IsPlaying(false);
-    setNft2IsPlaying(false);
-    setNft3IsPlaying(false);
-    setNft4IsPlaying(false);
-  }
-
-  useEffect(() => {
-    if (play) {
-      oceanRef.current?.play();
-    }
-  }, [selectedSong, play]);
-
-  async function handleAudio1Toggle1() {
-    setNft1IsPlaying(!nft1isPlaying);
-
-    if (!nft1isPlaying) {
-      setSelectedSong(song1TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
-      setPlay(true);
-      setNft2IsPlaying(false);
-      setNft3IsPlaying(false);
-      setNft4IsPlaying(false);
-    } else {
-      oceanRef.current?.pause();
-      setPlay(false);
-    }
-  }
-
-  async function handleAudio1Toggle2() {
-    setNft2IsPlaying(!nft2isPlaying);
-
-    if (!nft2isPlaying) {
-      setSelectedSong(song2TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
-      setPlay(true);
-
-      setNft1IsPlaying(false);
-      setNft3IsPlaying(false);
-      setNft4IsPlaying(false);
-    } else {
-      oceanRef.current?.pause();
-      setPlay(false);
-    }
-  }
-
-  async function handleAudio1Toggle3() {
-    setNft3IsPlaying(!nft3isPlaying);
-
-    if (!nft3isPlaying) {
-      setSelectedSong(song3TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
-      setPlay(true);
-
-      setNft1IsPlaying(false);
-      setNft2IsPlaying(false);
-      setNft4IsPlaying(false);
-    } else {
-      oceanRef.current?.pause();
-      setPlay(false);
-    }
-  }
-
-  async function handleAudio1Toggle4() {
-    setNft4IsPlaying(!nft4isPlaying);
-
-    if (!nft4isPlaying) {
-      setSelectedSong(song4TokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"));
-      setPlay(true);
-
-      setNft1IsPlaying(false);
-      setNft2IsPlaying(false);
-      setNft3IsPlaying(false);
-    } else {
-      oceanRef.current?.pause();
-      setPlay(false);
-    }
-  }
+  // useEffect(() => {
+  //   if (play) {
+  //     oceanRef.current?.play();
+  //   }
+  // }, [selectedSong, play]);
 
   async function refreshData() {
     await refetchCheckIfOwnsCollection();
@@ -366,7 +413,13 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <audio ref={oceanRef} src={selectedSong} onEnded={handleEnded} />
+      <audio
+        ref={oceanRef}
+        src={selectedSong}
+        onEnded={() => {
+          handleEnded;
+        }}
+      />
 
       <div className="flex items-center flex-col flex-grow pt-10">
         <p className="text-primary-content text-2xl text-center">

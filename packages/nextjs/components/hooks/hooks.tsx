@@ -40,6 +40,8 @@
 //   return [playing, toggle];
 // };
 // export default useAudio;
+import { useEffect, useRef, useState } from "react";
+import { useFetch } from "usehooks-ts";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 export const useSongData = (contractName: "SONG1" | "SONG2" | "SONG3" | "SONG4", mintAddress: string | undefined) => {
@@ -54,7 +56,56 @@ export const useSongData = (contractName: "SONG1" | "SONG2" | "SONG3" | "SONG4",
     value: price,
   });
 
-  const songData = { price, uri, mint };
+  const uriCorrected = uri?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  const { data: tokenData } = useFetch<any>(uriCorrected);
+
+  if (tokenData) {
+    tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  }
+
+  const songData = { price, uri, uriCorrected, tokenData, mint };
 
   return { songData };
+};
+
+export const useMe = () => {
+  const [play, setPlay] = useState(false);
+
+  const oceanRef = useRef<HTMLAudioElement>(null);
+
+  const [selectedSong, setSelectedSong] = useState<string>();
+  useEffect(() => {
+    if (play) {
+      console.log("player");
+
+      oceanRef.current?.play();
+    }
+  }, [selectedSong, play, oceanRef]);
+
+  function handleAudio(rootValue: boolean, rootSet: any, rootURL: string, otherSets: any[]) {
+    rootSet(!rootValue);
+
+    console.log("setting");
+
+    if (!rootValue) {
+      setSelectedSong(rootURL.replace("ipfs://", "https://ipfs.io/ipfs/"));
+      setPlay(true);
+
+      for (let i = 0; i < otherSets.length; i++) {
+        otherSets[i](false);
+      }
+    } else {
+      oceanRef.current?.pause();
+      setPlay(false);
+    }
+  }
+
+  function handleEnded(otherSets: any[]) {
+    setPlay(false);
+    for (let i = 0; i < otherSets.length; i++) {
+      otherSets[i](false);
+    }
+  }
+
+  return { oceanRef, selectedSong, handleAudio, handleEnded };
 };
