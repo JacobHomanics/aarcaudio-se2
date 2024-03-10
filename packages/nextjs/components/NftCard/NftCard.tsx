@@ -2,22 +2,25 @@ import { PauseIcon, PlayIcon } from "@heroicons/react/24/outline";
 
 interface NftCardProps {
   nft: any;
-  buttonObj?: {
-    text: string;
-    disabled?: boolean;
-    onClaimed?: () => Promise<any>;
-  };
 
-  audioObj?: {
-    isPlaying?: boolean;
-    onAudioToggle?: () => Promise<any>;
+  name?: {
+    value?: string;
+    classes?: string;
   };
 
   cardClasses?: string;
-
-  nameClasses?: string;
-
   imgProps?: string;
+
+  actionBtn?: {
+    text: string;
+    disabled?: boolean;
+    onAction?: () => Promise<any>;
+  };
+
+  audioControls?: {
+    isPlaying?: boolean;
+    onToggle?: () => Promise<any>;
+  };
 
   bottomMargin?: string;
 }
@@ -25,18 +28,18 @@ interface NftCardProps {
 export const NftCard = (props: NftCardProps) => {
   let buttonOutput;
 
-  if (props.buttonObj) {
+  if (props.actionBtn) {
     buttonOutput = (
       <>
         <button
-          disabled={props.buttonObj.disabled}
+          disabled={props.actionBtn.disabled}
           className="m-1 btn btn-neutral btn-md shadow-md dropdown-toggle gap-0"
           type="button"
           onClick={async () => {
-            if (props?.buttonObj?.onClaimed) await props.buttonObj.onClaimed();
+            if (props?.actionBtn?.onAction) await props.actionBtn.onAction();
           }}
         >
-          {props.buttonObj.text}
+          {props.actionBtn.text}
         </button>
       </>
     );
@@ -53,18 +56,18 @@ export const NftCard = (props: NftCardProps) => {
     );
   }
 
-  let audioOutput;
+  let audioControlsOutput;
 
-  if (props.audioObj?.isPlaying !== undefined) {
-    audioOutput = (
+  if (props.audioControls) {
+    audioControlsOutput = (
       <div>
         <button
           type="button"
           onClick={async () => {
-            if (props.audioObj?.onAudioToggle) props.audioObj?.onAudioToggle();
+            if (props.audioControls?.onToggle) props.audioControls?.onToggle();
           }}
         >
-          {props.audioObj?.isPlaying ? (
+          {props.audioControls?.isPlaying ? (
             <PauseIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
           ) : (
             <PlayIcon className="h-8 w-8 lg:h-12 lg:w-12" aria-hidden="true" />
@@ -73,11 +76,12 @@ export const NftCard = (props: NftCardProps) => {
       </div>
     );
   }
+
   return (
     <div className={props.cardClasses}>
-      <p className={props.nameClasses}>{props.nft?.name}</p>
+      <p className={props.name?.classes}>{props.name?.value}</p>
       <img className={props.imgProps} src={props.nft?.image} alt="NFT" />
-      {audioOutput}
+      {audioControlsOutput}
       {priceOutput}
       {buttonOutput}
       <div className={props.bottomMargin}></div>

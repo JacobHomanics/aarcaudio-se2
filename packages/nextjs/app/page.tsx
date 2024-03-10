@@ -162,15 +162,6 @@ const Home: NextPage = () => {
     // audio_url: song4TokenData ? song4TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/") : undefined,
   };
 
-  const albumBtnObj = {
-    text: !hasRedeemed ? "Claim" : "Claimed!",
-    onClaimed: async () => {
-      await claimAlbum();
-      await refreshData();
-    },
-    disabled: !hasRedeemed ? !ownsCollection : true,
-  };
-
   let song1AudioURICorrected = "";
   if (song1TokenData) {
     song1AudioURICorrected = song1TokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
@@ -384,8 +375,18 @@ const Home: NextPage = () => {
         </p>
         <NftCard
           nft={albumNft}
-          buttonObj={albumBtnObj}
-          nameClasses="m-1"
+          name={{
+            value: albumNft.name,
+            classes: "m-1 text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",
+          }}
+          actionBtn={{
+            text: !hasRedeemed ? "Claim" : "Claimed!",
+            onAction: async () => {
+              await claimAlbum();
+              await refreshData();
+            },
+            disabled: !hasRedeemed ? !ownsCollection : true,
+          }}
           imgProps="p-1 lg:p-8 w-36 h-36 lg:w-64 lg:h-64"
           cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-96 lg:w-96 border-accent border"
         />
@@ -412,73 +413,85 @@ const Home: NextPage = () => {
         <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">
           <NftCard
             nft={nft}
-            buttonObj={{
+            name={{
+              value: nft.name,
+              classes: "m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",
+            }}
+            actionBtn={{
               text: "Buy",
-              onClaimed: async () => {
+              onAction: async () => {
                 await mintSong1();
                 await refreshData();
               },
             }}
-            audioObj={{
+            audioControls={{
               isPlaying: nft1isPlaying,
-              onAudioToggle: handleAudio1Toggle1,
+              onToggle: handleAudio1Toggle1,
             }}
             imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
-            nameClasses="m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content"
             bottomMargin="mt-[60px] lg:mt-[120px]"
             cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
           <NftCard
             nft={nft2}
-            buttonObj={{
+            name={{
+              value: nft2.name,
+              classes: "m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",
+            }}
+            actionBtn={{
               text: "Buy",
-              onClaimed: async () => {
+              onAction: async () => {
                 await mintSong2();
                 await refreshData();
               },
             }}
-            audioObj={{
+            audioControls={{
               isPlaying: nft2isPlaying,
-              onAudioToggle: handleAudio1Toggle2,
+              onToggle: handleAudio1Toggle2,
             }}
             imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
-            nameClasses="m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content"
             bottomMargin="mt-[60px] lg:mt-[120px]"
             cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
           <NftCard
             nft={nft3}
-            buttonObj={{
+            name={{
+              value: nft3.name,
+              classes: "m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",
+            }}
+            actionBtn={{
               text: "Buy",
-              onClaimed: async () => {
+              onAction: async () => {
                 await mintSong3();
                 await refreshData();
               },
             }}
-            audioObj={{
+            audioControls={{
               isPlaying: nft3isPlaying,
-              onAudioToggle: handleAudio1Toggle3,
+              onToggle: handleAudio1Toggle3,
             }}
             imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px] "
-            nameClasses="m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content"
             bottomMargin="mt-[60px] lg:mt-[120px]"
             cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
           <NftCard
             nft={nft4}
-            buttonObj={{
+            name={{
+              value: nft4.name,
+              classes: "m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",
+            }}
+            actionBtn={{
               text: "Buy",
-              onClaimed: async () => {
+              onAction: async () => {
                 await mintSong4();
                 await refreshData();
               },
             }}
-            audioObj={{
+            audioControls={{
               isPlaying: nft4isPlaying,
-              onAudioToggle: handleAudio1Toggle4,
+              onToggle: handleAudio1Toggle4,
             }}
             imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
-            nameClasses="m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content"
             bottomMargin="mt-[60px] lg:mt-[120px]"
             cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
