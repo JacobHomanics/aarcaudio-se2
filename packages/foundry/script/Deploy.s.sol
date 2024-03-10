@@ -71,7 +71,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "MI AMOR",
             "MA",
             0.005 ether,
-            "ipfs://bafkreiaa6mbhfz3mxag6xlzggtxgvatblfeoa7iyn3d6pcz4xjk7lcvgri"
+            "ipfs://bafkreifafpvrok2ztldajsuvwhdpvyivn3f3pck2fnkiwjwvfbh3nclmou"
         );
 
         SONG song6 = new SONG(
@@ -79,7 +79,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "SAY SOMETHING",
             "SS",
             0.006 ether,
-            "ipfs://bafkreid7oehuf7r47zbzf4po37bmnygmeohcy75g2qbltlkbfirpjlixte"
+            "ipfs://bafkreifujkxmbk5v5lndjz3zsogx3k7kpstk6oogkw6lm42bqffjqxs5r4"
         );
 
         SONG song7 = new SONG(
@@ -87,7 +87,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "CLASSY ICY JUNGLE",
             "CIJ",
             0.007 ether,
-            "ipfs://bafkreigwhbc65mhq2g3febtuweb5liudsebqm2ktqc7eacg2zry3fdupxq"
+            "ipfs://bafkreidtt4okddciprjcs3r722ugl22knkj235z4u7lrwtbnr76gpcpjta"
         );
 
         SONG song8 = new SONG(
@@ -95,7 +95,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "SPACESHIP SWEETIE",
             "SS",
             0.008 ether,
-            "ipfs://bafkreif2q5rou2frncemakz7hdhqagsaxyxqnuob4gdrvgsqc74vmj254m"
+            "ipfs://bafkreic7qea35u5kgk7basi6sabfyo5anmnoo5opi7juhwxltzpe7abcnm"
         );
 
         SONG song9 = new SONG(
@@ -103,7 +103,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "ALL THE THINGS I NEVER GOT TO BE",
             "ATTINGTB",
             0.009 ether,
-            "ipfs://bafkreif26c6uy2s2e3gmx5gofu4jfe3fjsmholv3ewj6mkq5sruxzveelu"
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
         );
         PLAYLIST playlist = new PLAYLIST(deployerPubKey);
 
