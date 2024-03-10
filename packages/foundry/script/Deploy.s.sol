@@ -105,6 +105,158 @@ contract DeployScript is ScaffoldETHDeploy {
             0.009 ether,
             "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
         );
+
+        SONG song10 = new SONG(
+            s_artist,
+            "MAYBE WE CAN",
+            "MWC",
+            0.0010 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song11 = new SONG(
+            s_artist,
+            "ARMS",
+            "ARMS",
+            0.0011 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song12 = new SONG(
+            s_artist,
+            "I DID",
+            "IDID",
+            0.0012 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song13 = new SONG(
+            s_artist,
+            "NEON PURPLE BLACK & GREEN",
+            "NPB&G",
+            0.0013 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song14 = new SONG(
+            s_artist,
+            "BEING WITH SOMEONE THAT DOESN'T LOVE YOU",
+            "BWSTDLY",
+            0.0014 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song15 = new SONG(
+            s_artist,
+            "MILLENNIAL HONEYMOON-QUIET AS THEY WATCH ME",
+            "MHQATWM",
+            0.0015 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song16 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0016 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song17 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0017 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song18 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0018 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song19 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0019 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song20 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0020 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song21 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0021 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song22 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0022 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song23 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0023 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song24 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0024 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song25 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0025 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song26 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0026 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song27 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0027 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
+
+        SONG song28 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.0028 ether,
+            "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4"
+        );
         PLAYLIST playlist = new PLAYLIST(deployerPubKey);
 
         playlist.ADD_SONG(address(song1));
