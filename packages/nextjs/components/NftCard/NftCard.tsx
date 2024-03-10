@@ -1,15 +1,23 @@
 import { PauseIcon, PlayIcon } from "@heroicons/react/24/outline";
 
 interface NftCardProps {
-  nft: any;
+  cardClasses?: string;
 
   name?: {
     value?: string;
     classes?: string;
   };
 
-  cardClasses?: string;
-  imgProps?: string;
+  image?: {
+    value?: string;
+    alt?: string;
+    classes?: string;
+  };
+
+  price?: {
+    value?: string;
+    classes?: string;
+  };
 
   actionBtn?: {
     text: string;
@@ -27,7 +35,6 @@ interface NftCardProps {
 
 export const NftCard = (props: NftCardProps) => {
   let buttonOutput;
-
   if (props.actionBtn) {
     buttonOutput = (
       <>
@@ -46,18 +53,11 @@ export const NftCard = (props: NftCardProps) => {
   }
 
   let priceOutput;
-  if (props.nft?.price) {
-    priceOutput = (
-      <>
-        <p className="text-black p-1 m-1 text-center text-lg lg:text-xl text-primary-content">
-          {props.nft.price} ether
-        </p>
-      </>
-    );
+  if (props.price) {
+    priceOutput = <p className={props.price.classes}>{props.price.value} ether</p>;
   }
 
   let audioControlsOutput;
-
   if (props.audioControls) {
     audioControlsOutput = (
       <div>
@@ -80,7 +80,7 @@ export const NftCard = (props: NftCardProps) => {
   return (
     <div className={props.cardClasses}>
       <p className={props.name?.classes}>{props.name?.value}</p>
-      <img className={props.imgProps} src={props.nft?.image} alt="NFT" />
+      <img className={props.image?.classes} src={props.image?.value} alt={props.image?.alt} />
       {audioControlsOutput}
       {priceOutput}
       {buttonOutput}

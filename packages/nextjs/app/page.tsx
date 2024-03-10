@@ -359,25 +359,18 @@ const Home: NextPage = () => {
       <audio ref={oceanRef} src={selectedSong} onEnded={handleEnded} />
 
       <div className="flex items-center flex-col flex-grow pt-10">
-        {/* {tracks.length > 0 ? (
-          <Player
-            trackList={tracks}
-            includeTags={false}
-            includeSearch={false}
-            showPlaylist={false}
-            sortTracks={false}
-          />
-        ) : (
-          <></>
-        )} */}
         <p className="text-primary-content text-2xl text-center">
           BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.
         </p>
         <NftCard
-          nft={albumNft}
           name={{
             value: albumNft.name,
             classes: "m-1 text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",
+          }}
+          image={{
+            value: albumNft.image,
+            alt: "Album NFT",
+            classes: "p-1 lg:p-8 w-36 h-36 lg:w-64 lg:h-64",
           }}
           actionBtn={{
             text: !hasRedeemed ? "Claim" : "Claimed!",
@@ -387,7 +380,6 @@ const Home: NextPage = () => {
             },
             disabled: !hasRedeemed ? !ownsCollection : true,
           }}
-          imgProps="p-1 lg:p-8 w-36 h-36 lg:w-64 lg:h-64"
           cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-96 lg:w-96 border-accent border"
         />
         <button
@@ -412,10 +404,18 @@ const Home: NextPage = () => {
 
         <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">
           <NftCard
-            nft={nft}
             name={{
               value: nft.name,
               classes: "m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",
+            }}
+            image={{
+              value: nft.image,
+              alt: "NFT 1",
+              classes: "p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]",
+            }}
+            price={{
+              value: nft.price,
+              classes: "text-black p-1 m-1 text-center text-lg lg:text-xl text-primary-content",
             }}
             actionBtn={{
               text: "Buy",
@@ -428,15 +428,22 @@ const Home: NextPage = () => {
               isPlaying: nft1isPlaying,
               onToggle: handleAudio1Toggle1,
             }}
-            imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
             bottomMargin="mt-[60px] lg:mt-[120px]"
             cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
           <NftCard
-            nft={nft2}
             name={{
               value: nft2.name,
               classes: "m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",
+            }}
+            image={{
+              value: nft2.image,
+              alt: "NFT 2",
+              classes: "p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]",
+            }}
+            price={{
+              value: nft.price,
+              classes: "text-black p-1 m-1 text-center text-lg lg:text-xl text-primary-content",
             }}
             actionBtn={{
               text: "Buy",
@@ -449,15 +456,22 @@ const Home: NextPage = () => {
               isPlaying: nft2isPlaying,
               onToggle: handleAudio1Toggle2,
             }}
-            imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
             bottomMargin="mt-[60px] lg:mt-[120px]"
             cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
           <NftCard
-            nft={nft3}
             name={{
               value: nft3.name,
               classes: "m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",
+            }}
+            image={{
+              value: nft3.image,
+              alt: "NFT 3",
+              classes: "p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]",
+            }}
+            price={{
+              value: nft.price,
+              classes: "text-black p-1 m-1 text-center text-lg lg:text-xl text-primary-content",
             }}
             actionBtn={{
               text: "Buy",
@@ -470,15 +484,22 @@ const Home: NextPage = () => {
               isPlaying: nft3isPlaying,
               onToggle: handleAudio1Toggle3,
             }}
-            imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px] "
             bottomMargin="mt-[60px] lg:mt-[120px]"
             cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
           <NftCard
-            nft={nft4}
             name={{
               value: nft4.name,
               classes: "m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",
+            }}
+            image={{
+              value: nft4.image,
+              alt: "NFT 4",
+              classes: "p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]",
+            }}
+            price={{
+              value: nft.price,
+              classes: "text-black p-1 m-1 text-center text-lg lg:text-xl text-primary-content",
             }}
             actionBtn={{
               text: "Buy",
@@ -491,33 +512,11 @@ const Home: NextPage = () => {
               isPlaying: nft4isPlaying,
               onToggle: handleAudio1Toggle4,
             }}
-            imgProps="p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]"
             bottomMargin="mt-[60px] lg:mt-[120px]"
             cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-50 lg:w-64 border-accent border rounded-full"
           />
         </div>
       </div>
-
-      {/* {selectedSong ? <audio src={selectedSong} /> : <></>} */}
-
-      {/* <div className="min-h-0 py-5 px-1 mb-11 lg:mb-0 z-20">
-        <div>
-          <div className="fixed flex justify-between items-center w-full z-20 p-4 bottom-0 left-0 pointer-events-none">
-            <div></div>
-            {tracks.length > 0 ? (
-              <Player
-                trackList={tracks}
-                includeTags={false}
-                includeSearch={false}
-                showPlaylist={false}
-                sortTracks={false}
-              />
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
-      </div> */}
     </>
   );
 };
