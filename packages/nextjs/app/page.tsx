@@ -329,7 +329,7 @@ const Home: NextPage = () => {
         {allNftsCards.length > 0 ? (
           <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">{allNftsCards}</div>
         ) : (
-          <p className="text-primary-content text-2xl text-center">Seeking the Dark Truth...</p>
+          <p className="text-primary-content text-2xl text-center">Loading...</p>
         )}
       </div>
     </>
