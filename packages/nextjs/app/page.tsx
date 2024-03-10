@@ -240,7 +240,8 @@ const Home: NextPage = () => {
       key={index}
       name={{
         value: anNft.name,
-        classes: "m-1 mt-[60px] lg:mt-[120px] text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",
+        classes:
+          "m-1 mt-[60px] lg:mt-[120px] text-[12px] lg:text-[18px] line-clamp-3  text-center text-primary-content",
       }}
       image={{
         value: anNft.image,
