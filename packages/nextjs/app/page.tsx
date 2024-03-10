@@ -105,8 +105,6 @@ const Home: NextPage = () => {
       const audioComps = [];
 
       for (let i = 0; i < allSongs?.length; i++) {
-        if (allSongs[i] === "0x0000000000000000000000000000000000000000") continue;
-
         const audioComp = { id: i, value: false };
         audioComps.push(audioComp);
 
@@ -124,21 +122,21 @@ const Home: NextPage = () => {
 
         let theMint;
 
-        if (connectedAddress) {
-          const { request } = await publicClient.simulateContract({
-            account: connectedAddress,
-            address: allSongs[i],
-            abi,
-            functionName: "MINT",
-            args: [connectedAddress],
-            value: price as bigint,
-          });
+        if (connectedAddress && walletClient?.account.address) {
+          theMint = async () => {
+            console.log("TRIED");
 
-          if (walletClient) {
-            theMint = () => {
-              walletClient.writeContract(request);
-            };
-          }
+            const { request } = await publicClient.simulateContract({
+              account: connectedAddress,
+              address: allSongs[i],
+              abi,
+              functionName: "MINT",
+              args: [connectedAddress],
+              value: price as bigint,
+            });
+
+            await walletClient.writeContract(request);
+          };
         }
 
         const uriCorrected = (uri as string).replace("ipfs://", "https://ipfs.io/ipfs/");
@@ -159,7 +157,7 @@ const Home: NextPage = () => {
     }
 
     yeah();
-  }, [allSongs, publicClient.account, walletClient?.account]);
+  }, [allSongs, publicClient.account, walletClient?.account.address]);
 
   const builtNfts: any[] = [];
 
