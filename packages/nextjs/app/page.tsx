@@ -307,15 +307,19 @@ const Home: NextPage = () => {
           {`Buy Album (${formatEther(totalPrice || BigInt(0))} ether)`}
         </button>
 
-        <button
-          className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
-          onClick={async () => {
-            await mintAllUnowned();
-            await refreshData();
-          }}
-        >
-          {`Buy Album - Remaining (${formatEther(totalPriceUnowned || BigInt(0))} ether)`}
-        </button>
+        {connectedAddress ? (
+          <button
+            className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
+            onClick={async () => {
+              await mintAllUnowned();
+              await refreshData();
+            }}
+          >
+            {`Buy Album - Remaining (${formatEther(totalPriceUnowned || BigInt(0))} ether)`}
+          </button>
+        ) : (
+          <></>
+        )}
 
         <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">{allNftsCards}</div>
       </div>
