@@ -26,7 +26,13 @@ contract PLAYLIST is Ownable {
 
     constructor(address OWNER) Ownable(OWNER) {}
 
-    function ADD_SONG(address song) external onlyOwner {
+    function ADD_SONGS_BATCH(address[] memory songs) external {
+        for (uint256 i = 0; i < songs.length; i++) {
+            ADD_SONG(songs[i]);
+        }
+    }
+
+    function ADD_SONG(address song) public onlyOwner {
         createStructure(song);
         uint256 tokenId = progressiveId;
         LIST.pushBack(tokenId);

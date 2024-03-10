@@ -20,6 +20,18 @@ contract DeployScript is ScaffoldETHDeploy {
     address s_artist = 0x62286D694F89a1B12c0214bfcD567bb6c2951491;
     address s_user;
 
+    // struct SongParams {
+    //     string name;
+    //     string symbol;
+    //     uint256 price;
+    //     string uri;
+    // }
+
+    // SongParams[] songParams = [
+    //     SongParams("TEST", "T", 0.001 ether, "ipfs"),
+    //     SongParams("TEST", "T", 0.001 ether, "ipfs")
+    // ];
+
     function run() external {
         uint256 deployerPrivateKey = setupLocalhostEnv();
 
@@ -33,6 +45,12 @@ contract DeployScript is ScaffoldETHDeploy {
             );
         }
         vm.startBroadcast(deployerPrivateKey);
+
+        // SONG[] memory songs2 = new SONG[](28);
+
+        // for (uint256 i = 0; i < 28; i++) {
+        //     // songs[i] =
+        // }
 
         SONG song1 = new SONG(
             s_artist,
@@ -258,36 +276,70 @@ contract DeployScript is ScaffoldETHDeploy {
             "ipfs://bafkreihasccyhx34e2id3boulzencqi2u2x3lmik6dn2wkcfuuk2zcfbsy"
         );
 
-        PLAYLIST playlist = new PLAYLIST(deployerPubKey);
+        PLAYLIST playlist = new PLAYLIST(
+            0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf
+        );
 
-        playlist.ADD_SONG(address(song1));
-        playlist.ADD_SONG(address(song2));
-        playlist.ADD_SONG(address(song3));
-        playlist.ADD_SONG(address(song4));
-        playlist.ADD_SONG(address(song5));
-        playlist.ADD_SONG(address(song6));
-        playlist.ADD_SONG(address(song7));
-        playlist.ADD_SONG(address(song8));
-        playlist.ADD_SONG(address(song9));
-        playlist.ADD_SONG(address(song10));
-        playlist.ADD_SONG(address(song11));
-        playlist.ADD_SONG(address(song12));
-        playlist.ADD_SONG(address(song13));
-        playlist.ADD_SONG(address(song14));
-        playlist.ADD_SONG(address(song15));
-        playlist.ADD_SONG(address(song16));
-        playlist.ADD_SONG(address(song17));
-        playlist.ADD_SONG(address(song18));
-        playlist.ADD_SONG(address(song19));
-        playlist.ADD_SONG(address(song20));
-        playlist.ADD_SONG(address(song21));
-        playlist.ADD_SONG(address(song22));
-        playlist.ADD_SONG(address(song23));
-        playlist.ADD_SONG(address(song24));
-        playlist.ADD_SONG(address(song25));
-        playlist.ADD_SONG(address(song26));
-        playlist.ADD_SONG(address(song27));
-        playlist.ADD_SONG(address(song28));
+        address[] memory songs = new address[](28);
+        songs[0] = address(song1);
+        songs[1] = address(song2);
+        songs[2] = address(song3);
+        songs[3] = address(song4);
+        songs[4] = address(song5);
+        songs[5] = address(song6);
+        songs[6] = address(song7);
+        songs[7] = address(song8);
+        songs[8] = address(song9);
+        songs[9] = address(song10);
+        songs[10] = address(song11);
+        songs[11] = address(song12);
+        songs[12] = address(song13);
+        songs[13] = address(song14);
+        songs[14] = address(song15);
+        songs[15] = address(song16);
+        songs[16] = address(song17);
+        songs[17] = address(song18);
+        songs[18] = address(song19);
+        songs[19] = address(song20);
+        songs[20] = address(song21);
+        songs[21] = address(song22);
+        songs[22] = address(song23);
+        songs[23] = address(song24);
+        songs[24] = address(song25);
+        songs[25] = address(song26);
+        songs[26] = address(song27);
+        songs[27] = address(song28);
+
+        playlist.ADD_SONGS_BATCH(songs);
+
+        // playlist.ADD_SONG(address(song1));
+        // playlist.ADD_SONG(address(song2));
+        // playlist.ADD_SONG(address(song3));
+        // playlist.ADD_SONG(address(song4));
+        // playlist.ADD_SONG(address(song5));
+        // playlist.ADD_SONG(address(song6));
+        // playlist.ADD_SONG(address(song7));
+        // playlist.ADD_SONG(address(song8));
+        // playlist.ADD_SONG(address(song9));
+        // playlist.ADD_SONG(address(song10));
+        // playlist.ADD_SONG(address(song11));
+        // playlist.ADD_SONG(address(song12));
+        // playlist.ADD_SONG(address(song13));
+        // playlist.ADD_SONG(address(song14));
+        // playlist.ADD_SONG(address(song15));
+        // playlist.ADD_SONG(address(song16));
+        // playlist.ADD_SONG(address(song17));
+        // playlist.ADD_SONG(address(song18));
+        // playlist.ADD_SONG(address(song19));
+        // playlist.ADD_SONG(address(song20));
+        // playlist.ADD_SONG(address(song21));
+        // playlist.ADD_SONG(address(song22));
+        // playlist.ADD_SONG(address(song23));
+        // playlist.ADD_SONG(address(song24));
+        // playlist.ADD_SONG(address(song25));
+        // playlist.ADD_SONG(address(song26));
+        // playlist.ADD_SONG(address(song27));
+        // playlist.ADD_SONG(address(song28));
         playlist.transferOwnership(s_artist);
 
         address[] memory admins = new address[](1);
