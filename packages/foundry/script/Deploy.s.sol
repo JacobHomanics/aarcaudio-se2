@@ -276,9 +276,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "ipfs://bafkreihasccyhx34e2id3boulzencqi2u2x3lmik6dn2wkcfuuk2zcfbsy"
         );
 
-        PLAYLIST playlist = new PLAYLIST(
-            0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf
-        );
+        PLAYLIST playlist = new PLAYLIST(deployerPubKey);
 
         address[] memory songs = new address[](28);
         songs[0] = address(song1);

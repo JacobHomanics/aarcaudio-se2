@@ -105,6 +105,8 @@ const Home: NextPage = () => {
       const audioComps = [];
 
       for (let i = 0; i < allSongs?.length; i++) {
+        if (allSongs[i] === "0x0000000000000000000000000000000000000000") continue;
+
         const audioComp = { id: i, value: false };
         audioComps.push(audioComp);
 

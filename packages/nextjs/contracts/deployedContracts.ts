@@ -652,6 +652,19 @@ const deployedContracts = {
         },
         {
           type: "function",
+          name: "ADD_SONGS_BATCH",
+          inputs: [
+            {
+              name: "songs",
+              type: "address[]",
+              internalType: "address[]",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
           name: "REMOVE_SONG",
           inputs: [
             {
@@ -1753,7 +1766,7 @@ const deployedContracts = {
   },
   11155111: {
     SONG: {
-      address: "0x2ED23e41b97292A016fDe9063120Ca8A7e24F7ff",
+      address: "0xC9F754EEF5d9c4f2F0091E2e3157aD3d8708Ff76",
       abi: [
         {
           type: "constructor",
@@ -2370,7 +2383,7 @@ const deployedContracts = {
       },
     },
     PLAYLIST: {
-      address: "0x4E379a2082931D8e5C2D2B8612d65587CE5B9843",
+      address: "0x4Dc1646129764E6fD44687Fa7d59D4857412f5Cb",
       abi: [
         {
           type: "constructor",
@@ -2391,6 +2404,19 @@ const deployedContracts = {
               name: "song",
               type: "address",
               internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "ADD_SONGS_BATCH",
+          inputs: [
+            {
+              name: "songs",
+              type: "address[]",
+              internalType: "address[]",
             },
           ],
           outputs: [],
@@ -2549,7 +2575,7 @@ const deployedContracts = {
       },
     },
     ALBUM: {
-      address: "0xe756aCF6013C3eCF13104F538EB9fA8B56A2f940",
+      address: "0x5103C9298983A47da4E64273ab233F41A40b0829",
       abi: [
         {
           type: "constructor",
