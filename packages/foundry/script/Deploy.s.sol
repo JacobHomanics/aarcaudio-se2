@@ -34,7 +34,7 @@ contract DeployScript is ScaffoldETHDeploy {
         }
         vm.startBroadcast(deployerPrivateKey);
 
-        SONG1 song1 = new SONG1(
+        SONG song1 = new SONG(
             s_artist,
             "NO",
             "NO",
@@ -42,7 +42,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "ipfs://bafkreiefug6orin7nzf2s26gnzn63ji4jd6r5ljoklovjd4ahlshzld63q"
         );
         console.log("Song1:", address(song1));
-        SONG2 song2 = new SONG2(
+        SONG song2 = new SONG(
             s_artist,
             "BAABY",
             "BAABY",
@@ -50,7 +50,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "ipfs://bafkreiglcjqxy2rhgvn6wppbqmq4kjkazwluz3duqpf2tapdfejjm5nm4i"
         );
         console.log("Song2:", address(song2));
-        SONG3 song3 = new SONG3(
+        SONG song3 = new SONG(
             s_artist,
             "TREES",
             "TREES",
@@ -58,7 +58,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "ipfs://bafkreidmqjaxso62i6fkmrrldp7mksjfmzugrvsmmktaokbr5t4gahw6pe"
         );
         console.log("Song3:", address(song3));
-        SONG4 song4 = new SONG4(
+        SONG song4 = new SONG(
             s_artist,
             "ONCE YOU FIND OUT",
             "OYFO",
@@ -66,12 +66,56 @@ contract DeployScript is ScaffoldETHDeploy {
             "ipfs://bafkreiefhkpgtfuhvpdxt36uirsoh42znuydcyxiybtcnfqxs2eiwkwr4y"
         );
 
+        SONG song5 = new SONG(
+            s_artist,
+            "MI AMOR",
+            "MA",
+            0.005 ether,
+            "ipfs://bafkreiaa6mbhfz3mxag6xlzggtxgvatblfeoa7iyn3d6pcz4xjk7lcvgri"
+        );
+
+        SONG song6 = new SONG(
+            s_artist,
+            "SAY SOMETHING",
+            "SS",
+            0.006 ether,
+            "ipfs://bafkreid7oehuf7r47zbzf4po37bmnygmeohcy75g2qbltlkbfirpjlixte"
+        );
+
+        SONG song7 = new SONG(
+            s_artist,
+            "CLASSY ICY JUNGLE",
+            "CIJ",
+            0.007 ether,
+            "ipfs://bafkreigwhbc65mhq2g3febtuweb5liudsebqm2ktqc7eacg2zry3fdupxq"
+        );
+
+        SONG song8 = new SONG(
+            s_artist,
+            "SPACESHIP SWEETIE",
+            "SS",
+            0.008 ether,
+            "ipfs://bafkreif2q5rou2frncemakz7hdhqagsaxyxqnuob4gdrvgsqc74vmj254m"
+        );
+
+        SONG song9 = new SONG(
+            s_artist,
+            "ALL THE THINGS I NEVER GOT TO BE",
+            "ATTINGTB",
+            0.009 ether,
+            "ipfs://bafkreif26c6uy2s2e3gmx5gofu4jfe3fjsmholv3ewj6mkq5sruxzveelu"
+        );
         PLAYLIST playlist = new PLAYLIST(deployerPubKey);
 
         playlist.ADD_SONG(address(song1));
         playlist.ADD_SONG(address(song2));
         playlist.ADD_SONG(address(song3));
         playlist.ADD_SONG(address(song4));
+        playlist.ADD_SONG(address(song5));
+        playlist.ADD_SONG(address(song6));
+        playlist.ADD_SONG(address(song7));
+        playlist.ADD_SONG(address(song8));
+        playlist.ADD_SONG(address(song9));
         playlist.transferOwnership(s_artist);
 
         address[] memory admins = new address[](1);

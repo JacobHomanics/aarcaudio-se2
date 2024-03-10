@@ -41,32 +41,33 @@
 // };
 // export default useAudio;
 import { useEffect, useRef, useState } from "react";
-import { useFetch } from "usehooks-ts";
-import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
-export const useSongData = (contractName: "SONG1" | "SONG2" | "SONG3" | "SONG4", mintAddress: string | undefined) => {
-  const { data: price } = useScaffoldContractRead({ contractName, functionName: "getPrice" });
+// import { useFetch } from "usehooks-ts";
+// import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
-  const { data: uri } = useScaffoldContractRead({ contractName, functionName: "getURI" });
+// export const useSongData = (contractName: "SONG1" | "SONG2" | "SONG3" | "SONG4", mintAddress: string | undefined) => {
+//   const { data: price } = useScaffoldContractRead({ contractName, functionName: "getPrice" });
 
-  const { writeAsync: mint } = useScaffoldContractWrite({
-    contractName,
-    functionName: "MINT",
-    args: [mintAddress],
-    value: price,
-  });
+//   const { data: uri } = useScaffoldContractRead({ contractName, functionName: "getURI" });
 
-  const uriCorrected = uri?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  const { data: tokenData } = useFetch<any>(uriCorrected);
+//   const { writeAsync: mint } = useScaffoldContractWrite({
+//     contractName,
+//     functionName: "MINT",
+//     args: [mintAddress],
+//     value: price,
+//   });
 
-  if (tokenData) {
-    tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  }
+//   const uriCorrected = uri?.replace("ipfs://", "https://ipfs.io/ipfs/");
+//   const { data: tokenData } = useFetch<any>(uriCorrected);
 
-  const songData = { price, uri, uriCorrected, tokenData, mint };
+//   if (tokenData) {
+//     tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
+//   }
 
-  return { songData };
-};
+//   const songData = { price, uri, uriCorrected, tokenData, mint };
+
+//   return { songData };
+// };
 
 export const useMe = () => {
   const [play, setPlay] = useState(false);
