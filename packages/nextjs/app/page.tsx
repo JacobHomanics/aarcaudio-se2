@@ -147,12 +147,6 @@ const Home: NextPage = () => {
 
         tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
 
-        // console.log(price);
-        // console.log(uri);
-        // console.log(uriCorrected);
-
-        // console.log(tokenData);
-
         const songData = { price, uri, uriCorrected, tokenData, theMint /*mint*/ };
 
         songDatas.push(songData);
@@ -164,20 +158,6 @@ const Home: NextPage = () => {
 
     yeah();
   }, [allSongs, publicClient.account, walletClient?.account]);
-
-  console.log(allSongDatas);
-
-  // const { songData: song1Data } = useSongData("SONG1", connectedAddress);
-  // const { songData: song2Data } = useSongData("SONG2", connectedAddress);
-  // const { songData: song3Data } = useSongData("SONG3", connectedAddress);
-  // const { songData: song4Data } = useSongData("SONG4", connectedAddress);
-
-  // const [nft1isPlaying, setNft1IsPlaying] = useState(false);
-  // const [nft2isPlaying, setNft2IsPlaying] = useState(false);
-  // const [nft3isPlaying, setNft3IsPlaying] = useState(false);
-  // const [nft4isPlaying, setNft4IsPlaying] = useState(false);
-
-  // const { oceanRef, selectedSong, handleEnded, handleAudio } = useMe();
 
   const builtNfts: any[] = [];
 
@@ -213,61 +193,12 @@ const Home: NextPage = () => {
     }
   }
 
-  // const [allTheNfts, setAllTheNfts] = useState<any[]>([]);
-
-  // useEffect(() => {
-  //   if (!allSongDatas) return;
-
-  //   const builtNfts: any[] = [];
-
-  //   for (let i = 0; i < allSongDatas.length; i++) {
-  //     const nft = {
-  //       name: allSongDatas[i].tokenData?.name,
-  //       image: allSongDatas[i].tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
-  //       price: formatEther(allSongDatas[i].price || BigInt(0)),
-  //       actionBtn: allSongDatas[i].theMint
-  //         ? {
-  //             text: "Buy",
-  //             onAction: async () => {
-  //               await allSongDatas[i].theMint();
-  //               await refreshData();
-  //             },
-  //           }
-  //         : undefined,
-
-  //       audioControls: {
-  //         isPlaying: isPlayings[i].value,
-  //         onToggle: () => {
-  //           handleMe(isPlayings[i].id, isPlayings);
-  //         },
-  //       },
-  //       // audioControls: {
-  //       //   isPlaying: nft1isPlaying,
-  //       //   onToggle: () => {
-  //       //     handleAudio(nft1isPlaying, setNft1IsPlaying, song1Data.tokenData["audio_url"], [
-  //       //       setNft2IsPlaying,
-  //       //       setNft3IsPlaying,
-  //       //       setNft4IsPlaying,
-  //       //     ]);
-  //       //   },
-  //       // },
-  //     };
-
-  //     builtNfts.push(nft);
-  //   }
-
-  //   setAllTheNfts([...builtNfts]);
-  // }, [allSongDatas]);
-
   const [play, setPlay] = useState(false);
   const [selectedSong, setSelectedSong] = useState<string>();
   const oceanRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    console.log("step 0");
     if (play) {
-      console.log("step 1");
-
       oceanRef.current?.play();
     }
   }, [selectedSong, play, oceanRef]);
@@ -287,6 +218,16 @@ const Home: NextPage = () => {
       } else {
         allSets[i].value = false;
       }
+    }
+
+    setIsPlayings([...allSets]);
+  }
+
+  function handleEnded(allSets: { id: number; value: boolean }[]) {
+    setPlay(false);
+
+    for (let i = 0; i < allSets.length; i++) {
+      allSets[i].value = false;
     }
 
     setIsPlayings([...allSets]);
@@ -321,20 +262,13 @@ const Home: NextPage = () => {
     await refetchHasRedeemed();
   }
 
-  function handleEnded(otherSets: any[]) {
-    setPlay(false);
-    for (let i = 0; i < otherSets.length; i++) {
-      otherSets[i](false);
-    }
-  }
-
   return (
     <>
       <audio
         ref={oceanRef}
         src={selectedSong}
         onEnded={() => {
-          handleEnded;
+          handleEnded(isPlayings);
         }}
       />
 
