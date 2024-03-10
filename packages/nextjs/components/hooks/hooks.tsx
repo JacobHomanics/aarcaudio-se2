@@ -23,27 +23,38 @@
 //     }, [refetch]);
 //     return { data, refetch };
 //   }
-
 // import { useEffect, useMemo, useState } from "react";
-
 // export const useAudio = (url: any) => {
 //   const audio = useMemo(() => new Audio(url), []);
 //   const [playing, setPlaying] = useState(false);
-
 //   const toggle = () => setPlaying(!playing);
-
 //   useEffect(() => {
 //     playing ? audio.play() : audio.pause();
 //   }, [playing]);
-
 //   useEffect(() => {
 //     audio.addEventListener("ended", () => setPlaying(false));
 //     return () => {
 //       audio.removeEventListener("ended", () => setPlaying(false));
 //     };
 //   }, []);
-
 //   return [playing, toggle];
 // };
-
 // export default useAudio;
+import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+
+export const useSongData = (contractName: "SONG1" | "SONG2" | "SONG3" | "SONG4", mintAddress: string | undefined) => {
+  const { data: price } = useScaffoldContractRead({ contractName, functionName: "getPrice" });
+
+  const { data: uri } = useScaffoldContractRead({ contractName, functionName: "getURI" });
+
+  const { writeAsync: mint } = useScaffoldContractWrite({
+    contractName,
+    functionName: "MINT",
+    args: [mintAddress],
+    value: price,
+  });
+
+  const songData = { price, uri, mint };
+
+  return { songData };
+};
