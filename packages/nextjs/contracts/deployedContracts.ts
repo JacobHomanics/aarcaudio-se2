@@ -3623,7 +3623,7 @@ const deployedContracts = {
   },
   11155111: {
     SONG: {
-      address: "0x470A52348b40bB076183B8fF878bc21Bf85a7B72",
+      address: "0x357974F7d07BB2bC326D8d7A41C9a89408D9A80C",
       abi: [
         {
           type: "constructor",
@@ -4289,7 +4289,7 @@ const deployedContracts = {
       },
     },
     PLAYLIST: {
-      address: "0x5a16Ac6327AeC09Ee126B5C307635Ec9a0c4d26A",
+      address: "0xD96e1b8F5A78f30c99AAa8B01334563A571A7023",
       abi: [
         {
           type: "constructor",
@@ -4481,7 +4481,7 @@ const deployedContracts = {
       },
     },
     ALBUM: {
-      address: "0x9186f3C9b9A8100ED3396E0e566DbA6514Ba119F",
+      address: "0x96fA9517c282a538D103A04Bf1ED1fD10f750C95",
       abi: [
         {
           type: "constructor",

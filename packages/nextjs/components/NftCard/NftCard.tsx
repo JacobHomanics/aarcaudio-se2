@@ -68,12 +68,12 @@ export const NftCard = (props: NftCardProps) => {
 
   let priceOutput;
   if (props.price) {
-    priceOutput = <p className={props.price.classes}>{props.price.value} ether</p>;
+    priceOutput = <p className={props.price.classes}>{`${props.price.value} ether`} </p>;
   }
 
   let priceUsdOutput;
   if (props.priceUsd) {
-    priceUsdOutput = <p className={props.priceUsd.classes}>{props.priceUsd.value} ether</p>;
+    priceUsdOutput = <p className={props.priceUsd.classes}>{props.priceUsd.value} wei</p>;
   }
 
   let priceCentsOutput;
