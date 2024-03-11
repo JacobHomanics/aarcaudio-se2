@@ -107,15 +107,17 @@ export const NftCard = (props: NftCardProps) => {
     );
   }
 
+  //mt-[60px] lg:mt-[120px]
   return (
     <div className={props.cardClasses}>
       <p className={props.name?.classes}>{props.name?.value}</p>
+
       <img className={props.image?.classes} src={props.image?.value} alt={props.image?.alt} />
       {audioControlsOutput}
       {balanceOfOutput}
+      {priceCentsOutput}
       {priceOutput}
       {priceUsdOutput}
-      {priceCentsOutput}
       {buttonOutput}
       <div className={props.bottomMargin}></div>
     </div>

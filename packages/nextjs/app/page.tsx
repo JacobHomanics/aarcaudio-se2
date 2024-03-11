@@ -278,13 +278,21 @@ const Home: NextPage = () => {
     setIsPlayings([...allSets]);
   }
 
+  function truncate(str: string, maxDecimalDigits: number) {
+    if (str.includes(".")) {
+      const parts = str.split(".");
+      return parts[0] + "." + parts[1].slice(0, maxDecimalDigits);
+    }
+    return str;
+  }
+
   const allNftsCards = builtNfts.map((anNft, index) => (
     <NftCard
       key={index}
       name={{
         value: anNft.name,
         classes:
-          "m-1 mt-[60px] lg:mt-[120px] text-[12px] lg:text-[18px] line-clamp-3  text-center text-primary-content",
+          "m-1 mt-[60px] lg:mt-[120px] text-[11px] lg:text-[18px] line-clamp-1  text-center text-primary-content",
       }}
       image={{
         value: anNft.image,
@@ -292,19 +300,19 @@ const Home: NextPage = () => {
         classes: "p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]",
       }}
       price={{
-        value: anNft.price,
-        classes: "text-black p-1 m-1 text-center text-xs lg:text-xs  text-primary-content",
+        value: truncate(anNft.price, 5),
+        classes: "text-black p-1 m-1 text-center text-xs lg:text-xs  text-primary-content mt-0 pt-0 mb-4",
       }}
-      priceUsd={{
-        value: anNft.mintPriceBasedOnCents,
-        classes: "text-black p-1 m-1 text-center text-sm lg:text-sm text-primary-content",
-      }}
+      // priceUsd={{
+      //   value: anNft.mintPriceBasedOnCents,
+      //   classes: "text-black p-1 m-1 text-center text-sm lg:text-sm text-primary-content",
+      // }}
       priceCents={{
         value:
           anNft.cents >= 100
             ? (anNft.cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" })
             : `${anNft.cents}¢`,
-        classes: "text-black p-1 m-1 text-center text-lg lg:text-xl text-primary-content",
+        classes: "text-black p-1 m-1 text-center text-lg lg:text-xl text-primary-content mb-0 pb-0",
       }}
       balanceOf={{
         value: anNft.balanceOf > 0 ? "OWNED" : undefined,
@@ -392,7 +400,7 @@ const Home: NextPage = () => {
             await refreshData();
           }}
         >
-          {`Buy Album (${dollars}) (${formatEther(totalPrice || BigInt(0))} ether) `}
+          {`Buy Album \n (${dollars}) (${truncate(formatEther(totalPrice || BigInt(0)), 4)} ether) `}
         </button>
 
         {connectedAddress ? (
@@ -405,7 +413,7 @@ const Home: NextPage = () => {
                 await refreshData();
               }}
             >
-              {`Buy Album - Remaining (${dollars2}) (${formatEther(totalPriceUnowned || BigInt(0))} ether)`}
+              {`Buy Remaining (${dollars2}) (${truncate(formatEther(totalPriceUnowned || BigInt(0)), 5)} ether)`}
             </button>
           </>
         ) : (
