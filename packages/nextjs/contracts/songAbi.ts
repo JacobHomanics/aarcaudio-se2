@@ -7,8 +7,17 @@ export const abi = [
       { name: "SYMBOL", type: "string", internalType: "string" },
       { name: "PRICE", type: "uint256", internalType: "uint256" },
       { name: "URI", type: "string", internalType: "string" },
+      { name: "dataFeed", type: "address", internalType: "address" },
+      { name: "cents", type: "uint256", internalType: "uint256" },
     ],
     stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "GET_CENTS",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
   },
   {
     type: "function",
@@ -46,6 +55,20 @@ export const abi = [
     name: "getApproved",
     inputs: [{ name: "tokenId", type: "uint256", internalType: "uint256" }],
     outputs: [{ name: "", type: "address", internalType: "address" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getChainlinkDataFeedLatestAnswer",
+    inputs: [],
+    outputs: [{ name: "", type: "int256", internalType: "int256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getMintPriceBasedOnCents",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
     stateMutability: "view",
   },
   {

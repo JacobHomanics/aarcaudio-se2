@@ -51,7 +51,8 @@ contract DeployScript is ScaffoldETHDeploy {
             "NO",
             0.001 ether,
             "ipfs://bafkreiefug6orin7nzf2s26gnzn63ji4jd6r5ljoklovjd4ahlshzld63q",
-            address(0)
+            0x694AA1769357215DE4FAC081bf1f309aDC325306,
+            25
         );
         console.log("Song1:", address(song1));
         SONG song2 = new SONG(
@@ -60,16 +61,19 @@ contract DeployScript is ScaffoldETHDeploy {
             "BAABY",
             0.002 ether,
             "ipfs://bafkreiglcjqxy2rhgvn6wppbqmq4kjkazwluz3duqpf2tapdfejjm5nm4i",
-            address(0)
+            0x694AA1769357215DE4FAC081bf1f309aDC325306,
+            75
         );
         // console.log("Song2:", address(song2));
-        // SONG song3 = new SONG(
-        //     s_artist,
-        //     "TREES",
-        //     "TREES",
-        //     0.003 ether,
-        //     "ipfs://bafkreidmqjaxso62i6fkmrrldp7mksjfmzugrvsmmktaokbr5t4gahw6pe"
-        // );
+        SONG song3 = new SONG(
+            s_artist,
+            "TREES",
+            "TREES",
+            0.003 ether,
+            "ipfs://bafkreidmqjaxso62i6fkmrrldp7mksjfmzugrvsmmktaokbr5t4gahw6pe",
+            0x694AA1769357215DE4FAC081bf1f309aDC325306,
+            50
+        );
         // console.log("Song3:", address(song3));
         // SONG song4 = new SONG(
         //     s_artist,
@@ -273,10 +277,10 @@ contract DeployScript is ScaffoldETHDeploy {
 
         PLAYLIST playlist = new PLAYLIST(deployerPubKey);
 
-        address[] memory songs = new address[](2);
+        address[] memory songs = new address[](3);
         songs[0] = address(song1);
         songs[1] = address(song2);
-        // songs[2] = address(song3);
+        songs[2] = address(song3);
         // songs[3] = address(song4);
         // songs[4] = address(song5);
         // songs[5] = address(song6);

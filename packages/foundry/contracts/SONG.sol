@@ -16,6 +16,8 @@ contract SONG is Ownable, ERC721 {
     string S_URI;
     uint256 S_MINT_COUNT;
 
+    uint256 S_CENTS;
+
     AggregatorV2V3Interface internal s_dataFeed;
 
     // AggregatorV2V3Interface internal sequencerUptimeFeed;
@@ -25,8 +27,9 @@ contract SONG is Ownable, ERC721 {
     // error SequencerDown();
     // error GracePeriodNotOver();
 
-    function getPrice() external view returns (uint256) {
-        return S_PRICE;
+    function getPrice() public view returns (uint256) {
+        // return S_PRICE;
+        return getMintPriceBasedOnCents();
     }
 
     function getURI() external view returns (string memory) {
@@ -39,9 +42,12 @@ contract SONG is Ownable, ERC721 {
         string memory SYMBOL,
         uint256 PRICE,
         string memory URI,
-        address dataFeed
+        address dataFeed,
+        uint256 cents
     ) Ownable(OWNER) ERC721(NAME, SYMBOL) {
         S_PRICE = PRICE;
+        S_CENTS = cents;
+
         S_URI = URI;
 
         s_dataFeed = AggregatorV2V3Interface(dataFeed);
@@ -55,13 +61,29 @@ contract SONG is Ownable, ERC721 {
         require(SENT, "FAILED TO SEND ETHER");
     }
 
+    function GET_CENTS() public view returns (uint256) {
+        return S_CENTS;
+    }
+
     function MINT(address RECIPIENT) public payable {
-        if (msg.value < S_PRICE) {
+        if (msg.value < getPrice()) {
             revert SONG__INVALID_MINT_NOT_ENOUGH_ETH();
         }
 
         _mint(RECIPIENT, S_MINT_COUNT);
         S_MINT_COUNT++;
+    }
+
+    function getMintPriceBasedOnCents() public view returns (uint) {
+        int price = getChainlinkDataFeedLatestAnswer();
+
+        // uint currentFiatPrice = 77697017 * 1e10;
+        uint currentFiatPrice = uint(price) * 1e10;
+        // uint currentFiatPrice = uint256(i) * 1e10;
+        uint fiatPrice = GET_CENTS() * 1e16;
+
+        uint value = (fiatPrice * 1e18) / currentFiatPrice;
+        return value;
     }
 
     function tokenURI(

@@ -120,6 +120,25 @@ const Home: NextPage = () => {
           functionName: "getURI",
         });
 
+        const mintPriceBasedOnCents = await publicClient.readContract({
+          address: allSongs[i],
+          abi,
+          functionName: "getMintPriceBasedOnCents",
+        });
+
+        const cents = await publicClient.readContract({
+          address: allSongs[i],
+          abi,
+          functionName: "GET_CENTS",
+        });
+
+        const balanceOf = await publicClient.readContract({
+          address: allSongs[i],
+          abi,
+          functionName: "balanceOf",
+          args: [connectedAddress],
+        });
+
         let theMint;
 
         if (connectedAddress && walletClient?.account.address) {
@@ -132,7 +151,7 @@ const Home: NextPage = () => {
               abi,
               functionName: "MINT",
               args: [connectedAddress],
-              value: price as bigint,
+              value: mintPriceBasedOnCents as bigint,
             });
 
             await walletClient.writeContract(request);
@@ -147,7 +166,16 @@ const Home: NextPage = () => {
 
         tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
 
-        const songData = { price, uri, uriCorrected, tokenData, theMint /*mint*/ };
+        const songData = {
+          price,
+          cents,
+          balanceOf,
+          mintPriceBasedOnCents,
+          uri,
+          uriCorrected,
+          tokenData,
+          theMint /*mint*/,
+        };
 
         songDatas.push(songData);
       }
@@ -163,10 +191,15 @@ const Home: NextPage = () => {
 
   if (allSongDatas) {
     for (let i = 0; i < allSongDatas.length; i++) {
+      console.log(allSongDatas[i].mintPriceBasedOnCents);
+
       const nft = {
         name: allSongDatas[i].tokenData?.name,
         image: allSongDatas[i].tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
         price: formatEther(allSongDatas[i].price || BigInt(0)),
+        mintPriceBasedOnCents: allSongDatas[i].mintPriceBasedOnCents.toString(),
+        cents: allSongDatas[i].cents.toString(),
+        balanceOf: allSongDatas[i].balanceOf,
         actionBtn: allSongDatas[i].theMint
           ? {
               text: "Buy",
@@ -248,6 +281,18 @@ const Home: NextPage = () => {
       }}
       price={{
         value: anNft.price,
+        classes: "text-black p-1 m-1 text-center text-xs lg:text-xs  text-primary-content",
+      }}
+      priceUsd={{
+        value: anNft.mintPriceBasedOnCents,
+        classes: "text-black p-1 m-1 text-center text-sm lg:text-sm text-primary-content",
+      }}
+      priceCents={{
+        value: (anNft.cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" }),
+        classes: "text-black p-1 m-1 text-center text-lg lg:text-xl text-primary-content",
+      }}
+      balanceOf={{
+        value: anNft.balanceOf > 0 ? "OWNED" : undefined,
         classes: "text-black p-1 m-1 text-center text-lg lg:text-xl text-primary-content",
       }}
       actionBtn={anNft.actionBtn}
@@ -262,6 +307,22 @@ const Home: NextPage = () => {
     await getTotalPriceUnowned();
     await refetchHasRedeemed();
   }
+
+  let totalPriceCents = 0;
+
+  for (let i = 0; i < builtNfts.length; i++) {
+    totalPriceCents += Number(builtNfts[i].cents);
+  }
+
+  const dollars = (totalPriceCents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
+
+  let totalPriceCents2 = 0;
+
+  for (let i = 0; i < builtNfts.length; i++) {
+    if (builtNfts[i].balanceOf <= 0) totalPriceCents2 += Number(builtNfts[i].cents);
+  }
+
+  const dollars2 = (totalPriceCents2 / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
 
   return (
     <>
@@ -307,7 +368,7 @@ const Home: NextPage = () => {
               await refreshData();
             }}
           >
-            {`Buy Album (${formatEther(totalPrice || BigInt(0))} ether)`}
+            {`Buy Album (${dollars}) (${formatEther(totalPrice || BigInt(0))} ether) `}
           </button>
         ) : (
           <></>
@@ -321,7 +382,7 @@ const Home: NextPage = () => {
               await refreshData();
             }}
           >
-            {`Buy Album - Remaining (${formatEther(totalPriceUnowned || BigInt(0))} ether)`}
+            {`Buy Album - Remaining (${dollars2}) (${formatEther(totalPriceUnowned || BigInt(0))} ether)`}
           </button>
         ) : (
           <></>

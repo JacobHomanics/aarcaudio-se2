@@ -19,6 +19,20 @@ interface NftCardProps {
     classes?: string;
   };
 
+  priceUsd?: {
+    value?: string;
+    classes?: string;
+  };
+
+  priceCents?: {
+    value?: string;
+    classes?: string;
+  };
+
+  balanceOf?: {
+    value?: string;
+    classes?: string;
+  };
   actionBtn?: {
     text: string;
     disabled?: boolean;
@@ -57,6 +71,22 @@ export const NftCard = (props: NftCardProps) => {
     priceOutput = <p className={props.price.classes}>{props.price.value} ether</p>;
   }
 
+  let priceUsdOutput;
+  if (props.priceUsd) {
+    priceUsdOutput = <p className={props.priceUsd.classes}>{props.priceUsd.value} ether</p>;
+  }
+
+  let priceCentsOutput;
+  if (props.priceCents) {
+    priceCentsOutput = <p className={props.priceCents.classes}>{props.priceCents.value}</p>;
+  }
+
+  let balanceOfOutput;
+
+  if (props.balanceOf) {
+    balanceOfOutput = <p className={props.balanceOf.classes}>{props.balanceOf.value}</p>;
+  }
+
   let audioControlsOutput;
   if (props.audioControls) {
     audioControlsOutput = (
@@ -82,7 +112,10 @@ export const NftCard = (props: NftCardProps) => {
       <p className={props.name?.classes}>{props.name?.value}</p>
       <img className={props.image?.classes} src={props.image?.value} alt={props.image?.alt} />
       {audioControlsOutput}
+      {balanceOfOutput}
       {priceOutput}
+      {priceUsdOutput}
+      {priceCentsOutput}
       {buttonOutput}
       <div className={props.bottomMargin}></div>
     </div>

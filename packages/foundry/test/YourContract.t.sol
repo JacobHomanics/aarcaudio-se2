@@ -34,7 +34,8 @@ contract YourContractTest is Test {
             "S1",
             0.1 ether,
             "ipfs",
-            address(aggregator)
+            address(aggregator),
+            25
         );
         console.log("Song1:", address(song1));
         song2 = new SONG(
@@ -43,7 +44,8 @@ contract YourContractTest is Test {
             "S2",
             0.1 ether,
             "ipfs",
-            address(aggregator)
+            address(aggregator),
+            25
         );
         console.log("Song2:", address(song2));
         song3 = new SONG(
@@ -52,7 +54,8 @@ contract YourContractTest is Test {
             "S3",
             0.1 ether,
             "ipfs",
-            address(aggregator)
+            address(aggregator),
+            25
         );
         console.log("Song3:", address(song3));
         song4 = new SONG(
@@ -61,7 +64,8 @@ contract YourContractTest is Test {
             "S4",
             0.1 ether,
             "ipfs",
-            address(aggregator)
+            address(aggregator),
+            25
         );
         console.log("Song4:", address(song4));
 
@@ -160,6 +164,7 @@ contract YourContractTest is Test {
     }
 
     // 6250000000000000000000
+    // 625000000000000000
 
     // function testMe3(
     //     TOKEN_INFORMATION[] memory TOKEN_INFORMATIONS,
