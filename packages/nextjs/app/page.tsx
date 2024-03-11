@@ -291,7 +291,10 @@ const Home: NextPage = () => {
         classes: "text-black p-1 m-1 text-center text-sm lg:text-sm text-primary-content",
       }}
       priceCents={{
-        value: (anNft.cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" }),
+        value:
+          anNft.cents >= 100
+            ? (anNft.cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" })
+            : `${anNft.cents}¢`,
         classes: "text-black p-1 m-1 text-center text-lg lg:text-xl text-primary-content",
       }}
       balanceOf={{
