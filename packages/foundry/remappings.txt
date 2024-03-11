@@ -1,3 +1,4 @@
 @openzeppelin/contracts/=lib/openzeppelin-contracts/contracts
 @openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts
 solidity-linked-list/contracts/=lib/solidity-linked-list/contracts
+@chainlink/contracts/=lib/chainlink/contracts

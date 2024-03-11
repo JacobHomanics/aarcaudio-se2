@@ -6,12 +6,18 @@ import "forge-std/Test.sol";
 import {SONG} from "../contracts/SONG.sol";
 import {PLAYLIST} from "../contracts/PLAYLIST.sol";
 import {ALBUM} from "../contracts/ALBUM.sol";
+import {MockAggregatorV2V3Interface} from "../contracts/chainlink/mocks/MockAggregatorV2V3Interfacel.sol";
 
 // import {ALBUM_REDEMPTION} from "../contracts/ALBUM_REDEMPTION.sol";
 
 contract YourContractTest is Test {
     address s_artist;
     address s_user;
+
+    SONG song1;
+    SONG song2;
+    SONG song3;
+    SONG song4;
 
     function setUp() public {
         s_artist = vm.addr(1);
@@ -20,13 +26,43 @@ contract YourContractTest is Test {
         console.log("Artist: ", address(s_artist));
         console.log("User: ", address(s_user));
 
-        SONG song1 = new SONG(s_artist, "Song 1", "S1", 0.1 ether, "ipfs");
+        MockAggregatorV2V3Interface aggregator = new MockAggregatorV2V3Interface();
+
+        song1 = new SONG(
+            s_artist,
+            "Song 1",
+            "S1",
+            0.1 ether,
+            "ipfs",
+            address(aggregator)
+        );
         console.log("Song1:", address(song1));
-        SONG song2 = new SONG(s_artist, "Song 2", "S2", 0.1 ether, "ipfs");
+        song2 = new SONG(
+            s_artist,
+            "Song 2",
+            "S2",
+            0.1 ether,
+            "ipfs",
+            address(aggregator)
+        );
         console.log("Song2:", address(song2));
-        SONG song3 = new SONG(s_artist, "Song 3", "S3", 0.1 ether, "ipfs");
+        song3 = new SONG(
+            s_artist,
+            "Song 3",
+            "S3",
+            0.1 ether,
+            "ipfs",
+            address(aggregator)
+        );
         console.log("Song3:", address(song3));
-        SONG song4 = new SONG(s_artist, "Song 4", "S4", 0.1 ether, "ipfs");
+        song4 = new SONG(
+            s_artist,
+            "Song 4",
+            "S4",
+            0.1 ether,
+            "ipfs",
+            address(aggregator)
+        );
         console.log("Song4:", address(song4));
 
         PLAYLIST playlist = new PLAYLIST(s_artist);
@@ -106,6 +142,24 @@ contract YourContractTest is Test {
         bytes32 blockHash = blockhash(blockNumber);
         return (uint256(blockHash) % seed);
     }
+
+    function testPriceFeed() public {
+        int i = song1.getChainlinkDataFeedLatestAnswer();
+
+        console.logInt(i);
+
+        uint cents = 25;
+        // uint currentFiatPrice = 77697017 * 1e10;
+        uint currentFiatPrice = 40000000 * 1e10;
+        // uint currentFiatPrice = uint256(i) * 1e10;
+        uint fiatPrice = cents * 1e16;
+
+        uint ethValue = (fiatPrice * 1e18) / currentFiatPrice;
+
+        console.log(ethValue);
+    }
+
+    // 6250000000000000000000
 
     // function testMe3(
     //     TOKEN_INFORMATION[] memory TOKEN_INFORMATIONS,

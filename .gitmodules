@@ -13,3 +13,6 @@
 [submodule "packages/foundry/lib/solidity-linked-list"]
 	path = packages/foundry/lib/solidity-linked-list
 	url = https://github.com/vittominacori/solidity-linked-list
+[submodule "packages/foundry/lib/chainlink"]
+	path = packages/foundry/lib/chainlink
+	url = https://github.com/smartcontractkit/chainlink
