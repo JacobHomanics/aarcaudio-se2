@@ -339,7 +339,7 @@ const Home: NextPage = () => {
 
       <div className="flex items-center flex-col flex-grow pt-10">
         <p className="text-primary-content text-2xl text-center">
-          BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM COVER.
+          BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM.
         </p>
 
         <NftCard
