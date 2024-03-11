@@ -211,7 +211,10 @@ const Home: NextPage = () => {
                 await refreshData();
               },
             }
-          : undefined,
+          : {
+              text: "Buy",
+              disabled: true,
+            },
 
         audioControls: {
           isPlaying: isPlayings[i].value,
@@ -366,30 +369,32 @@ const Home: NextPage = () => {
           cardClasses="flex flex-col items-center justify-center bg-primary m-1 border-[3px] lg:border-[8px] sm:w-96 lg:w-96 border-accent border"
         />
 
-        {connectedAddress ? (
-          <button
-            className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
-            onClick={async () => {
-              await mintAll();
-              await refreshData();
-            }}
-          >
-            {`Buy Album (${dollars}) (${formatEther(totalPrice || BigInt(0))} ether) `}
-          </button>
-        ) : (
-          <></>
-        )}
+        {connectedAddress ? <></> : <></>}
+
+        <button
+          disabled={connectedAddress === undefined}
+          className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
+          onClick={async () => {
+            await mintAll();
+            await refreshData();
+          }}
+        >
+          {`Buy Album (${dollars}) (${formatEther(totalPrice || BigInt(0))} ether) `}
+        </button>
 
         {connectedAddress ? (
-          <button
-            className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
-            onClick={async () => {
-              await mintAllUnowned();
-              await refreshData();
-            }}
-          >
-            {`Buy Album - Remaining (${dollars2}) (${formatEther(totalPriceUnowned || BigInt(0))} ether)`}
-          </button>
+          <>
+            <button
+              disabled={connectedAddress === undefined}
+              className="m-1 btn btn-neutral shadow-md dropdown-toggle gap-0"
+              onClick={async () => {
+                await mintAllUnowned();
+                await refreshData();
+              }}
+            >
+              {`Buy Album - Remaining (${dollars2}) (${formatEther(totalPriceUnowned || BigInt(0))} ether)`}
+            </button>
+          </>
         ) : (
           <></>
         )}
