@@ -7,6 +7,8 @@ import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import {PLAYLIST} from "./PLAYLIST.sol";
 import {SONG} from "./SONG.sol";
 
+import {AggregatorV2V3Interface} from "./chainlink/interfaces/AggregatorV2V3Interface.sol";
+
 contract ALBUM is Ownable, AccessControl, ERC721 {
     error ALBUM__CANNOT_TRANSFER_SOULBOUND_TOKEN(
         address from,
@@ -16,6 +18,7 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
 
     error ALBUM__DOES_NOT_OWN_ENTIRE_COLLECTION();
     error ALBUM__ALREADY_CLAIMED();
+    error ALBUM__INVALID_MINT_NOT_ENOUGH_ETH();
 
     string S_GOOD_URI;
     string S_BAD_URI;
@@ -23,7 +26,14 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
 
     PLAYLIST S_PLAYLIST;
 
+    uint256 S_CENTS;
+    AggregatorV2V3Interface internal s_dataFeed;
+
     mapping(address user => bool) s_hasRedeemed;
+
+    function GET_CENTS() public view returns (uint256) {
+        return S_CENTS;
+    }
 
     constructor(
         address NEW_PLAYLIST,
@@ -32,11 +42,17 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         string memory NAME,
         string memory SYMBOL,
         string memory GOOD_URI,
-        string memory BAD_URI
+        string memory BAD_URI,
+        address dataFeed,
+        uint256 cents
     ) Ownable(OWNER) ERC721(NAME, SYMBOL) {
         for (uint256 i = 0; i < admins.length; i++) {
             _grantRole(DEFAULT_ADMIN_ROLE, admins[i]);
         }
+
+        S_CENTS = cents;
+
+        s_dataFeed = AggregatorV2V3Interface(dataFeed);
 
         S_GOOD_URI = GOOD_URI;
         S_BAD_URI = BAD_URI;
@@ -53,6 +69,11 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         }
 
         return S_GOOD_URI;
+    }
+
+    function WITHDRAW(address RECIPIENT) external onlyOwner {
+        (bool SENT, ) = RECIPIENT.call{value: address(this).balance}("");
+        require(SENT, "FAILED TO SEND ETHER");
     }
 
     function supportsInterface(
@@ -123,9 +144,13 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
     }
 
     function MINT_ALL(address TARGET) external payable {
+        if (msg.value < getMintPriceBasedOnCents()) {
+            revert ALBUM__INVALID_MINT_NOT_ENOUGH_ETH();
+        }
+
         address[] memory songs = S_PLAYLIST.getAllSongs();
         for (uint256 i = 0; i < songs.length; i++) {
-            SONG(songs[i]).MINT{value: SONG(songs[i]).getPrice()}(TARGET);
+            SONG(songs[i]).SPECIAL_MINT(TARGET);
         }
 
         claim(TARGET);
@@ -175,5 +200,52 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
 
     function getBadURI() external view returns (string memory) {
         return S_BAD_URI;
+    }
+
+    function getMintPriceBasedOnCents() public view returns (uint) {
+        int price = getChainlinkDataFeedLatestAnswer();
+
+        // uint currentFiatPrice = 77697017 * 1e10;
+        uint currentFiatPrice = uint(price) * 1e10;
+        uint fiatPrice = GET_CENTS() * 1e16;
+
+        uint value = (fiatPrice * 1e18) / currentFiatPrice;
+        return value;
+    }
+
+    function getChainlinkDataFeedLatestAnswer() public view returns (int) {
+        // prettier-ignore
+        // (
+        //     /*uint80 roundID*/,
+        //     int256 answer,
+        //     uint256 startedAt,
+        //     /*uint256 updatedAt*/,
+        //     /*uint80 answeredInRound*/
+        // ) = sequencerUptimeFeed.latestRoundData();
+
+        // // Answer == 0: Sequencer is up
+        // // Answer == 1: Sequencer is down
+        // bool isSequencerUp = answer == 0;
+        // if (!isSequencerUp) {
+        //     revert SequencerDown();
+        // }
+
+        // // Make sure the grace period has passed after the
+        // // sequencer is back up.
+        // uint256 timeSinceUp = block.timestamp - startedAt;
+        // if (timeSinceUp <= GRACE_PERIOD_TIME) {
+        //     revert GracePeriodNotOver();
+        // }
+
+        // prettier-ignore
+        (
+            /*uint80 roundID*/,
+            int data,
+            /*uint startedAt*/,
+            /*uint timeStamp*/,
+            /*uint80 answeredInRound*/
+        ) = s_dataFeed.latestRoundData();
+
+        return data;
     }
 }

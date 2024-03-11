@@ -4,10 +4,11 @@ pragma solidity >=0.8.0 <0.9.0;
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 
 import {AggregatorV2V3Interface} from "./chainlink/interfaces/AggregatorV2V3Interface.sol";
 
-contract SONG is Ownable, ERC721 {
+contract SONG is Ownable, AccessControl, ERC721 {
     using Strings for uint256;
 
     error SONG__INVALID_MINT_NOT_ENOUGH_ETH();
@@ -43,7 +44,8 @@ contract SONG is Ownable, ERC721 {
         uint256 PRICE,
         string memory URI,
         address dataFeed,
-        uint256 cents
+        uint256 cents,
+        address[] memory admins
     ) Ownable(OWNER) ERC721(NAME, SYMBOL) {
         S_PRICE = PRICE;
         S_CENTS = cents;
@@ -51,6 +53,11 @@ contract SONG is Ownable, ERC721 {
         S_URI = URI;
 
         s_dataFeed = AggregatorV2V3Interface(dataFeed);
+
+        for (uint256 i = 0; i < admins.length; i++) {
+            _grantRole(DEFAULT_ADMIN_ROLE, admins[i]);
+        }
+
         // sequencerUptimeFeed = AggregatorV2V3Interface(
         //     0xBCF85224fc0756B9Fa45aA7892530B47e10b6433 //base MAINNET
         // );
@@ -63,6 +70,19 @@ contract SONG is Ownable, ERC721 {
 
     function GET_CENTS() public view returns (uint256) {
         return S_CENTS;
+    }
+
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view override(ERC721, AccessControl) returns (bool) {
+        return super.supportsInterface(interfaceId);
+    }
+
+    function SPECIAL_MINT(
+        address RECIPIENT
+    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        _mint(RECIPIENT, S_MINT_COUNT);
+        S_MINT_COUNT++;
     }
 
     function MINT(address RECIPIENT) public payable {
@@ -79,7 +99,6 @@ contract SONG is Ownable, ERC721 {
 
         // uint currentFiatPrice = 77697017 * 1e10;
         uint currentFiatPrice = uint(price) * 1e10;
-        // uint currentFiatPrice = uint256(i) * 1e10;
         uint fiatPrice = GET_CENTS() * 1e16;
 
         uint value = (fiatPrice * 1e18) / currentFiatPrice;

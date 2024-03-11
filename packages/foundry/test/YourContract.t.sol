@@ -28,47 +28,6 @@ contract YourContractTest is Test {
 
         MockAggregatorV2V3Interface aggregator = new MockAggregatorV2V3Interface();
 
-        song1 = new SONG(
-            s_artist,
-            "Song 1",
-            "S1",
-            0.1 ether,
-            "ipfs",
-            address(aggregator),
-            25
-        );
-        console.log("Song1:", address(song1));
-        song2 = new SONG(
-            s_artist,
-            "Song 2",
-            "S2",
-            0.1 ether,
-            "ipfs",
-            address(aggregator),
-            25
-        );
-        console.log("Song2:", address(song2));
-        song3 = new SONG(
-            s_artist,
-            "Song 3",
-            "S3",
-            0.1 ether,
-            "ipfs",
-            address(aggregator),
-            25
-        );
-        console.log("Song3:", address(song3));
-        song4 = new SONG(
-            s_artist,
-            "Song 4",
-            "S4",
-            0.1 ether,
-            "ipfs",
-            address(aggregator),
-            25
-        );
-        console.log("Song4:", address(song4));
-
         PLAYLIST playlist = new PLAYLIST(s_artist);
 
         address[] memory admins = new address[](1);
@@ -81,8 +40,58 @@ contract YourContractTest is Test {
             "Album 1",
             "A1",
             "ipfs",
-            "ipfs2"
+            "ipfs2",
+            address(aggregator),
+            6000
         );
+
+        address[] memory songAdmins = new address[](1);
+        songAdmins[0] = address(album);
+
+        song1 = new SONG(
+            s_artist,
+            "Song 1",
+            "S1",
+            0.1 ether,
+            "ipfs",
+            address(aggregator),
+            25,
+            songAdmins
+        );
+        console.log("Song1:", address(song1));
+        song2 = new SONG(
+            s_artist,
+            "Song 2",
+            "S2",
+            0.1 ether,
+            "ipfs",
+            address(aggregator),
+            25,
+            songAdmins
+        );
+        console.log("Song2:", address(song2));
+        song3 = new SONG(
+            s_artist,
+            "Song 3",
+            "S3",
+            0.1 ether,
+            "ipfs",
+            address(aggregator),
+            25,
+            songAdmins
+        );
+        console.log("Song3:", address(song3));
+        song4 = new SONG(
+            s_artist,
+            "Song 4",
+            "S4",
+            0.1 ether,
+            "ipfs",
+            address(aggregator),
+            25,
+            songAdmins
+        );
+        console.log("Song4:", address(song4));
 
         // ALBUM_REDEMPTION album_redemption = new ALBUM_REDEMPTION(
         //     s_artist,

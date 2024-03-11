@@ -146,8 +146,6 @@ const Home: NextPage = () => {
 
         if (connectedAddress && walletClient?.account.address) {
           theMint = async () => {
-            console.log("TRIED");
-
             const { request } = await publicClient.simulateContract({
               account: connectedAddress,
               address: allSongs[i],
@@ -194,8 +192,6 @@ const Home: NextPage = () => {
 
   if (allSongDatas) {
     for (let i = 0; i < allSongDatas.length; i++) {
-      console.log(allSongDatas[i].mintPriceBasedOnCents);
-
       const nft = {
         name: allSongDatas[i].tokenData?.name,
         image: allSongDatas[i].tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
