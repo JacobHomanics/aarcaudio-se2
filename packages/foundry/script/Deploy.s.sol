@@ -61,7 +61,7 @@ contract DeployScript is ScaffoldETHDeploy {
             "ipfs://bafkreienrelxkykta5n5ox77mntpnuqjcgb3ddaizdngvxkp67mfafyxgm",
             "ipfs://bafkreid6latbk2ygomuz5jzdezxoqokdvsxh5puj6k66e3o5zym6acnhh4",
             aggregator,
-            6000
+            600
         );
 
         address[] memory songAdmins = new address[](1);

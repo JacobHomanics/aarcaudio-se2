@@ -42,6 +42,11 @@ const Home: NextPage = () => {
     functionName: "getTotalPrice",
   });
 
+  const { data: album_cents } = useScaffoldContractRead({
+    contractName: "ALBUM",
+    functionName: "GET_CENTS",
+  });
+
   const { data: totalPriceUnowned, refetch: getTotalPriceUnowned } = useScaffoldContractRead({
     contractName: "ALBUM",
     functionName: "getUnownedTotalPrice",
@@ -75,11 +80,16 @@ const Home: NextPage = () => {
     args: [connectedAddress],
   });
 
+  const { data: mintPriceAllCents } = useScaffoldContractRead({
+    contractName: "ALBUM",
+    functionName: "getMintPriceBasedOnCents",
+  });
+
   const { writeAsync: mintAll } = useScaffoldContractWrite({
     contractName: "ALBUM",
     functionName: "MINT_ALL",
     args: [connectedAddress],
-    value: totalPrice,
+    value: mintPriceAllCents,
   });
 
   const { writeAsync: mintAllUnowned } = useScaffoldContractWrite({
@@ -313,13 +323,14 @@ const Home: NextPage = () => {
     await refetchHasRedeemed();
   }
 
-  let totalPriceCents = 0;
+  // let totalPriceCents = 0;
 
-  for (let i = 0; i < builtNfts.length; i++) {
-    totalPriceCents += Number(builtNfts[i].cents);
-  }
+  // for (let i = 0; i < builtNfts.length; i++) {
+  //   totalPriceCents += Number(builtNfts[i].cents);
+  // }
 
-  const dollars = (totalPriceCents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
+  // const dollars = (totalPriceCents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
+  const dollars = (Number(album_cents) / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
 
   let totalPriceCents2 = 0;
 
