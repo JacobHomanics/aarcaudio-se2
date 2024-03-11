@@ -344,6 +344,12 @@ const Home: NextPage = () => {
       />
 
       <div className="flex items-center flex-col flex-grow pt-10">
+        {connectedAddress === undefined ? (
+          <p className="text-primary-content text-sm text-center">PLEASE CONNECT A WEB3 WALLET TO BUY SONGS/ALBUM.</p>
+        ) : (
+          <></>
+        )}
+
         <p className="text-primary-content text-2xl text-center">
           BUY ALL THE SONGS IN THE COLLECTION TO CLAIM THE ALBUM.
         </p>
