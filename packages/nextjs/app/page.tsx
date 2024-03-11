@@ -132,12 +132,15 @@ const Home: NextPage = () => {
           functionName: "GET_CENTS",
         });
 
-        const balanceOf = await publicClient.readContract({
-          address: allSongs[i],
-          abi,
-          functionName: "balanceOf",
-          args: [connectedAddress],
-        });
+        let balanceOf;
+        if (connectedAddress) {
+          balanceOf = await publicClient.readContract({
+            address: allSongs[i],
+            abi,
+            functionName: "balanceOf",
+            args: [connectedAddress],
+          });
+        }
 
         let theMint;
 
