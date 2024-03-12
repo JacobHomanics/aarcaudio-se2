@@ -7,7 +7,7 @@ import "~~/styles/globals.css";
 const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   : `http://localhost:${process.env.PORT}`;
-const imageUrl = `${baseUrl}/thumbnail.jpg`;
+const imageUrl = `${baseUrl}/album.gif`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
