@@ -325,6 +325,10 @@ const Home: NextPage = () => {
     />
   ));
 
+  const space = <div key={29}></div>;
+
+  allNftsCards.splice(27, 0, space);
+
   async function refreshData() {
     await refetchCheckIfOwnsCollection();
     await getTotalPriceUnowned();
@@ -420,8 +424,8 @@ const Home: NextPage = () => {
           <></>
         )}
 
-        {allNftsCards.length > 0 ? (
-          <div className="grid grid-cols-3 items-center bg-slate m-1 p-1">{allNftsCards}</div>
+        {allNftsCards.length > 1 ? (
+          <div className="grid grid-cols-3 bg-slate m-1 p-1">{allNftsCards}</div>
         ) : (
           <p className="text-primary-content text-2xl text-center">Loading...</p>
         )}

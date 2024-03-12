@@ -61,8 +61,13 @@ export const Footer = () => {
             </div>
             <span className="text-accent">·</span>
             <div className="text-center text-accent">
-              <a href="https://www.youtube.com/watch?v=-ujP6Gcg8gU" target="_blank" rel="noreferrer" className="link">
-                YOUTUBE
+              <a
+                href="https://www.tiktok.com/@aarcaudio?_t=8kcyUyDbGsk&_r=1"
+                target="_blank"
+                rel="noreferrer"
+                className="link"
+              >
+                TIKTOK
               </a>
             </div>
           </div>
