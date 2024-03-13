@@ -14,6 +14,8 @@ import { NftCard } from "~~/components/NftCard/NftCard";
 import { abi } from "~~/contracts/songAbi";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
+//
+
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
