@@ -13,7 +13,7 @@ import { LinksCard } from "~~/components/LinksCard";
 import { NftCard } from "~~/components/NftCard/NftCard";
 // import { useMe } from "~~/components/hooks/hooks";
 import { abi } from "~~/contracts/songAbi";
-import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 //
 //
@@ -44,6 +44,10 @@ const Home: NextPage = () => {
     args: [connectedAddress],
   });
 
+  const { data: album } = useScaffoldContract({
+    contractName: "ALBUM",
+  });
+
   const { data: totalPrice } = useScaffoldContractRead({
     contractName: "ALBUM",
     functionName: "getTotalPrice",
@@ -67,17 +71,20 @@ const Home: NextPage = () => {
       albumNft = {
         name: "ARCADE RUN", //album1GoodMetadata?.name,
         image: "/aarcaudio/images/album.gif", //album1GoodMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        contractAddress: album?.address,
       };
     } else {
       albumNft = {
         name: "ARCADE RUN", //album1BadMetadata?.name,
         image: "/aarcaudio/images/album-bad.gif", //album1BadMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        contractAddress: album?.address,
       };
     }
   } else {
     albumNft = {
       name: "ARCADE RUN", //album1BadMetadata?.name,
       image: "/aarcaudio/images/album-bad.gif", //album1BadMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+      contractAddress: album?.address,
     };
   }
 
@@ -87,7 +94,13 @@ const Home: NextPage = () => {
     args: [connectedAddress],
   });
 
-  const { data: mintPriceAllCents } = useScaffoldContractRead({
+  // const { writeAsync: withdrawFromAlbum } = useScaffoldContractWrite({
+  //   contractName: "ALBUM",
+  //   functionName: "WITHDRAW",
+  //   args: [connectedAddress],
+  // });
+
+  const { data: mintPriceAllCents, refetch: refetchTotalMintPriceOnCents } = useScaffoldContractRead({
     contractName: "ALBUM",
     functionName: "getMintPriceBasedOnCents",
   });
@@ -238,6 +251,7 @@ const Home: NextPage = () => {
       }
 
       const nft = {
+        address: allSongDatas[i].address,
         name: allSongDatas[i].name, //allSongDatas[i].tokenData?.name,
         image: `/aarcaudio/images/glitch-art-studio ${i + 1}.gif`, //allSongDatas[i].tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
         price: formatEther(allSongDatas[i].price || BigInt(0)),
@@ -273,6 +287,8 @@ const Home: NextPage = () => {
       builtNfts.push(nft);
     }
   }
+
+  console.log("updated");
 
   const [play, setPlay] = useState(false);
   const [selectedSong, setSelectedSong] = useState<string>();
@@ -325,6 +341,10 @@ const Home: NextPage = () => {
   const allNftsCards = builtNfts.map((anNft, index) => (
     <NftCard
       key={index}
+      contractAddress={{
+        value: anNft.address,
+        classes: "m-1 text-xs lg:text-xs line-clamp-1  text-center text-primary-content text-cyan-400 hover:underline",
+      }}
       name={{
         value: anNft.name,
         classes:
@@ -369,6 +389,7 @@ const Home: NextPage = () => {
     await refetchCheckIfOwnsCollection();
     await getTotalPriceUnowned();
     await refetchHasRedeemed();
+    await refetchTotalMintPriceOnCents();
   }
 
   // let totalPriceCents = 0;
@@ -391,7 +412,6 @@ const Home: NextPage = () => {
   return (
     <>
       <LinksCard />
-
       <audio
         ref={oceanRef}
         src={selectedSong}
@@ -412,6 +432,11 @@ const Home: NextPage = () => {
         </p>
 
         <NftCard
+          contractAddress={{
+            value: albumNft?.contractAddress,
+            classes:
+              "m-1 text-xs lg:text-xs line-clamp-1  text-center text-primary-content text-cyan-400 hover:underline",
+          }}
           name={{
             value: albumNft.name,
             classes: "m-1 text-xl lg:text-4xl line-clamp-1  text-center text-primary-content",

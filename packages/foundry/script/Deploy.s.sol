@@ -17,8 +17,9 @@ contract DeployScript is ScaffoldETHDeploy {
 
     address owner;
 
-    address s_artist = 0x62286D694F89a1B12c0214bfcD567bb6c2951491;
-    address s_user;
+    address s_artist = 0x9C59245B715A8aEbdce385B28dBD84B02DACAe03;
+
+    // address s_user;
 
     // struct SongParams {
     //     string name;
@@ -35,7 +36,7 @@ contract DeployScript is ScaffoldETHDeploy {
     function run() external {
         uint256 deployerPrivateKey = setupLocalhostEnv();
 
-        s_user = vm.addr(2);
+        // s_user = vm.addr(2);
         address deployerPubKey = vm.createWallet(deployerPrivateKey).addr;
 
         if (deployerPrivateKey == 0) {
@@ -50,7 +51,8 @@ contract DeployScript is ScaffoldETHDeploy {
         address[] memory admins = new address[](1);
         admins[0] = s_artist;
 
-        address aggregator = 0x694AA1769357215DE4FAC081bf1f309aDC325306;
+        // address aggregator = 0x694AA1769357215DE4FAC081bf1f309aDC325306; //sepolia
+        address aggregator = 0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1; //base sepolia
 
         ALBUM album = new ALBUM(
             address(playlist),
@@ -435,7 +437,7 @@ contract DeployScript is ScaffoldETHDeploy {
         // playlist.ADD_SONG(address(song26));
         // playlist.ADD_SONG(address(song27));
         // playlist.ADD_SONG(address(song28));
-        // playlist.transferOwnership(s_artist);
+        playlist.transferOwnership(s_artist);
 
         // AARCAUDIO_VOLUME_1 yourContract = new AARCAUDIO_VOLUME_1();
         // console.logString(

@@ -153,7 +153,7 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
             SONG(songs[i]).SPECIAL_MINT(TARGET);
         }
 
-        claim(TARGET);
+        if (!CHECK_IF_OWNS_COLLECTION(TARGET)) claim(TARGET);
     }
 
     function getUnownedTotalPrice(

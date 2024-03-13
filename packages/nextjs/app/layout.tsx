@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     description: "THE DIGITAL SHIRT LOUNGE",
   },
   icons: {
-    icon: [{ url: "/aarcaudio/images/album.gif", sizes: "32x32", type: "image/png" }],
+    icon: [{ url: "/aarcaudio/logo.jpg", sizes: "32x32", type: "image/jpg" }],
   },
 };
 

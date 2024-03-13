@@ -1,3 +1,4 @@
+import { useChainId } from "wagmi";
 import { PauseIcon, PlayIcon } from "@heroicons/react/24/outline";
 
 interface NftCardProps {
@@ -11,6 +12,11 @@ interface NftCardProps {
   image?: {
     value?: string;
     alt?: string;
+    classes?: string;
+  };
+
+  contractAddress?: {
+    value?: string;
     classes?: string;
   };
 
@@ -48,6 +54,8 @@ interface NftCardProps {
 }
 
 export const NftCard = (props: NftCardProps) => {
+  const chainId = useChainId();
+
   let buttonOutput;
   if (props.actionBtn) {
     buttonOutput = (
@@ -66,6 +74,24 @@ export const NftCard = (props: NftCardProps) => {
     );
   }
 
+  let contractAddressOutput;
+
+  if (props.contractAddress) {
+    let urlLink;
+    if (chainId === 84532) {
+      urlLink = "https://sepolia.basescan.org/address/" + props.contractAddress?.value;
+    } else if (chainId === 8453) {
+      urlLink = "https://basescan.org/address/" + props.contractAddress?.value;
+    }
+
+    const truncatedAddress = props.contractAddress.value?.slice(0, 6) + "..." + props.contractAddress?.value?.slice(-4);
+
+    contractAddressOutput = (
+      <a href={urlLink} target="_blank">
+        <p className={props.contractAddress.classes}>{`${truncatedAddress}`} </p>
+      </a>
+    );
+  }
   let priceOutput;
   if (props.price) {
     priceOutput = <p className={props.price.classes}>{`${props.price.value} ether`} </p>;
@@ -113,10 +139,12 @@ export const NftCard = (props: NftCardProps) => {
       <p className={props.name?.classes}>{props.name?.value}</p>
 
       <img className={props.image?.classes} src={props.image?.value} alt={props.image?.alt} />
+      {contractAddressOutput}
       {audioControlsOutput}
       {balanceOfOutput}
       {priceCentsOutput}
       {priceOutput}
+
       {priceUsdOutput}
       {buttonOutput}
       <div className={props.bottomMargin}></div>
