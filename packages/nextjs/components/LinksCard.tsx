@@ -9,6 +9,25 @@ export const LinksCard = () => {
             </a>
           </div>
           <span className="text-accent">·</span>
+          <div className="text-center text-accent">
+            <a href="https://warpcast.com/~/channel/messyart" target="_blank" rel="noreferrer" className="link">
+              WARPCAST
+            </a>
+          </div>
+          <span className="text-accent">·</span>
+          <div className="text-center text-accent">
+            <a href="https://t.me/digitalshirtlounge" target="_blank" rel="noreferrer" className="link">
+              TELEGRAM
+            </a>
+          </div>
+          <span className="text-accent">·</span>
+          <div className="text-center text-accent">
+            <a href="https://discord.gg/4pSGDFYS" target="_blank" rel="noreferrer" className="link">
+              DISCORD
+            </a>
+          </div>
+
+          <span className="text-accent">·</span>
 
           <div className="text-center text-accent">
             <a href="https://www.instagram.com/aarcaudio/" target="_blank" rel="noreferrer" className="link">
@@ -25,24 +44,6 @@ export const LinksCard = () => {
               className="link"
             >
               TIKTOK
-            </a>
-          </div>
-          <span className="text-accent">·</span>
-          <div className="text-center text-accent">
-            <a href="https://discord.gg/4pSGDFYS" target="_blank" rel="noreferrer" className="link">
-              DISCORD
-            </a>
-          </div>
-          <span className="text-accent">·</span>
-          <div className="text-center text-accent">
-            <a href="https://warpcast.com/messy" target="_blank" rel="noreferrer" className="link">
-              DISCORD
-            </a>
-          </div>
-          <span className="text-accent">·</span>
-          <div className="text-center text-accent">
-            <a href="https://t.me/digitalshirtlounge" target="_blank" rel="noreferrer" className="link">
-              TELEGRAM
             </a>
           </div>
         </div>

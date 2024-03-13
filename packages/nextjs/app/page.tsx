@@ -168,22 +168,22 @@ const Home: NextPage = () => {
           });
         }
 
-        let theMint;
+        // let theMint;
 
-        if (connectedAddress && walletClient?.account.address) {
-          theMint = async () => {
-            const { request } = await publicClient.simulateContract({
-              account: connectedAddress,
-              address: allSongs[i],
-              abi,
-              functionName: "MINT",
-              args: [connectedAddress],
-              value: mintPriceBasedOnCents as bigint,
-            });
+        // if (connectedAddress && walletClient?.account.address) {
+        //   theMint = async () => {
+        //     const { request } = await publicClient.simulateContract({
+        //       account: connectedAddress,
+        //       address: allSongs[i],
+        //       abi,
+        //       functionName: "MINT",
+        //       args: [connectedAddress],
+        //       value: mintPriceBasedOnCents as bigint,
+        //     });
 
-            await walletClient.writeContract(request);
-          };
-        }
+        //     await walletClient.writeContract(request);
+        //   };
+        // }
 
         // const uriCorrected = (uri as string).replace("ipfs://", "https://ipfs.io/ipfs/");
 
@@ -203,7 +203,7 @@ const Home: NextPage = () => {
           // uriCorrected,
           // tokenData,
           name: resultJson.name,
-          theMint /*mint*/,
+          // theMint /*mint*/,
         };
 
         songDatas.push(songData);
@@ -400,7 +400,7 @@ const Home: NextPage = () => {
         }}
       />
 
-      <div className="flex items-center flex-col flex-grow pt-10">
+      <div className="flex items-center flex-col flex-grow pt-2">
         {connectedAddress === undefined ? (
           <p className="text-primary-content text-sm text-center">PLEASE CONNECT A WEB3 WALLET TO BUY SONGS/ALBUM.</p>
         ) : (
