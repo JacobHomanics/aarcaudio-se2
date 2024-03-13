@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import "@madzadev/audio-player/dist/index.css";
 import type { NextPage } from "next";
-import { useFetch } from "usehooks-ts";
+// import { useFetch } from "usehooks-ts";
 import { formatEther } from "viem";
 // import { createPublicClient, http } from "viem";
 // import { mainnet } from "viem/chains";
@@ -18,15 +18,19 @@ import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaf
 //
 //
 const Home: NextPage = () => {
-  const { address: connectedAddress } = useAccount();
+  const { address: connectedAddress } = useAccount({
+    onConnect: () => {
+      if (!connectedAddress) refreshData();
+    },
+  });
 
-  const { data: album1GoodURI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "getGoodURI" });
-  const { data: album1BadURI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "getBadURI" });
-  const album1GoodURICorrected = album1GoodURI?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  const album1BadURICorrected = album1BadURI?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  // const { data: album1GoodURI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "getGoodURI" });
+  // const { data: album1BadURI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "getBadURI" });
+  // const album1GoodURICorrected = album1GoodURI?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  // const album1BadURICorrected = album1BadURI?.replace("ipfs://", "https://ipfs.io/ipfs/");
 
-  const { data: album1GoodMetadata } = useFetch<any>(album1GoodURICorrected);
-  const { data: album1BadMetadata } = useFetch<any>(album1BadURICorrected);
+  // const { data: album1GoodMetadata } = useFetch<any>(album1GoodURICorrected);
+  // const { data: album1BadMetadata } = useFetch<any>(album1BadURICorrected);
 
   const { data: ownsCollection, refetch: refetchCheckIfOwnsCollection } = useScaffoldContractRead({
     contractName: "ALBUM",
@@ -61,19 +65,19 @@ const Home: NextPage = () => {
   if (hasRedeemed) {
     if (ownsCollection) {
       albumNft = {
-        name: album1GoodMetadata?.name,
-        image: album1GoodMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        name: "ARCADE RUN", //album1GoodMetadata?.name,
+        image: "/aarcaudio/images/album.gif", //album1GoodMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
       };
     } else {
       albumNft = {
-        name: album1BadMetadata?.name,
-        image: album1BadMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        name: "ARCADE RUN", //album1BadMetadata?.name,
+        image: "/aarcaudio/images/album-bad.gif", //album1BadMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
       };
     }
   } else {
     albumNft = {
-      name: album1BadMetadata?.name,
-      image: album1BadMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+      name: "ARCADE RUN", //album1BadMetadata?.name,
+      image: "/aarcaudio/images/album-bad.gif", //album1BadMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
     };
   }
 
@@ -190,6 +194,7 @@ const Home: NextPage = () => {
         // tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
 
         const songData = {
+          address: allSongs[i],
           price,
           // cents,
           balanceOf,
@@ -215,6 +220,23 @@ const Home: NextPage = () => {
 
   if (allSongDatas) {
     for (let i = 0; i < allSongDatas.length; i++) {
+      let theMint: any;
+
+      if (connectedAddress && walletClient?.account.address) {
+        theMint = async () => {
+          const { request } = await publicClient.simulateContract({
+            account: connectedAddress,
+            address: allSongDatas[i].address,
+            abi,
+            functionName: "MINT",
+            args: [connectedAddress],
+            value: allSongDatas[i].mintPriceBasedOnCents as bigint,
+          });
+
+          await walletClient.writeContract(request);
+        };
+      }
+
       const nft = {
         name: allSongDatas[i].name, //allSongDatas[i].tokenData?.name,
         image: `/aarcaudio/images/glitch-art-studio ${i + 1}.gif`, //allSongDatas[i].tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
@@ -222,11 +244,12 @@ const Home: NextPage = () => {
         mintPriceBasedOnCents: allSongDatas[i].mintPriceBasedOnCents.toString(),
         cents: 25, //allSongDatas[i].cents.toString(),
         balanceOf: allSongDatas[i].balanceOf,
-        actionBtn: allSongDatas[i].theMint
+
+        actionBtn: theMint
           ? {
               text: "Buy",
               onAction: async () => {
-                await allSongDatas[i].theMint();
+                await theMint();
                 await refreshData();
               },
             }
