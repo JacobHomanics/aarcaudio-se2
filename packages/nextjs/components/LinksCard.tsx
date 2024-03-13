@@ -26,9 +26,8 @@ export const LinksCard = () => {
               DISCORD
             </a>
           </div>
-
-          <span className="text-accent">·</span>
-
+        </div>
+        <div className="flex justify-center items-center gap-2 text-sm w-full">
           <div className="text-center text-accent">
             <a href="https://www.instagram.com/aarcaudio/" target="_blank" rel="noreferrer" className="link">
               INSTAGRAM
