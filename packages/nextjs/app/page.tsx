@@ -127,11 +127,20 @@ const Home: NextPage = () => {
           functionName: "getPrice",
         });
 
-        const uri = await publicClient.readContract({
-          address: allSongs[i],
-          abi,
-          functionName: "getURI",
+        // const uri = await publicClient.readContract({
+        //   address: allSongs[i],
+        //   abi,
+        //   functionName: "getURI",
+        // });
+
+        const result = await fetch(`/AARCADE RUN/${i + 1}.json`, {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
         });
+
+        const resultJson = await result.json();
 
         const mintPriceBasedOnCents = await publicClient.readContract({
           address: allSongs[i],
@@ -139,11 +148,11 @@ const Home: NextPage = () => {
           functionName: "getMintPriceBasedOnCents",
         });
 
-        const cents = await publicClient.readContract({
-          address: allSongs[i],
-          abi,
-          functionName: "GET_CENTS",
-        });
+        // const cents = await publicClient.readContract({
+        //   address: allSongs[i],
+        //   abi,
+        //   functionName: "GET_CENTS",
+        // });
 
         let balanceOf;
         if (connectedAddress) {
@@ -172,22 +181,23 @@ const Home: NextPage = () => {
           };
         }
 
-        const uriCorrected = (uri as string).replace("ipfs://", "https://ipfs.io/ipfs/");
+        // const uriCorrected = (uri as string).replace("ipfs://", "https://ipfs.io/ipfs/");
 
-        const response = await fetch(uriCorrected);
+        // const response = await fetch(uriCorrected);
 
-        const tokenData = await response.json();
+        // const tokenData = await response.json();
 
-        tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
+        // tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
 
         const songData = {
           price,
-          cents,
+          // cents,
           balanceOf,
           mintPriceBasedOnCents,
-          uri,
-          uriCorrected,
-          tokenData,
+          // uri,
+          // uriCorrected,
+          // tokenData,
+          name: resultJson.name,
           theMint /*mint*/,
         };
 
@@ -206,11 +216,11 @@ const Home: NextPage = () => {
   if (allSongDatas) {
     for (let i = 0; i < allSongDatas.length; i++) {
       const nft = {
-        name: allSongDatas[i].tokenData?.name,
-        image: allSongDatas[i].tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        name: allSongDatas[i].name, //allSongDatas[i].tokenData?.name,
+        image: `/aarcaudio/images/glitch-art-studio ${i + 1}.gif`, //allSongDatas[i].tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
         price: formatEther(allSongDatas[i].price || BigInt(0)),
         mintPriceBasedOnCents: allSongDatas[i].mintPriceBasedOnCents.toString(),
-        cents: allSongDatas[i].cents.toString(),
+        cents: 25, //allSongDatas[i].cents.toString(),
         balanceOf: allSongDatas[i].balanceOf,
         actionBtn: allSongDatas[i].theMint
           ? {
@@ -231,7 +241,7 @@ const Home: NextPage = () => {
             handleMe(
               isPlayings[i].id,
               isPlayings,
-              allSongDatas[i].tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
+              `/aarcaudio/songs/${i + 1}.mp3`, //allSongDatas[i].tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
             );
           },
         },
@@ -303,7 +313,7 @@ const Home: NextPage = () => {
         classes: "p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]",
       }}
       price={{
-        value: truncate(anNft.price, 5),
+        value: truncate(anNft.price, 7),
         classes: "text-black p-1 m-1 text-center text-xs lg:text-xs  text-primary-content mt-0 pt-0 mb-4",
       }}
       // priceUsd={{
