@@ -1,4 +1,5 @@
 import React from "react";
+import { LinksCard } from "./LinksCard";
 // import Link from "next/link";
 import { hardhat } from "viem/chains";
 // import { CurrencyDollarIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
@@ -45,34 +46,7 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className="w-full">
-        <ul className="menu menu-horizontal w-full">
-          <div className="flex justify-center items-center gap-2 text-sm w-full">
-            <div className="text-center text-accent">
-              <a href="https://www.instagram.com/aarcaudio/" target="_blank" rel="noreferrer" className="link">
-                INSTAGRAM
-              </a>
-            </div>
-            <span className="text-accent">·</span>
-            <div className="text-center text-accent">
-              <a href="https://linktr.ee/aarcaudio" target="_blank" rel="noreferrer" className="link">
-                LINKTREE
-              </a>
-            </div>
-            <span className="text-accent">·</span>
-            <div className="text-center text-accent">
-              <a
-                href="https://www.tiktok.com/@aarcaudio?_t=8kcyUyDbGsk&_r=1"
-                target="_blank"
-                rel="noreferrer"
-                className="link"
-              >
-                TIKTOK
-              </a>
-            </div>
-          </div>
-        </ul>
-      </div>
+      <LinksCard />
     </div>
   );
 };

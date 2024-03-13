@@ -8,6 +8,7 @@ import { formatEther } from "viem";
 // import { createPublicClient, http } from "viem";
 // import { mainnet } from "viem/chains";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { LinksCard } from "~~/components/LinksCard";
 // import { useNetwork } from "wagmi";
 import { NftCard } from "~~/components/NftCard/NftCard";
 // import { useMe } from "~~/components/hooks/hooks";
@@ -356,6 +357,8 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <LinksCard />
+
       <audio
         ref={oceanRef}
         src={selectedSong}
