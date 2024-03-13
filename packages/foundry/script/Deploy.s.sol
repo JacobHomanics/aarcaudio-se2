@@ -17,7 +17,7 @@ contract DeployScript is ScaffoldETHDeploy {
 
     address owner;
 
-    address s_artist = 0x9C59245B715A8aEbdce385B28dBD84B02DACAe03;
+    address s_artist = 0xc689c800a7121b186208ea3b182fAb2671B337E7;
 
     // address s_user;
 
@@ -54,6 +54,8 @@ contract DeployScript is ScaffoldETHDeploy {
         // address aggregator = 0x694AA1769357215DE4FAC081bf1f309aDC325306; //sepolia
         address aggregator = 0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1; //base sepolia
 
+        address sequencerUptimeFeed = 0xBCF85224fc0756B9Fa45aA7892530B47e10b6433;
+
         ALBUM album = new ALBUM(
             address(playlist),
             s_artist,
@@ -73,9 +75,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "NO",
             "NO",
-            0.001 ether,
+            // 0.001 ether,
             "ipfs://bafkreiefug6orin7nzf2s26gnzn63ji4jd6r5ljoklovjd4ahlshzld63q",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -84,9 +87,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "BAABY",
             "BAABY",
-            0.002 ether,
+            // 0.002 ether,
             "ipfs://bafkreiglcjqxy2rhgvn6wppbqmq4kjkazwluz3duqpf2tapdfejjm5nm4i",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -95,9 +99,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "TREES",
             "TREES",
-            0.003 ether,
+            // 0.003 ether,
             "ipfs://bafkreidmqjaxso62i6fkmrrldp7mksjfmzugrvsmmktaokbr5t4gahw6pe",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -106,9 +111,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "ONCE YOU FIND OUT",
             "OYFO",
-            0.004 ether,
+            // 0.004 ether,
             "ipfs://bafkreiefhkpgtfuhvpdxt36uirsoh42znuydcyxiybtcnfqxs2eiwkwr4y",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -117,9 +123,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "MI AMOR",
             "MA",
-            0.005 ether,
+            // 0.005 ether,
             "ipfs://bafkreifafpvrok2ztldajsuvwhdpvyivn3f3pck2fnkiwjwvfbh3nclmou",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -128,9 +135,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "SAY SOMETHING",
             "SS",
-            0.006 ether,
+            // 0.006 ether,
             "ipfs://bafkreifujkxmbk5v5lndjz3zsogx3k7kpstk6oogkw6lm42bqffjqxs5r4",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -139,9 +147,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "CLASSY ICY JUNGLE",
             "CIJ",
-            0.007 ether,
+            // 0.007 ether,
             "ipfs://bafkreidtt4okddciprjcs3r722ugl22knkj235z4u7lrwtbnr76gpcpjta",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -150,9 +159,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "SPACESHIP SWEETIE",
             "SS",
-            0.008 ether,
+            // 0.008 ether,
             "ipfs://bafkreic7qea35u5kgk7basi6sabfyo5anmnoo5opi7juhwxltzpe7abcnm",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -161,9 +171,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "ALL THE THINGS I NEVER GOT TO BE",
             "ATTINGTB",
-            0.009 ether,
+            // 0.009 ether,
             "ipfs://bafkreibo5mesrzekccvw6chflv4a5oqxnro7uinappv7pijz4y6epq5sa4",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -172,9 +183,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "MAYBE WE CAN",
             "MWC",
-            0.0010 ether,
+            // 0.0010 ether,
             "ipfs://bafkreid7rji3uwxcgrjpna2jvhk4ybxv72nlih4i3wt3k7555fejhrzzje",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -183,9 +195,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "ARMS",
             "ARMS",
-            0.0011 ether,
+            // 0.0011 ether,
             "ipfs://bafkreiffwdkyldiymkio2r72y6orn5fabkxcrsvhrzf7d4yxfvx3qthcfq",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -194,9 +207,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "I DID",
             "IDID",
-            0.0012 ether,
+            // 0.0012 ether,
             "ipfs://bafkreidpbay2q3fo6qbmqhfx7ql6vxk5jauji7boziw6bxfp4utgy4ymdi",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -205,9 +219,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "NEON PURPLE BLACK & GREEN",
             "NPB&G",
-            0.0013 ether,
+            // 0.0013 ether,
             "ipfs://bafkreieza2q4fyexvkug3anxgyt75ygevbnsdrr7pryr665mlb6la2mrem",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -216,9 +231,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "BEING WITH SOMEONE THAT DOESN'T LOVE YOU",
             "BWSTDLY",
-            0.0014 ether,
+            // 0.0014 ether,
             "ipfs://bafkreietfsujias47oenrz7ynpiia2uzs6fuk7fgryuvhmzhej4xfhahpe",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -227,9 +243,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "MILLENNIAL HONEYMOON-QUIET AS THEY WATCH ME",
             "MHQATWM",
-            0.0015 ether,
+            // 0.0015 ether,
             "ipfs://bafkreih5dguju4nvgcpkpyhirq3vvb6kereupqf5hqlfyniwa4xcztz56m",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -238,9 +255,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "I HOPE YOU SEE THROUGH IT ALL",
             "IHYSTIA",
-            0.0016 ether,
+            // 0.0016 ether,
             "ipfs://bafkreif6kbxy5snlxn4anenlmh73wwr6zgzwfdiyuuyxwhodc35bddq2tm",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -249,9 +267,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "HOW YOU ACT TOWARDS ME",
             "HYATM",
-            0.0017 ether,
+            // 0.0017 ether,
             "ipfs://bafkreibvoldeqe2zylojipztwctmo5zedgyftlcdhkdotbsx5wvru7owq4",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -260,9 +279,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "WHATEVER",
             "W",
-            0.0018 ether,
+            // 0.0018 ether,
             "ipfs://bafkreiazgoo62cakpwgfeg2hvjheosorzcpobkzi2zhobiodvdedpo6o3i",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -271,9 +291,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "OH, UP HERE",
             "O,UH",
-            0.0019 ether,
+            // 0.0019 ether,
             "ipfs://bafkreidav3alb53fw4cxmfy6zyms7nyzjooszxve6zbiydxa2if2h4mrke",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -282,9 +303,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "ME & YOU!",
             "M&Y!",
-            0.0020 ether,
+            // 0.0020 ether,
             "ipfs://bafkreidcfsjkqrgmagffir5ubfvtecixmgstzlb5l5ei7szs4wqppqbpuy",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -293,9 +315,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "THERE'S A LEAK IN MY HEAD",
             "TALIMH",
-            0.0021 ether,
+            // 0.0021 ether,
             "ipfs://bafkreiby27v5gnb5is2iyd6pvut25lmvot4biwajs5qxix5tdi27snyv5e",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -304,9 +327,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "OOPS WE'RE DROWNING LOL",
             "OWDL",
-            0.0022 ether,
+            // 0.0022 ether,
             "ipfs://bafkreih77kvsjqrdsf2733w3jqykkxi2fjq5bgtbcbicvwrmfilrepx55a",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -314,10 +338,11 @@ contract DeployScript is ScaffoldETHDeploy {
         SONG song23 = new SONG(
             s_artist,
             "RUNAWAY SWIM (WITH ME)",
-            "",
-            0.0023 ether,
+            "RW(WM)",
+            // 0.0023 ether,
             "ipfs://bafkreiaetzcdzmlpgxbbzwwu2ilxgcbirwzp5mcop5n2d3meomkb2da4oe",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -326,9 +351,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "INSPIRATION ODYSSEY",
             "IO",
-            0.0024 ether,
+            // 0.0024 ether,
             "ipfs://bafkreicdwgrl2igi4e7tnentl6o5sn23f5p7jszfz2slph4kqvt73w2vlu",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -337,9 +363,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "I MESS EVERYTHING UP",
             "IMEU",
-            0.0025 ether,
+            // 0.0025 ether,
             "ipfs://bafkreifuy64hjmrw4wcdf6mzuwraqhfme4np52heq4zikigfubhf5e6lqa",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -348,9 +375,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "FOREVER",
             "F",
-            0.0026 ether,
+            // 0.0026 ether,
             "ipfs://bafkreig3nwkvpopgmpgab2ryzk43etdya4vnd4utmrcwsiz2wr2pibc7fy",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -359,9 +387,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "ARC",
             "A",
-            0.0027 ether,
+            // 0.0027 ether,
             "ipfs://bafkreib2hjghn766wqdfrji3j2kuzff4nb237yppt7tirqfw6ag5ebjs2m",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -370,9 +399,10 @@ contract DeployScript is ScaffoldETHDeploy {
             s_artist,
             "UNTIL NEXT TIME",
             "UNT",
-            0.0028 ether,
+            // 0.0028 ether,
             "ipfs://bafkreihasccyhx34e2id3boulzencqi2u2x3lmik6dn2wkcfuuk2zcfbsy",
             aggregator,
+            sequencerUptimeFeed,
             25,
             songAdmins
         );
@@ -409,34 +439,6 @@ contract DeployScript is ScaffoldETHDeploy {
 
         playlist.ADD_SONGS_BATCH(songs);
 
-        // playlist.ADD_SONG(address(song1));
-        // playlist.ADD_SONG(address(song2));
-        // playlist.ADD_SONG(address(song3));
-        // playlist.ADD_SONG(address(song4));
-        // playlist.ADD_SONG(address(song5));
-        // playlist.ADD_SONG(address(song6));
-        // playlist.ADD_SONG(address(song7));
-        // playlist.ADD_SONG(address(song8));
-        // playlist.ADD_SONG(address(song9));
-        // playlist.ADD_SONG(address(song10));
-        // playlist.ADD_SONG(address(song11));
-        // playlist.ADD_SONG(address(song12));
-        // playlist.ADD_SONG(address(song13));
-        // playlist.ADD_SONG(address(song14));
-        // playlist.ADD_SONG(address(song15));
-        // playlist.ADD_SONG(address(song16));
-        // playlist.ADD_SONG(address(song17));
-        // playlist.ADD_SONG(address(song18));
-        // playlist.ADD_SONG(address(song19));
-        // playlist.ADD_SONG(address(song20));
-        // playlist.ADD_SONG(address(song21));
-        // playlist.ADD_SONG(address(song22));
-        // playlist.ADD_SONG(address(song23));
-        // playlist.ADD_SONG(address(song24));
-        // playlist.ADD_SONG(address(song25));
-        // playlist.ADD_SONG(address(song26));
-        // playlist.ADD_SONG(address(song27));
-        // playlist.ADD_SONG(address(song28));
         playlist.transferOwnership(s_artist);
 
         // AARCAUDIO_VOLUME_1 yourContract = new AARCAUDIO_VOLUME_1();

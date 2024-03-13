@@ -13,20 +13,19 @@ contract SONG is Ownable, AccessControl, ERC721 {
 
     error SONG__INVALID_MINT_NOT_ENOUGH_ETH();
 
-    uint256 S_PRICE;
+    // uint256 S_PRICE;
     string S_URI;
     uint256 S_MINT_COUNT;
 
     uint256 S_CENTS;
 
     AggregatorV2V3Interface internal s_dataFeed;
+    AggregatorV2V3Interface internal s_sequencerUptimeFeed;
 
-    // AggregatorV2V3Interface internal sequencerUptimeFeed;
+    uint256 private constant GRACE_PERIOD_TIME = 3600;
 
-    // uint256 private constant GRACE_PERIOD_TIME = 3600;
-
-    // error SequencerDown();
-    // error GracePeriodNotOver();
+    error SequencerDown();
+    error GracePeriodNotOver();
 
     function getPrice() public view returns (uint256) {
         // return S_PRICE;
@@ -41,16 +40,19 @@ contract SONG is Ownable, AccessControl, ERC721 {
         address OWNER,
         string memory NAME,
         string memory SYMBOL,
-        uint256 PRICE,
+        // uint256 PRICE,
         string memory URI,
         address dataFeed,
+        address sequencerUptimeFeed,
         uint256 cents,
         address[] memory admins
     ) Ownable(OWNER) ERC721(NAME, SYMBOL) {
-        S_PRICE = PRICE;
+        // S_PRICE = PRICE;
         S_CENTS = cents;
 
         S_URI = URI;
+
+        s_sequencerUptimeFeed = AggregatorV2V3Interface(sequencerUptimeFeed);
 
         s_dataFeed = AggregatorV2V3Interface(dataFeed);
 
@@ -114,27 +116,27 @@ contract SONG is Ownable, AccessControl, ERC721 {
 
     function getChainlinkDataFeedLatestAnswer() public view returns (int) {
         // prettier-ignore
-        // (
-        //     /*uint80 roundID*/,
-        //     int256 answer,
-        //     uint256 startedAt,
-        //     /*uint256 updatedAt*/,
-        //     /*uint80 answeredInRound*/
-        // ) = sequencerUptimeFeed.latestRoundData();
+        (
+            /*uint80 roundID*/,
+            int256 answer,
+            uint256 startedAt,
+            /*uint256 updatedAt*/,
+            /*uint80 answeredInRound*/
+        ) = s_sequencerUptimeFeed.latestRoundData();
 
-        // // Answer == 0: Sequencer is up
-        // // Answer == 1: Sequencer is down
-        // bool isSequencerUp = answer == 0;
-        // if (!isSequencerUp) {
-        //     revert SequencerDown();
-        // }
+        // Answer == 0: Sequencer is up
+        // Answer == 1: Sequencer is down
+        bool isSequencerUp = answer == 0;
+        if (!isSequencerUp) {
+            revert SequencerDown();
+        }
 
-        // // Make sure the grace period has passed after the
-        // // sequencer is back up.
-        // uint256 timeSinceUp = block.timestamp - startedAt;
-        // if (timeSinceUp <= GRACE_PERIOD_TIME) {
-        //     revert GracePeriodNotOver();
-        // }
+        // Make sure the grace period has passed after the
+        // sequencer is back up.
+        uint256 timeSinceUp = block.timestamp - startedAt;
+        if (timeSinceUp <= GRACE_PERIOD_TIME) {
+            revert GracePeriodNotOver();
+        }
 
         // prettier-ignore
         (
