@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { zeroAddress } from "viem";
 import { useChainId } from "wagmi";
@@ -44,12 +45,23 @@ const CreateSong: NextPage = () => {
 
       logs.map(async log => {
         const { newInstance } = log.args;
-        console.log(newInstance);
-        await addSong({ args: [newInstance] });
+        setNewInstance(newInstance);
       });
     },
   });
 
+  const [newInstance, setNewInstance] = useState<string | undefined>(zeroAddress);
+
+  useEffect(() => {
+    async function run() {
+      if (newInstance !== zeroAddress) {
+        console.log("YEAH!");
+        await addSong({ args: [newInstance] });
+      }
+    }
+
+    run();
+  }, [newInstance]);
   async function onSubmit(event: any) {
     event.preventDefault();
     const target = event.target;

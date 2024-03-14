@@ -178,15 +178,15 @@ const Home: NextPage = () => {
           abi,
           functionName: "GET_URI",
         });
-        const uriCorrected = (uri as string).replace("ipfs://", "https://ipfs.io/ipfs/");
+        const uriCorrected = (uri as string).replace("ipfs://", "https://nftstorage.link/ipfs/");
         const response = await fetch(uriCorrected);
         const tokenData = await response.json();
-        tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
+        tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://nftstorage.link/ipfs/");
 
         data.name = tokenData.name;
-        data.image = tokenData.image?.replace("ipfs://", "https://ipfs.io/ipfs/");
+        data.image = tokenData.image?.replace("ipfs://", "https://nftstorage.link/ipfs/");
         data.cents = (cents as bigint).toString();
-        data.audio = tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/");
+        data.audio = tokenData["audio_url"].replace("ipfs://", "https://nftstorage.link/ipfs/");
       }
 
       const songData = {
