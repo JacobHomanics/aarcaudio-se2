@@ -233,19 +233,21 @@ contract AlbumTest is Test {
     }
 
     function createSong() public returns (address song) {
-        song = address(
-            new SONG(
-                s_songOwner,
-                "Token",
-                "T",
-                "ipfs://Token",
-                address(0),
-                address(0),
-                25,
-                songAdmins,
-                3600
-            )
+        SONG newSong = new SONG();
+
+        newSong.initialize(
+            s_songOwner,
+            "Token",
+            "T",
+            "ipfs://Token",
+            address(0),
+            address(0),
+            25,
+            songAdmins,
+            3600
         );
+
+        song = address(newSong);
     }
 
     function createSongs(
@@ -254,19 +256,21 @@ contract AlbumTest is Test {
         address[] memory songs = new address[](numToCreate);
 
         for (uint256 i = 0; i < songs.length; i++) {
-            songs[i] = address(
-                new SONG(
-                    s_songOwner,
-                    string.concat("Token-", i.toString()),
-                    string.concat("T-", i.toString()),
-                    string.concat("ipfs://", i.toString()),
-                    address(s_dataAggregator),
-                    address(s_uptimeSequencer),
-                    25,
-                    songAdmins,
-                    3600
-                )
+            SONG newSong = new SONG();
+
+            newSong.initialize(
+                s_songOwner,
+                string.concat("Token-", i.toString()),
+                string.concat("T-", i.toString()),
+                string.concat("ipfs://", i.toString()),
+                address(s_dataAggregator),
+                address(s_uptimeSequencer),
+                25,
+                songAdmins,
+                3600
             );
+
+            songs[i] = address(newSong);
         }
 
         return songs;

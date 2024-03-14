@@ -13,23 +13,15 @@ contract PlaylistTest is Test {
     using Strings for uint256;
 
     address s_playlistOwner;
-    address s_songOwner;
 
     PLAYLIST s_playlist;
-
-    int256 priceOfEthereum = 400000000000;
-
-    address[] songAdmins;
 
     address[] s_songs;
 
     function setUp() public {
         s_playlistOwner = vm.addr(1);
-        s_songOwner = vm.addr(2);
 
         console.log("Playlist Owner: ", address(s_playlistOwner));
-
-        songAdmins.push(vm.addr(3));
 
         s_playlist = new PLAYLIST(s_playlistOwner);
         console.log("Playlist: ", address(s_playlist));

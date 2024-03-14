@@ -29,7 +29,9 @@ contract SongTest is Test {
     uint256 timeWarp = 200000;
 
     function createDefaultSong() public {
-        s_song = new SONG(
+        s_song = new SONG();
+
+        s_song.initialize(
             s_owner,
             "Token",
             "T",
@@ -45,7 +47,9 @@ contract SongTest is Test {
     }
 
     function createLayer1Song() public {
-        s_song = new SONG(
+        s_song = new SONG();
+
+        s_song.initialize(
             s_owner,
             "Token",
             "T",
@@ -91,7 +95,9 @@ contract SongTest is Test {
     function testCreateSong(uint256 uniqueId) public {
         createDefaultSong();
 
-        SONG song = new SONG(
+        SONG song = new SONG();
+
+        song.initialize(
             s_owner,
             string.concat("Token-", uniqueId.toString()),
             string.concat("T-", uniqueId.toString()),

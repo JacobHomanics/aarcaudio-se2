@@ -7,7 +7,17 @@ import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import {AggregatorV2V3Interface} from "./chainlink/interfaces/AggregatorV2V3Interface.sol";
 
-contract SONG is Ownable, AccessControl, ERC721 {
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import {ERC721Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+import {AccessControlUpgradeable} from "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+
+contract SONG is
+    Initializable,
+    OwnableUpgradeable,
+    AccessControlUpgradeable,
+    ERC721Upgradeable
+{
     using Strings for uint256;
 
     error SONG__INVALID_MINT_NOT_ENOUGH_ETH();
@@ -22,7 +32,32 @@ contract SONG is Ownable, AccessControl, ERC721 {
     AggregatorV2V3Interface S_SEQUENCER_UPTIME_FEED;
     uint256 S_GRACE_PERIOD_TIME;
 
-    constructor(
+    // constructor(
+    //     address OWNER,
+    //     string memory NAME,
+    //     string memory SYMBOL,
+    //     string memory URI,
+    //     address DATA_FEED,
+    //     address SEQUENCER_UPTIME_FEED,
+    //     uint256 CENTS,
+    //     address[] memory ADMINS,
+    //     uint256 GRACE_PERIOD_TIME
+    // ) Ownable(OWNER) ERC721(NAME, SYMBOL) {
+    //     S_CENTS = CENTS;
+    //     S_URI = URI;
+
+    //     S_DATA_FEED = AggregatorV2V3Interface(DATA_FEED);
+    //     S_SEQUENCER_UPTIME_FEED = AggregatorV2V3Interface(
+    //         SEQUENCER_UPTIME_FEED
+    //     );
+    //     S_GRACE_PERIOD_TIME = GRACE_PERIOD_TIME;
+
+    //     for (uint256 i = 0; i < ADMINS.length; i++) {
+    //         _grantRole(DEFAULT_ADMIN_ROLE, ADMINS[i]);
+    //     }
+    // }
+
+    function initialize(
         address OWNER,
         string memory NAME,
         string memory SYMBOL,
@@ -32,7 +67,10 @@ contract SONG is Ownable, AccessControl, ERC721 {
         uint256 CENTS,
         address[] memory ADMINS,
         uint256 GRACE_PERIOD_TIME
-    ) Ownable(OWNER) ERC721(NAME, SYMBOL) {
+    ) external initializer {
+        __Ownable_init(OWNER);
+        __ERC721_init(NAME, SYMBOL);
+
         S_CENTS = CENTS;
         S_URI = URI;
 
@@ -139,7 +177,12 @@ contract SONG is Ownable, AccessControl, ERC721 {
 
     function supportsInterface(
         bytes4 interfaceId
-    ) public view override(ERC721, AccessControl) returns (bool) {
+    )
+        public
+        view
+        override(ERC721Upgradeable, AccessControlUpgradeable)
+        returns (bool)
+    {
         return super.supportsInterface(interfaceId);
     }
 }
