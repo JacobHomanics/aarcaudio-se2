@@ -202,7 +202,7 @@ contract DeployScript is ScaffoldETHDeploy {
 
         // PARAMS[7] = SONG_PARAMS(
         //     "SPACESHIP SWEETIE",
-        //     "SS",
+        //     "SSS",
         //     "ipfs://bafkreic7qea35u5kgk7basi6sabfyo5anmnoo5opi7juhwxltzpe7abcnm",
         //     CENTS,
         //     GRACE_PERIOD
@@ -322,7 +322,7 @@ contract DeployScript is ScaffoldETHDeploy {
 
         // PARAMS[22] = SONG_PARAMS(
         //     "RUNAWAY SWIM (WITH ME)",
-        //     "RW(WM)",
+        //     "RS(WM)",
         //     "ipfs://bafkreiaetzcdzmlpgxbbzwwu2ilxgcbirwzp5mcop5n2d3meomkb2da4oe",
         //     CENTS,
         //     GRACE_PERIOD
