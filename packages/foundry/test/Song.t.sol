@@ -13,7 +13,6 @@ contract SongTest is Test {
     using Strings for uint256;
 
     address s_owner;
-    address s_user;
     address s_admin;
 
     MockAggregatorV2V3Interface s_dataAggregator;
@@ -26,24 +25,20 @@ contract SongTest is Test {
     string ipfsUrl = "ipfs://1";
     int256 priceOfEthereum = 400000000000;
     uint256 cents = 25;
-    uint256 priceBasedOnCents = 62500000000000;
+    uint256 priceBasedOnCents;
     uint256 timeWarp = 200000;
 
     function setUp() public {
         s_owner = vm.addr(1);
-
-        s_user = vm.addr(2);
-
-        console.log("Artist: ", address(s_owner));
-        console.log("User: ", address(s_user));
+        console.log("Owner: ", address(s_owner));
+        s_admin = vm.addr(3);
+        console.log("Admin: ", s_admin);
 
         s_dataAggregator = new MockAggregatorV2V3Interface(priceOfEthereum, 0);
         console.log("Mock Data Aggregator", address(s_dataAggregator));
-
         s_uptimeSequencer = new MockAggregatorV2V3Interface(0, 0);
         console.log("Mock Uptime Feed Sequencer", address(s_uptimeSequencer));
 
-        s_admin = vm.addr(3);
         songAdmins.push(s_admin);
 
         s_song = new SONG(
@@ -59,6 +54,8 @@ contract SongTest is Test {
         );
 
         vm.warp(timeWarp);
+
+        priceBasedOnCents = s_song.GET_PRICE_BASED_ON_CENTS();
     }
 
     function testCreateSong(uint256 uniqueId) public {
