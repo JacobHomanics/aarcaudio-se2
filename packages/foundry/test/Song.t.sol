@@ -31,7 +31,7 @@ contract SongTest is Test {
     function setUp() public {
         s_owner = vm.addr(1);
         console.log("Owner: ", address(s_owner));
-        s_admin = vm.addr(3);
+        s_admin = vm.addr(2);
         console.log("Admin: ", s_admin);
 
         s_dataAggregator = new MockAggregatorV2V3Interface(priceOfEthereum, 0);
@@ -171,8 +171,8 @@ contract SongTest is Test {
         assertEq(s_song.tokenURI(0), ipfsUrl);
     }
 
-    function testWithdraw() public {
-        address operator = vm.addr(4);
+    function testWithdraw(address operator) public {
+        vm.assume(operator != address(0));
 
         vm.deal(operator, priceBasedOnCents);
         vm.startPrank(operator);

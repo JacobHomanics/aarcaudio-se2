@@ -1,15 +1,16 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
+import "forge-std/Test.sol";
+
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import {PLAYLIST} from "./PLAYLIST.sol";
 import {SONG} from "./SONG.sol";
 
 import {AggregatorV2V3Interface} from "./chainlink/interfaces/AggregatorV2V3Interface.sol";
 
-contract ALBUM is Ownable, AccessControl, ERC721 {
+contract ALBUM is Ownable, ERC721 {
     error ALBUM__CANNOT_TRANSFER_SOULBOUND_TOKEN(
         address FROM,
         address TO,
@@ -39,7 +40,6 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
     constructor(
         address NEW_PLAYLIST,
         address OWNER,
-        address[] memory ADMINS,
         string memory NAME,
         string memory SYMBOL,
         string memory GOOD_URI,
@@ -58,10 +58,6 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         S_SEQUENCER_UPTIME_FEED = AggregatorV2V3Interface(
             SEQUENCER_UPTIME_FEED
         );
-
-        for (uint256 i = 0; i < ADMINS.length; i++) {
-            _grantRole(DEFAULT_ADMIN_ROLE, ADMINS[i]);
-        }
     }
 
     function WITHDRAW(address RECIPIENT) external onlyOwner {
@@ -84,7 +80,7 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
     function MINT_ONLY_UNOWNED(address TARGET) external payable {
         address[] memory SONGS = S_PLAYLIST.GET_ALL_SONGS();
         for (uint256 i = 0; i < SONGS.length; i++) {
-            if (SONG(SONGS[i]).balanceOf(TARGET) <= 0) {
+            if (SONG(SONGS[i]).balanceOf(TARGET) == 0) {
                 SONG(SONGS[i]).MINT{value: SONG(SONGS[i]).GET_PRICE()}(TARGET);
             }
         }
@@ -102,7 +98,9 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
             SONG(SONGS[i]).SPECIAL_MINT(TARGET);
         }
 
-        if (!CHECK_IF_OWNS_COLLECTION(TARGET)) CLAIM(TARGET);
+        if (!GET_HAS_REDEEMED(TARGET)) {
+            CLAIM(TARGET);
+        }
     }
 
     function transferFrom(
@@ -117,9 +115,7 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         return S_HAS_REDEEMED[user];
     }
 
-    function CHECK_IF_OWNS_COLLECTION(
-        address TARGET
-    ) public view returns (bool) {
+    function GET_OWNED_COUNT(address TARGET) public view returns (uint256) {
         address[] memory SONGS = S_PLAYLIST.GET_ALL_SONGS();
         uint256 OWNED_COUNT = 0;
         for (uint256 i = 0; i < SONGS.length; i++) {
@@ -128,10 +124,16 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
             }
         }
 
-        return OWNED_COUNT == SONGS.length;
+        return OWNED_COUNT;
     }
 
-    function getUnownedTotalPrice(
+    function CHECK_IF_OWNS_COLLECTION(
+        address TARGET
+    ) public view returns (bool) {
+        return GET_OWNED_COUNT(TARGET) == S_PLAYLIST.GET_ALL_SONGS().length;
+    }
+
+    function GET_UNOWNED_TOTAL_PRICE(
         address TARGET
     ) external view returns (uint256) {
         uint256 TOTAL_COST = 0;
@@ -146,7 +148,11 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         return TOTAL_COST;
     }
 
-    function getTotalPrice() external view returns (uint256) {
+    function GET_CENTS() public view returns (uint256) {
+        return S_CENTS;
+    }
+
+    function GET_TOTAL_PRICE_OF_SONGS() external view returns (uint256) {
         uint256 TOTAL_COST = 0;
         address[] memory SONGS = S_PLAYLIST.GET_ALL_SONGS();
 
@@ -157,15 +163,11 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         return TOTAL_COST;
     }
 
-    function GET_CENTS() public view returns (uint256) {
-        return S_CENTS;
-    }
-
-    function getGoodURI() external view returns (string memory) {
+    function GET_GOOD_URI() external view returns (string memory) {
         return S_GOOD_URI;
     }
 
-    function getBadURI() external view returns (string memory) {
+    function GET_BAD_URI() external view returns (string memory) {
         return S_BAD_URI;
     }
 
@@ -207,12 +209,6 @@ contract ALBUM is Ownable, AccessControl, ERC721 {
         }
 
         return S_GOOD_URI;
-    }
-
-    function supportsInterface(
-        bytes4 interfaceId
-    ) public view override(ERC721, AccessControl) returns (bool) {
-        return super.supportsInterface(interfaceId);
     }
 
     function balanceOf(
