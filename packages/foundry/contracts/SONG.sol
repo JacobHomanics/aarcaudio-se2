@@ -94,19 +94,19 @@ contract SONG is Ownable, AccessControl, ERC721 {
     }
 
     function GET_CHAINLINK_DATA_FEED_LATEST_ANSWER() public view returns (int) {
-        (, int256 ANSWER, uint256 STARTED_AT, , ) = S_SEQUENCER_UPTIME_FEED
-            .latestRoundData();
+        if (address(S_SEQUENCER_UPTIME_FEED) != address(0)) {
+            (, int256 ANSWER, uint256 STARTED_AT, , ) = S_SEQUENCER_UPTIME_FEED
+                .latestRoundData();
 
-        // Answer == 0: Sequencer is up
-        // Answer == 1: Sequencer is down
-        bool IS_SEQUENCER_UP = ANSWER == 0;
-        if (!IS_SEQUENCER_UP) {
-            revert SONG__SEQUENCER_DOWN();
-        }
+            bool IS_SEQUENCER_UP = ANSWER == 0;
+            if (!IS_SEQUENCER_UP) {
+                revert SONG__SEQUENCER_DOWN();
+            }
 
-        uint256 TIME_SINCE_UP = block.timestamp - STARTED_AT;
-        if (TIME_SINCE_UP <= S_GRACE_PERIOD_TIME) {
-            revert SONG__GRACE_PERIOD_NOT_OVER();
+            uint256 TIME_SINCE_UP = block.timestamp - STARTED_AT;
+            if (TIME_SINCE_UP <= S_GRACE_PERIOD_TIME) {
+                revert SONG__GRACE_PERIOD_NOT_OVER();
+            }
         }
 
         (, int DATA, , , ) = S_DATA_FEED.latestRoundData();

@@ -4,11 +4,7 @@ pragma solidity ^0.8.19;
 import {SONG} from "../contracts/SONG.sol";
 import {PLAYLIST} from "../contracts/PLAYLIST.sol";
 import {ALBUM} from "../contracts/ALBUM.sol";
-
-// import {SONG1} from "../contracts/SONGS/AARCADE RUN/SONG1.sol";
-// import {SONG2} from "../contracts/SONGS/AARCADE RUN/SONG2.sol";
-// import {SONG3} from "../contracts/SONGS/AARCADE RUN/SONG3.sol";
-// import {SONG4} from "../contracts/SONGS/AARCADE RUN/SONG4.sol";
+import {MockAggregatorV2V3Interface} from "../contracts/chainlink/mocks/MockAggregatorV2V3Interface.sol";
 
 import "./DeployHelpers.s.sol";
 
@@ -16,8 +12,6 @@ contract DeployScript is ScaffoldETHDeploy {
     error InvalidPrivateKey(string);
 
     address owner;
-
-    address s_artist = 0xc689c800a7121b186208ea3b182fAb2671B337E7;
 
     struct SONG_PARAMS {
         string NAME;
@@ -27,26 +21,61 @@ contract DeployScript is ScaffoldETHDeploy {
         uint256 GRACE_PERIOD;
     }
 
-    // address s_user;
+    function setUpDeployments()
+        private
+        returns (
+            address songOwner,
+            address albumOwner,
+            address playlistOwner,
+            address aggregator,
+            address sequencerUptimeFeed
+        )
+    {
+        uint256 id;
+        assembly {
+            id := chainid()
+        }
 
-    // struct SongParams {
-    //     string name;
-    //     string symbol;
-    //     uint256 price;
-    //     string uri;
-    // }
+        //localhost
+        if (id == 31337) {
+            songOwner = 0x193aDC5c5eFB2Cf8ddBEA1F23878B46E4Df86d06;
+            albumOwner = 0x193aDC5c5eFB2Cf8ddBEA1F23878B46E4Df86d06;
+            playlistOwner = 0x193aDC5c5eFB2Cf8ddBEA1F23878B46E4Df86d06;
+            aggregator = address(
+                new MockAggregatorV2V3Interface(400000000000, 0)
+            );
+            sequencerUptimeFeed = address(0);
+        }
+        //sepolia
+        else if (id == 11155111) {
+            songOwner = 0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf;
+            albumOwner = 0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf;
+            playlistOwner = 0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf;
+            aggregator = 0x694AA1769357215DE4FAC081bf1f309aDC325306;
+            sequencerUptimeFeed = address(0);
+        }
+        //base sepolia
+        else if (id == 84532) {
+            songOwner = 0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf;
+            albumOwner = 0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf;
+            playlistOwner = 0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf;
 
-    // SongParams[] songParams = [
-    //     SongParams("TEST", "T", 0.001 ether, "ipfs"),
-    //     SongParams("TEST", "T", 0.001 ether, "ipfs")
-    // ];
+            aggregator = 0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1;
+            sequencerUptimeFeed = address(0);
+        }
+        // base mainnet
+        else if (id == 8453) {
+            songOwner = 0xc689c800a7121b186208ea3b182fAb2671B337E7;
+            albumOwner = 0xc689c800a7121b186208ea3b182fAb2671B337E7;
+            playlistOwner = 0xc689c800a7121b186208ea3b182fAb2671B337E7;
+            aggregator = 0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70;
+            sequencerUptimeFeed = 0xBCF85224fc0756B9Fa45aA7892530B47e10b6433;
+        }
+    }
 
     function run() external {
         uint256 deployerPrivateKey = setupLocalhostEnv();
-
-        // s_user = vm.addr(2);
         address deployerPubKey = vm.createWallet(deployerPrivateKey).addr;
-
         if (deployerPrivateKey == 0) {
             revert InvalidPrivateKey(
                 "You don't have a deployer account. Make sure you have set DEPLOYER_PRIVATE_KEY in .env or use `yarn generate` to generate a new random account"
@@ -57,18 +86,17 @@ contract DeployScript is ScaffoldETHDeploy {
         PLAYLIST playlist = new PLAYLIST(deployerPubKey);
         vm.roll(block.number + 1);
 
-        address[] memory admins = new address[](1);
-        admins[0] = s_artist;
-
-        // address aggregator = 0x694AA1769357215DE4FAC081bf1f309aDC325306; //sepolia
-        // address aggregator = 0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1; //base sepolia
-        address aggregator = 0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70; //base mainnet
-
-        address sequencerUptimeFeed = 0xBCF85224fc0756B9Fa45aA7892530B47e10b6433;
+        (
+            address songOwner,
+            address albumOwner,
+            address playlistOwner,
+            address aggregator,
+            address sequencerUptimeFeed
+        ) = setUpDeployments();
 
         ALBUM album = new ALBUM(
             address(playlist),
-            s_artist,
+            albumOwner,
             "AARCADE RUN",
             "AAR",
             "ipfs://bafkreienrelxkykta5n5ox77mntpnuqjcgb3ddaizdngvxkp67mfafyxgm",
@@ -78,9 +106,6 @@ contract DeployScript is ScaffoldETHDeploy {
             600
         );
         vm.roll(block.number + 1);
-
-        address[] memory songAdmins = new address[](1);
-        songAdmins[0] = address(album);
 
         uint256 CENTS = 25;
         uint256 GRACE_PERIOD = 3600;
@@ -675,12 +700,15 @@ contract DeployScript is ScaffoldETHDeploy {
         // );
         // vm.roll(block.number + 1);
 
+        address[] memory songAdmins = new address[](1);
+        songAdmins[0] = address(album);
+
         address[] memory SONGS = new address[](28);
 
         for (uint256 i = 0; i < PARAMS.length; i++) {
             SONGS[i] = address(
                 new SONG(
-                    s_artist,
+                    songOwner,
                     PARAMS[i].NAME,
                     PARAMS[i].SYMBOL,
                     PARAMS[i].URI,
@@ -728,7 +756,7 @@ contract DeployScript is ScaffoldETHDeploy {
         playlist.ADD_SONGS_BATCH(SONGS);
         vm.roll(block.number + 1);
 
-        playlist.transferOwnership(s_artist);
+        playlist.transferOwnership(playlistOwner);
 
         // AARCAUDIO_VOLUME_1 yourContract = new AARCAUDIO_VOLUME_1();
         // console.logString(

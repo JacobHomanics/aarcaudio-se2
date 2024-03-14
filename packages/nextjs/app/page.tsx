@@ -40,7 +40,7 @@ const Home: NextPage = () => {
 
   const { data: hasRedeemed, refetch: refetchHasRedeemed } = useScaffoldContractRead({
     contractName: "ALBUM",
-    functionName: "getHasRedeemed",
+    functionName: "GET_HAS_REDEEMED",
     args: [connectedAddress],
   });
 
@@ -50,7 +50,7 @@ const Home: NextPage = () => {
 
   const { data: totalPrice } = useScaffoldContractRead({
     contractName: "ALBUM",
-    functionName: "getTotalPrice",
+    functionName: "GET_TOTAL_PRICE_OF_SONGS",
   });
 
   const { data: album_cents } = useScaffoldContractRead({
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
 
   const { data: totalPriceUnowned, refetch: getTotalPriceUnowned } = useScaffoldContractRead({
     contractName: "ALBUM",
-    functionName: "getUnownedTotalPrice",
+    functionName: "GET_UNOWNED_TOTAL_PRICE",
     args: [connectedAddress],
   });
 
@@ -90,7 +90,7 @@ const Home: NextPage = () => {
 
   const { writeAsync: claimAlbum } = useScaffoldContractWrite({
     contractName: "ALBUM",
-    functionName: "claim",
+    functionName: "CLAIM",
     args: [connectedAddress],
   });
 
@@ -102,7 +102,7 @@ const Home: NextPage = () => {
 
   const { data: mintPriceAllCents, refetch: refetchTotalMintPriceOnCents } = useScaffoldContractRead({
     contractName: "ALBUM",
-    functionName: "getMintPriceBasedOnCents",
+    functionName: "GET_PRICE_BASED_ON_CENTS",
   });
 
   const { writeAsync: mintAll } = useScaffoldContractWrite({
@@ -121,7 +121,7 @@ const Home: NextPage = () => {
 
   const publicClient = usePublicClient();
   const { data: walletClient } = useWalletClient();
-  const { data: allSongs } = useScaffoldContractRead({ contractName: "PLAYLIST", functionName: "getAllSongs" });
+  const { data: allSongs } = useScaffoldContractRead({ contractName: "PLAYLIST", functionName: "GET_ALL_SONGS" });
 
   const [allSongDatas, setAllSongDatas] = useState<any[]>();
 
