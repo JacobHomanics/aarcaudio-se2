@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   8453: {
     PLAYLIST: {
-      address: "0xd39F79764719d3EFC412e4D07Cb9a48a7bECec89",
+      address: "0x6044A494Db04F92595aD5e59514A912E61c8B01d",
       abi: [
         {
           type: "constructor",
@@ -212,7 +212,7 @@ const deployedContracts = {
       },
     },
     ALBUM: {
-      address: "0x57D5F09baD5D955559f84b6e7272Ce4797d7050A",
+      address: "0x13aa88b9CFdf7BC3D7996f41010833EaBAbA2be2",
       abi: [
         {
           type: "constructor",
@@ -1044,59 +1044,8 @@ const deployedContracts = {
       },
     },
     SONG: {
-      address: "0x049C4e8aFfC95b62196706a4404266e1bE5C8d50",
+      address: "0x6aE5b413cCA086B56be5505f9c40CbA433E163FE",
       abi: [
-        {
-          type: "constructor",
-          inputs: [
-            {
-              name: "OWNER",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "NAME",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "SYMBOL",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "URI",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "DATA_FEED",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "SEQUENCER_UPTIME_FEED",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "CENTS",
-              type: "uint256",
-              internalType: "uint256",
-            },
-            {
-              name: "ADMINS",
-              type: "address[]",
-              internalType: "address[]",
-            },
-            {
-              name: "GRACE_PERIOD_TIME",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
-          stateMutability: "nonpayable",
-        },
         {
           type: "function",
           name: "DEFAULT_ADMIN_ROLE",
@@ -1382,6 +1331,59 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "initialize",
+          inputs: [
+            {
+              name: "OWNER",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "NAME",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "SYMBOL",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "URI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "DATA_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "SEQUENCER_UPTIME_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "CENTS",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "ADMINS",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "GRACE_PERIOD_TIME",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
         },
         {
           type: "function",
@@ -1703,6 +1705,19 @@ const deployedContracts = {
         },
         {
           type: "event",
+          name: "Initialized",
+          inputs: [
+            {
+              name: "version",
+              type: "uint64",
+              indexed: false,
+              internalType: "uint64",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
           name: "OwnershipTransferred",
           inputs: [
             {
@@ -1946,6 +1961,16 @@ const deployedContracts = {
         },
         {
           type: "error",
+          name: "InvalidInitialization",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "NotInitializing",
+          inputs: [],
+        },
+        {
+          type: "error",
           name: "OwnableInvalidOwner",
           inputs: [
             {
@@ -1988,33 +2013,460 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {
-        owner: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
-        renounceOwnership: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
-        transferOwnership: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
+        owner: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        renounceOwnership: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        transferOwnership: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        DEFAULT_ADMIN_ROLE: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        getRoleAdmin: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        grantRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        hasRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        renounceRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        revokeRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        supportsInterface: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        approve: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        balanceOf: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        getApproved: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        isApprovedForAll: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        name: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        ownerOf: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        safeTransferFrom: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        setApprovalForAll: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        symbol: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        tokenURI: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        transferFrom: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+      },
+    },
+    SONG_FACTORY: {
+      address: "0x0ef02F3385B66479063C85178BD4CB9dc31B8AF9",
+      abi: [
+        {
+          type: "constructor",
+          inputs: [
+            {
+              name: "_admins",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "_controllers",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "_implementation",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "DEFAULT_ADMIN_ROLE",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "DEPLOYER_ROLE",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "contractInstanceCount",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "createNewInstance",
+          inputs: [
+            {
+              name: "OWNER",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "NAME",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "SYMBOL",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "URI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "DATA_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "SEQUENCER_UPTIME_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "CENTS",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "ADMINS",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "GRACE_PERIOD_TIME",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "instanceAddress",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "getInstance",
+          inputs: [
+            {
+              name: "index",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getInstanceCount",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getRoleAdmin",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "grantRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "hasRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "implementation",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "instances",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "contract SONG",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "renounceRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "callerConfirmation",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "revokeRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "supportsInterface",
+          inputs: [
+            {
+              name: "interfaceId",
+              type: "bytes4",
+              internalType: "bytes4",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "event",
+          name: "CreatedNewInstance",
+          inputs: [
+            {
+              name: "newInstance",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RoleAdminChanged",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "previousAdminRole",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "newAdminRole",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RoleGranted",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "sender",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RoleRevoked",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "sender",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "error",
+          name: "AccessControlBadConfirmation",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "AccessControlUnauthorizedAccount",
+          inputs: [
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "neededRole",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+        },
+        {
+          type: "error",
+          name: "ERC1167FailedCreateClone",
+          inputs: [],
+        },
+      ],
+      inheritedFunctions: {
         DEFAULT_ADMIN_ROLE: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         getRoleAdmin: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         grantRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         hasRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         renounceRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         revokeRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
-        supportsInterface: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        approve: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        balanceOf: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        getApproved: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        isApprovedForAll: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        name: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        ownerOf: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        safeTransferFrom: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        setApprovalForAll: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        symbol: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        tokenURI: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        transferFrom: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
+        supportsInterface: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
       },
     },
   },
   31337: {
     PLAYLIST: {
-      address: "0xCA8c8688914e0F7096c920146cd0Ad85cD7Ae8b9",
+      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       abi: [
         {
           type: "constructor",
@@ -2219,7 +2671,7 @@ const deployedContracts = {
       },
     },
     MockAggregatorV2V3Interface: {
-      address: "0xB0f05d25e41FbC2b52013099ED9616f1206Ae21B",
+      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
       abi: [
         {
           type: "constructor",
@@ -2300,7 +2752,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     ALBUM: {
-      address: "0x5FeaeBfB4439F3516c74939A9D04e95AFE82C4ae",
+      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
       abi: [
         {
           type: "constructor",
@@ -3132,59 +3584,8 @@ const deployedContracts = {
       },
     },
     SONG: {
-      address: "0x8bCe54ff8aB45CB075b044AE117b8fD91F9351aB",
+      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
       abi: [
-        {
-          type: "constructor",
-          inputs: [
-            {
-              name: "OWNER",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "NAME",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "SYMBOL",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "URI",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "DATA_FEED",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "SEQUENCER_UPTIME_FEED",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "CENTS",
-              type: "uint256",
-              internalType: "uint256",
-            },
-            {
-              name: "ADMINS",
-              type: "address[]",
-              internalType: "address[]",
-            },
-            {
-              name: "GRACE_PERIOD_TIME",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
-          stateMutability: "nonpayable",
-        },
         {
           type: "function",
           name: "DEFAULT_ADMIN_ROLE",
@@ -3470,6 +3871,59 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "initialize",
+          inputs: [
+            {
+              name: "OWNER",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "NAME",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "SYMBOL",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "URI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "DATA_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "SEQUENCER_UPTIME_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "CENTS",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "ADMINS",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "GRACE_PERIOD_TIME",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
         },
         {
           type: "function",
@@ -3791,6 +4245,19 @@ const deployedContracts = {
         },
         {
           type: "event",
+          name: "Initialized",
+          inputs: [
+            {
+              name: "version",
+              type: "uint64",
+              indexed: false,
+              internalType: "uint64",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
           name: "OwnershipTransferred",
           inputs: [
             {
@@ -4034,6 +4501,16 @@ const deployedContracts = {
         },
         {
           type: "error",
+          name: "InvalidInitialization",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "NotInitializing",
+          inputs: [],
+        },
+        {
+          type: "error",
           name: "OwnableInvalidOwner",
           inputs: [
             {
@@ -4076,33 +4553,460 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {
-        owner: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
-        renounceOwnership: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
-        transferOwnership: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
+        owner: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        renounceOwnership: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        transferOwnership: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        DEFAULT_ADMIN_ROLE: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        getRoleAdmin: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        grantRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        hasRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        renounceRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        revokeRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        supportsInterface: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        approve: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        balanceOf: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        getApproved: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        isApprovedForAll: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        name: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        ownerOf: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        safeTransferFrom: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        setApprovalForAll: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        symbol: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        tokenURI: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        transferFrom: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+      },
+    },
+    SONG_FACTORY: {
+      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      abi: [
+        {
+          type: "constructor",
+          inputs: [
+            {
+              name: "_admins",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "_controllers",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "_implementation",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "DEFAULT_ADMIN_ROLE",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "DEPLOYER_ROLE",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "contractInstanceCount",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "createNewInstance",
+          inputs: [
+            {
+              name: "OWNER",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "NAME",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "SYMBOL",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "URI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "DATA_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "SEQUENCER_UPTIME_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "CENTS",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "ADMINS",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "GRACE_PERIOD_TIME",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "instanceAddress",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "getInstance",
+          inputs: [
+            {
+              name: "index",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getInstanceCount",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getRoleAdmin",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "grantRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "hasRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "implementation",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "instances",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "contract SONG",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "renounceRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "callerConfirmation",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "revokeRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "supportsInterface",
+          inputs: [
+            {
+              name: "interfaceId",
+              type: "bytes4",
+              internalType: "bytes4",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "event",
+          name: "CreatedNewInstance",
+          inputs: [
+            {
+              name: "newInstance",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RoleAdminChanged",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "previousAdminRole",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "newAdminRole",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RoleGranted",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "sender",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RoleRevoked",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "sender",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "error",
+          name: "AccessControlBadConfirmation",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "AccessControlUnauthorizedAccount",
+          inputs: [
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "neededRole",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+        },
+        {
+          type: "error",
+          name: "ERC1167FailedCreateClone",
+          inputs: [],
+        },
+      ],
+      inheritedFunctions: {
         DEFAULT_ADMIN_ROLE: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         getRoleAdmin: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         grantRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         hasRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         renounceRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         revokeRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
-        supportsInterface: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        approve: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        balanceOf: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        getApproved: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        isApprovedForAll: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        name: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        ownerOf: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        safeTransferFrom: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        setApprovalForAll: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        symbol: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        tokenURI: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        transferFrom: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
+        supportsInterface: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
       },
     },
   },
   84532: {
     PLAYLIST: {
-      address: "0x9D9D525a5e26fcD5cC7609126f4f372f4dd734ab",
+      address: "0xbFB5B6e4Acb5B187d1014657b2C597228198b290",
       abi: [
         {
           type: "constructor",
@@ -4307,7 +5211,7 @@ const deployedContracts = {
       },
     },
     ALBUM: {
-      address: "0xF4B0Eddc7c4785Cf585B758FDCA7949058088BEB",
+      address: "0x65e34f8EB9F14d6f7522494DF63893B1e884B86f",
       abi: [
         {
           type: "constructor",
@@ -5139,59 +6043,8 @@ const deployedContracts = {
       },
     },
     SONG: {
-      address: "0x10a97B44AF2CBc2ACFC4c3e48869Cde331bDC94b",
+      address: "0xF5F95164DCF1A5D7Cf2e48982AEA824a8d226Ff6",
       abi: [
-        {
-          type: "constructor",
-          inputs: [
-            {
-              name: "OWNER",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "NAME",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "SYMBOL",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "URI",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "DATA_FEED",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "SEQUENCER_UPTIME_FEED",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "CENTS",
-              type: "uint256",
-              internalType: "uint256",
-            },
-            {
-              name: "ADMINS",
-              type: "address[]",
-              internalType: "address[]",
-            },
-            {
-              name: "GRACE_PERIOD_TIME",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
-          stateMutability: "nonpayable",
-        },
         {
           type: "function",
           name: "DEFAULT_ADMIN_ROLE",
@@ -5477,6 +6330,59 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "initialize",
+          inputs: [
+            {
+              name: "OWNER",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "NAME",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "SYMBOL",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "URI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "DATA_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "SEQUENCER_UPTIME_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "CENTS",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "ADMINS",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "GRACE_PERIOD_TIME",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
         },
         {
           type: "function",
@@ -5798,6 +6704,19 @@ const deployedContracts = {
         },
         {
           type: "event",
+          name: "Initialized",
+          inputs: [
+            {
+              name: "version",
+              type: "uint64",
+              indexed: false,
+              internalType: "uint64",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
           name: "OwnershipTransferred",
           inputs: [
             {
@@ -6041,6 +6960,16 @@ const deployedContracts = {
         },
         {
           type: "error",
+          name: "InvalidInitialization",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "NotInitializing",
+          inputs: [],
+        },
+        {
+          type: "error",
           name: "OwnableInvalidOwner",
           inputs: [
             {
@@ -6083,27 +7012,454 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {
-        owner: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
-        renounceOwnership: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
-        transferOwnership: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
+        owner: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        renounceOwnership: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        transferOwnership: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        DEFAULT_ADMIN_ROLE: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        getRoleAdmin: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        grantRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        hasRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        renounceRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        revokeRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        supportsInterface: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        approve: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        balanceOf: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        getApproved: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        isApprovedForAll: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        name: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        ownerOf: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        safeTransferFrom: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        setApprovalForAll: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        symbol: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        tokenURI: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        transferFrom: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+      },
+    },
+    SONG_FACTORY: {
+      address: "0xc9f15883924D0f532F3Ed1Cf3421b8060455c221",
+      abi: [
+        {
+          type: "constructor",
+          inputs: [
+            {
+              name: "_admins",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "_controllers",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "_implementation",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "DEFAULT_ADMIN_ROLE",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "DEPLOYER_ROLE",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "contractInstanceCount",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "createNewInstance",
+          inputs: [
+            {
+              name: "OWNER",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "NAME",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "SYMBOL",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "URI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "DATA_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "SEQUENCER_UPTIME_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "CENTS",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "ADMINS",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "GRACE_PERIOD_TIME",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "instanceAddress",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "getInstance",
+          inputs: [
+            {
+              name: "index",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getInstanceCount",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getRoleAdmin",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "grantRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "hasRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "implementation",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "instances",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "contract SONG",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "renounceRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "callerConfirmation",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "revokeRole",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "supportsInterface",
+          inputs: [
+            {
+              name: "interfaceId",
+              type: "bytes4",
+              internalType: "bytes4",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "event",
+          name: "CreatedNewInstance",
+          inputs: [
+            {
+              name: "newInstance",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RoleAdminChanged",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "previousAdminRole",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "newAdminRole",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RoleGranted",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "sender",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RoleRevoked",
+          inputs: [
+            {
+              name: "role",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "account",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "sender",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "error",
+          name: "AccessControlBadConfirmation",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "AccessControlUnauthorizedAccount",
+          inputs: [
+            {
+              name: "account",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "neededRole",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+        },
+        {
+          type: "error",
+          name: "ERC1167FailedCreateClone",
+          inputs: [],
+        },
+      ],
+      inheritedFunctions: {
         DEFAULT_ADMIN_ROLE: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         getRoleAdmin: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         grantRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         hasRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         renounceRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
         revokeRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
-        supportsInterface: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        approve: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        balanceOf: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        getApproved: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        isApprovedForAll: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        name: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        ownerOf: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        safeTransferFrom: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        setApprovalForAll: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        symbol: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        tokenURI: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        transferFrom: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
+        supportsInterface: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
       },
     },
   },
@@ -7149,57 +8505,6 @@ const deployedContracts = {
       address: "0xEC2090a44886396668E5C556b7dAAbA46456b2D5",
       abi: [
         {
-          type: "constructor",
-          inputs: [
-            {
-              name: "OWNER",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "NAME",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "SYMBOL",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "URI",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "DATA_FEED",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "SEQUENCER_UPTIME_FEED",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "CENTS",
-              type: "uint256",
-              internalType: "uint256",
-            },
-            {
-              name: "ADMINS",
-              type: "address[]",
-              internalType: "address[]",
-            },
-            {
-              name: "GRACE_PERIOD_TIME",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
-          stateMutability: "nonpayable",
-        },
-        {
           type: "function",
           name: "DEFAULT_ADMIN_ROLE",
           inputs: [],
@@ -7484,6 +8789,59 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "initialize",
+          inputs: [
+            {
+              name: "OWNER",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "NAME",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "SYMBOL",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "URI",
+              type: "string",
+              internalType: "string",
+            },
+            {
+              name: "DATA_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "SEQUENCER_UPTIME_FEED",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "CENTS",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "ADMINS",
+              type: "address[]",
+              internalType: "address[]",
+            },
+            {
+              name: "GRACE_PERIOD_TIME",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
         },
         {
           type: "function",
@@ -7805,6 +9163,19 @@ const deployedContracts = {
         },
         {
           type: "event",
+          name: "Initialized",
+          inputs: [
+            {
+              name: "version",
+              type: "uint64",
+              indexed: false,
+              internalType: "uint64",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
           name: "OwnershipTransferred",
           inputs: [
             {
@@ -8048,6 +9419,16 @@ const deployedContracts = {
         },
         {
           type: "error",
+          name: "InvalidInitialization",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "NotInitializing",
+          inputs: [],
+        },
+        {
+          type: "error",
           name: "OwnableInvalidOwner",
           inputs: [
             {
@@ -8090,27 +9471,27 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {
-        owner: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
-        renounceOwnership: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
-        transferOwnership: "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
-        DEFAULT_ADMIN_ROLE: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
-        getRoleAdmin: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
-        grantRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
-        hasRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
-        renounceRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
-        revokeRole: "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
-        supportsInterface: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        approve: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        balanceOf: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        getApproved: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        isApprovedForAll: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        name: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        ownerOf: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        safeTransferFrom: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        setApprovalForAll: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        symbol: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        tokenURI: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        transferFrom: "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
+        owner: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        renounceOwnership: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        transferOwnership: "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol",
+        DEFAULT_ADMIN_ROLE: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        getRoleAdmin: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        grantRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        hasRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        renounceRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        revokeRole: "lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlUpgradeable.sol",
+        supportsInterface: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        approve: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        balanceOf: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        getApproved: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        isApprovedForAll: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        name: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        ownerOf: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        safeTransferFrom: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        setApprovalForAll: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        symbol: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        tokenURI: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
+        transferFrom: "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol",
       },
     },
   },

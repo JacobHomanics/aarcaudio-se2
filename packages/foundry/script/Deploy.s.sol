@@ -39,19 +39,19 @@ contract DeployScript is ScaffoldETHDeploy {
 
         //localhost
         if (id == 31337) {
-            songOwner = 0x193aDC5c5eFB2Cf8ddBEA1F23878B46E4Df86d06;
-            albumOwner = 0x193aDC5c5eFB2Cf8ddBEA1F23878B46E4Df86d06;
-            playlistOwner = 0x193aDC5c5eFB2Cf8ddBEA1F23878B46E4Df86d06;
+            songOwner = 0x4161f8A8DfF60aEdB63baFb7d5843b0988393eC9;
+            albumOwner = 0x4161f8A8DfF60aEdB63baFb7d5843b0988393eC9;
+            playlistOwner = 0x4161f8A8DfF60aEdB63baFb7d5843b0988393eC9;
             aggregator = address(
                 new MockAggregatorV2V3Interface(400000000000, 0)
             );
             sequencerUptimeFeed = address(0);
 
             address[] memory _factoryAdmins = new address[](1);
-            _factoryAdmins[0] = 0x193aDC5c5eFB2Cf8ddBEA1F23878B46E4Df86d06;
+            _factoryAdmins[0] = 0x4161f8A8DfF60aEdB63baFb7d5843b0988393eC9;
             factoryAdmins = _factoryAdmins;
             address[] memory _factoryControllers = new address[](1);
-            _factoryControllers[0] = 0x193aDC5c5eFB2Cf8ddBEA1F23878B46E4Df86d06;
+            _factoryControllers[0] = 0x4161f8A8DfF60aEdB63baFb7d5843b0988393eC9;
             factoryControllers = _factoryControllers;
         }
         //sepolia
@@ -109,7 +109,7 @@ contract DeployScript is ScaffoldETHDeploy {
         vm.startBroadcast(deployerPrivateKey);
 
         PLAYLIST playlist = new PLAYLIST(deployerPubKey);
-        vm.roll(block.number + 1);
+        // vm.roll(block.number + 1);
 
         (
             address songOwner,
@@ -132,7 +132,7 @@ contract DeployScript is ScaffoldETHDeploy {
             sequencerUptimeFeed,
             600
         );
-        vm.roll(block.number + 1);
+        // vm.roll(block.number + 1);
 
         SONG songImplementation = new SONG();
         SONG_FACTORY songFactory = new SONG_FACTORY(
@@ -392,7 +392,7 @@ contract DeployScript is ScaffoldETHDeploy {
         // }
 
         // playlist.ADD_SONGS_BATCH(SONGS);
-        vm.roll(block.number + 1);
+        // vm.roll(block.number + 1);
         playlist.transferOwnership(playlistOwner);
 
         vm.stopBroadcast();

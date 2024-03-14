@@ -14,7 +14,7 @@ contract SONG_FACTORY is AccessControl {
     uint256 public contractInstanceCount;
     mapping(uint256 => SONG) public instances;
 
-    event CreatedNewInstance(address);
+    event CreatedNewInstance(address newInstance);
 
     constructor(
         address[] memory _admins,
@@ -67,5 +67,13 @@ contract SONG_FACTORY is AccessControl {
         emit CreatedNewInstance(address(instance));
 
         instanceAddress = address(instance);
+    }
+
+    function getInstanceCount() external view returns (uint256) {
+        return contractInstanceCount;
+    }
+
+    function getInstance(uint256 index) external view returns (address) {
+        return address(instances[index]);
     }
 }
