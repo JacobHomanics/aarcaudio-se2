@@ -47,12 +47,14 @@ contract DeployScript is ScaffoldETHDeploy {
         vm.startBroadcast(deployerPrivateKey);
 
         PLAYLIST playlist = new PLAYLIST(deployerPubKey);
+        vm.roll(block.number + 1);
 
         address[] memory admins = new address[](1);
         admins[0] = s_artist;
 
         // address aggregator = 0x694AA1769357215DE4FAC081bf1f309aDC325306; //sepolia
-        address aggregator = 0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1; //base sepolia
+        // address aggregator = 0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1; //base sepolia
+        address aggregator = 0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70; //base mainnet
 
         address sequencerUptimeFeed = 0xBCF85224fc0756B9Fa45aA7892530B47e10b6433;
 
@@ -67,9 +69,10 @@ contract DeployScript is ScaffoldETHDeploy {
             aggregator,
             600
         );
+        vm.roll(block.number + 1);
 
         address[] memory songAdmins = new address[](1);
-        songAdmins[0] = address(album);
+        // songAdmins[0] = address(album);
 
         SONG song1 = new SONG(
             s_artist,
@@ -82,6 +85,8 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
+
         console.log("Song1:", address(song1));
         SONG song2 = new SONG(
             s_artist,
@@ -94,6 +99,8 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
+
         // console.log("Song2:", address(song2));
         SONG song3 = new SONG(
             s_artist,
@@ -107,6 +114,8 @@ contract DeployScript is ScaffoldETHDeploy {
             songAdmins
         );
         console.log("Song3:", address(song3));
+        vm.roll(block.number + 1);
+
         SONG song4 = new SONG(
             s_artist,
             "ONCE YOU FIND OUT",
@@ -118,6 +127,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song5 = new SONG(
             s_artist,
@@ -130,6 +140,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song6 = new SONG(
             s_artist,
@@ -142,6 +153,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song7 = new SONG(
             s_artist,
@@ -154,6 +166,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song8 = new SONG(
             s_artist,
@@ -166,6 +179,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song9 = new SONG(
             s_artist,
@@ -178,6 +192,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song10 = new SONG(
             s_artist,
@@ -190,6 +205,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song11 = new SONG(
             s_artist,
@@ -202,6 +218,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song12 = new SONG(
             s_artist,
@@ -214,6 +231,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song13 = new SONG(
             s_artist,
@@ -226,6 +244,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song14 = new SONG(
             s_artist,
@@ -238,6 +257,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song15 = new SONG(
             s_artist,
@@ -250,6 +270,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song16 = new SONG(
             s_artist,
@@ -262,6 +283,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song17 = new SONG(
             s_artist,
@@ -274,6 +296,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song18 = new SONG(
             s_artist,
@@ -286,6 +309,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song19 = new SONG(
             s_artist,
@@ -298,6 +322,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song20 = new SONG(
             s_artist,
@@ -310,6 +335,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song21 = new SONG(
             s_artist,
@@ -322,6 +348,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song22 = new SONG(
             s_artist,
@@ -334,6 +361,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song23 = new SONG(
             s_artist,
@@ -346,6 +374,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song24 = new SONG(
             s_artist,
@@ -358,6 +387,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song25 = new SONG(
             s_artist,
@@ -370,6 +400,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song26 = new SONG(
             s_artist,
@@ -382,6 +413,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song27 = new SONG(
             s_artist,
@@ -394,6 +426,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         SONG song28 = new SONG(
             s_artist,
@@ -406,6 +439,7 @@ contract DeployScript is ScaffoldETHDeploy {
             25,
             songAdmins
         );
+        vm.roll(block.number + 1);
 
         address[] memory songs = new address[](28);
         songs[0] = address(song1);
@@ -438,6 +472,7 @@ contract DeployScript is ScaffoldETHDeploy {
         songs[27] = address(song28);
 
         playlist.ADD_SONGS_BATCH(songs);
+        vm.roll(block.number + 1);
 
         playlist.transferOwnership(s_artist);
 

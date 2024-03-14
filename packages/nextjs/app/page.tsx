@@ -288,8 +288,6 @@ const Home: NextPage = () => {
     }
   }
 
-  console.log("updated");
-
   const [play, setPlay] = useState(false);
   const [selectedSong, setSelectedSong] = useState<string>();
   const oceanRef = useRef<HTMLAudioElement>(null);
@@ -343,7 +341,7 @@ const Home: NextPage = () => {
       key={index}
       contractAddress={{
         value: anNft.address,
-        classes: "m-1 text-xs lg:text-xs line-clamp-1  text-center text-primary-content text-cyan-400 hover:underline",
+        classes: "font-medium text-blue-600 dark:text-blue-500 hover:underline text-xs m-1",
       }}
       name={{
         value: anNft.name,
@@ -353,7 +351,7 @@ const Home: NextPage = () => {
       image={{
         value: anNft.image,
         alt: "NFT 1",
-        classes: "p-1 lg:p-8 w-24 h-24 lg:w-64 lg:h-64 rounded-2xl lg:rounded-[56px]",
+        classes: "p-1 lg:p-1 w-24 h-24 lg:w-52 lg:h-52 rounded-2xl lg:rounded-[56px]",
       }}
       price={{
         value: truncate(anNft.price, 7),
@@ -434,8 +432,7 @@ const Home: NextPage = () => {
         <NftCard
           contractAddress={{
             value: albumNft?.contractAddress,
-            classes:
-              "m-1 text-xs lg:text-xs line-clamp-1  text-center text-primary-content text-cyan-400 hover:underline",
+            classes: "font-medium text-blue-600 dark:text-blue-500 hover:underline text-xs m-1",
           }}
           name={{
             value: albumNft.name,
@@ -444,7 +441,7 @@ const Home: NextPage = () => {
           image={{
             value: albumNft.image,
             alt: "Album NFT",
-            classes: "p-1 lg:p-8 w-36 h-36 lg:w-64 lg:h-64",
+            classes: "p-1 lg:p-1 w-36 h-36 lg:w-52 lg:h-52",
           }}
           actionBtn={{
             text: !hasRedeemed ? "Claim" : "Claimed!",
