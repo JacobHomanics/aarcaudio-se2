@@ -28,6 +28,38 @@ contract SongTest is Test {
     uint256 priceBasedOnCents;
     uint256 timeWarp = 200000;
 
+    function createDefaultSong() public {
+        s_song = new SONG(
+            s_owner,
+            "Token",
+            "T",
+            ipfsUrl,
+            address(s_dataAggregator),
+            address(s_uptimeSequencer),
+            cents,
+            songAdmins,
+            10
+        );
+
+        priceBasedOnCents = s_song.GET_PRICE_BASED_ON_CENTS();
+    }
+
+    function createLayer1Song() public {
+        s_song = new SONG(
+            s_owner,
+            "Token",
+            "T",
+            ipfsUrl,
+            address(s_dataAggregator),
+            address(0),
+            cents,
+            songAdmins,
+            10
+        );
+
+        priceBasedOnCents = s_song.GET_PRICE_BASED_ON_CENTS();
+    }
+
     function setUp() public {
         s_owner = vm.addr(1);
         console.log("Owner: ", address(s_owner));
@@ -41,24 +73,24 @@ contract SongTest is Test {
 
         songAdmins.push(s_admin);
 
-        s_song = new SONG(
-            s_owner,
-            "Token",
-            "T",
-            ipfsUrl,
-            address(s_dataAggregator),
-            address(s_uptimeSequencer),
-            cents,
-            songAdmins,
-            10
-        );
+        // s_song = new SONG(
+        //     s_owner,
+        //     "Token",
+        //     "T",
+        //     ipfsUrl,
+        //     address(s_dataAggregator),
+        //     address(s_uptimeSequencer),
+        //     cents,
+        //     songAdmins,
+        //     10
+        // );
 
         vm.warp(timeWarp);
-
-        priceBasedOnCents = s_song.GET_PRICE_BASED_ON_CENTS();
     }
 
     function testCreateSong(uint256 uniqueId) public {
+        createDefaultSong();
+
         SONG song = new SONG(
             s_owner,
             string.concat("Token-", uniqueId.toString()),
@@ -94,6 +126,8 @@ contract SongTest is Test {
         address recipient,
         uint256 mintAmount
     ) public {
+        createDefaultSong();
+
         vm.assume(recipient != address(0));
         vm.assume(mintAmount >= priceBasedOnCents);
 
@@ -113,6 +147,8 @@ contract SongTest is Test {
         address minter,
         address recipient
     ) public {
+        createDefaultSong();
+
         vm.assume(recipient != address(0));
 
         vm.deal(minter, 5);
@@ -128,6 +164,8 @@ contract SongTest is Test {
         address recipient,
         uint256 mintAmount
     ) public {
+        createDefaultSong();
+
         vm.assume(recipient != address(0));
         vm.assume(mintAmount >= priceBasedOnCents);
 
@@ -146,6 +184,8 @@ contract SongTest is Test {
         address recipient,
         uint256 mintAmount
     ) public {
+        createDefaultSong();
+
         vm.assume(recipient != address(0));
         vm.assume(mintAmount >= priceBasedOnCents);
 
@@ -160,6 +200,8 @@ contract SongTest is Test {
     }
 
     function testSpecialMint(address recipient) public {
+        createDefaultSong();
+
         vm.assume(recipient != address(0));
 
         vm.startPrank(s_admin);
@@ -172,6 +214,8 @@ contract SongTest is Test {
     }
 
     function testWithdraw(address operator) public {
+        createDefaultSong();
+
         vm.assume(operator != address(0));
 
         vm.deal(operator, priceBasedOnCents);
