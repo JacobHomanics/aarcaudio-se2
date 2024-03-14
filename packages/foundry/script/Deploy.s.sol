@@ -107,7 +107,7 @@ contract DeployScript is ScaffoldETHDeploy {
         );
         vm.roll(block.number + 1);
 
-        uint256 CENTS = 25;
+        uint256 CENTS = 100;
         uint256 GRACE_PERIOD = 3600;
         SONG_PARAMS[] memory PARAMS = new SONG_PARAMS[](28);
         PARAMS[0] = SONG_PARAMS(

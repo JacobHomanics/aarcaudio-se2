@@ -3,11 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import "@madzadev/audio-player/dist/index.css";
 import type { NextPage } from "next";
-// import { useFetch } from "usehooks-ts";
+import { useFetch } from "usehooks-ts";
 import { formatEther } from "viem";
 // import { createPublicClient, http } from "viem";
 // import { mainnet } from "viem/chains";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { generateAlbumNft } from "~~/components/Helper";
 import { LinksCard } from "~~/components/LinksCard";
 // import { useNetwork } from "wagmi";
 import { NftCard } from "~~/components/NftCard/NftCard";
@@ -24,13 +25,13 @@ const Home: NextPage = () => {
     },
   });
 
-  // const { data: album1GoodURI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "getGoodURI" });
-  // const { data: album1BadURI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "getBadURI" });
-  // const album1GoodURICorrected = album1GoodURI?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  // const album1BadURICorrected = album1BadURI?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  const { data: album1GoodURI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "GET_GOOD_URI" });
+  const { data: album1BadURI } = useScaffoldContractRead({ contractName: "ALBUM", functionName: "GET_BAD_URI" });
+  const album1GoodURICorrected = album1GoodURI?.replace("ipfs://", "https://ipfs.io/ipfs/");
+  const album1BadURICorrected = album1BadURI?.replace("ipfs://", "https://ipfs.io/ipfs/");
 
-  // const { data: album1GoodMetadata } = useFetch<any>(album1GoodURICorrected);
-  // const { data: album1BadMetadata } = useFetch<any>(album1BadURICorrected);
+  const { data: album1GoodMetadata } = useFetch<any>(album1GoodURICorrected);
+  const { data: album1BadMetadata } = useFetch<any>(album1BadURICorrected);
 
   const { data: ownsCollection, refetch: refetchCheckIfOwnsCollection } = useScaffoldContractRead({
     contractName: "ALBUM",
@@ -64,29 +65,7 @@ const Home: NextPage = () => {
     args: [connectedAddress],
   });
 
-  let albumNft;
-
-  if (hasRedeemed) {
-    if (ownsCollection) {
-      albumNft = {
-        name: "ARCADE RUN", //album1GoodMetadata?.name,
-        image: "/aarcaudio/images/album.gif", //album1GoodMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        contractAddress: album?.address,
-      };
-    } else {
-      albumNft = {
-        name: "ARCADE RUN", //album1BadMetadata?.name,
-        image: "/aarcaudio/images/album-bad.gif", //album1BadMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        contractAddress: album?.address,
-      };
-    }
-  } else {
-    albumNft = {
-      name: "ARCADE RUN", //album1BadMetadata?.name,
-      image: "/aarcaudio/images/album-bad.gif", //album1BadMetadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
-      contractAddress: album?.address,
-    };
-  }
+  const albumNft = generateAlbumNft(false, hasRedeemed, ownsCollection, album, album1GoodMetadata, album1BadMetadata);
 
   const { writeAsync: claimAlbum } = useScaffoldContractWrite({
     contractName: "ALBUM",
@@ -141,7 +120,7 @@ const Home: NextPage = () => {
         const price = await publicClient.readContract({
           address: allSongs[i],
           abi,
-          functionName: "getPrice",
+          functionName: "GET_PRICE",
         });
 
         // const uri = await publicClient.readContract({
@@ -162,7 +141,7 @@ const Home: NextPage = () => {
         const mintPriceBasedOnCents = await publicClient.readContract({
           address: allSongs[i],
           abi,
-          functionName: "getMintPriceBasedOnCents",
+          functionName: "GET_PRICE_BASED_ON_CENTS",
         });
 
         // const cents = await publicClient.readContract({
