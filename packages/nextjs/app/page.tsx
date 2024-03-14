@@ -16,7 +16,7 @@ import { NftCard } from "~~/components/NftCard/NftCard";
 import { abi } from "~~/contracts/songAbi";
 import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
-const isCached = true;
+const isCached = false;
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount({
@@ -114,97 +114,102 @@ const Home: NextPage = () => {
 
   const [isPlayings, setIsPlayings] = useState<{ id: number; value: boolean }[]>([]);
 
-  useEffect(() => {
-    async function yeah() {
-      if (!allSongs) return;
+  async function yeah() {
+    console.log("heree1");
 
-      const songDatas = [];
-      const audioComps = [];
+    if (!allSongs) return;
 
-      for (let i = 0; i < allSongs?.length; i++) {
-        const audioComp = { id: i, value: false };
-        audioComps.push(audioComp);
+    console.log("heree2");
 
-        const price = await publicClient.readContract({
+    const songDatas = [];
+    const audioComps = [];
+
+    for (let i = 0; i < allSongs?.length; i++) {
+      const audioComp = { id: i, value: false };
+      audioComps.push(audioComp);
+
+      const price = await publicClient.readContract({
+        address: allSongs[i],
+        abi,
+        functionName: "GET_PRICE",
+      });
+
+      const mintPriceBasedOnCents = await publicClient.readContract({
+        address: allSongs[i],
+        abi,
+        functionName: "GET_PRICE_BASED_ON_CENTS",
+      });
+
+      console.log("heree3");
+      let balanceOf;
+      if (connectedAddress) {
+        balanceOf = await publicClient.readContract({
           address: allSongs[i],
           abi,
-          functionName: "GET_PRICE",
+          functionName: "balanceOf",
+          args: [connectedAddress],
         });
-
-        const mintPriceBasedOnCents = await publicClient.readContract({
-          address: allSongs[i],
-          abi,
-          functionName: "GET_PRICE_BASED_ON_CENTS",
-        });
-
-        let balanceOf;
-        if (connectedAddress) {
-          balanceOf = await publicClient.readContract({
-            address: allSongs[i],
-            abi,
-            functionName: "balanceOf",
-            args: [connectedAddress],
-          });
-        }
-
-        const data: any = {};
-
-        if (isCached) {
-          const result = await fetch(`/AARCADE RUN/${i + 1}.json`, {
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-          });
-
-          const resultJson = await result.json();
-          data.name = resultJson.name;
-          data.image = `/aarcaudio/images/glitch-art-studio ${i + 1}.gif`;
-          data.cents = 25;
-          data.audio = `/aarcaudio/songs/${i + 1}.mp3`;
-        } else {
-          const cents = await publicClient.readContract({
-            address: allSongs[i],
-            abi,
-            functionName: "GET_CENTS",
-          });
-
-          const uri = await publicClient.readContract({
-            address: allSongs[i],
-            abi,
-            functionName: "GET_URI",
-          });
-          const uriCorrected = (uri as string).replace("ipfs://", "https://ipfs.io/ipfs/");
-          const response = await fetch(uriCorrected);
-          const tokenData = await response.json();
-          tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
-
-          data.name = tokenData.name;
-          data.image = tokenData.image?.replace("ipfs://", "https://ipfs.io/ipfs/");
-          data.cents = (cents as bigint).toString();
-          data.audio = tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/");
-        }
-
-        const songData = {
-          address: allSongs[i],
-          price,
-          balanceOf,
-          mintPriceBasedOnCents,
-          name: data.name,
-          image: data.image,
-          cents: data.cents,
-          audio: data.audio,
-        };
-
-        songDatas.push(songData);
       }
 
-      setAllSongDatas([...songDatas]);
-      setIsPlayings([...audioComps]);
+      const data: any = {};
+
+      if (isCached) {
+        const result = await fetch(`/AARCADE RUN/${i + 1}.json`, {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        });
+
+        const resultJson = await result.json();
+        data.name = resultJson.name;
+        data.image = `/aarcaudio/images/glitch-art-studio ${i + 1}.gif`;
+        data.cents = 25;
+        data.audio = `/aarcaudio/songs/${i + 1}.mp3`;
+      } else {
+        const cents = await publicClient.readContract({
+          address: allSongs[i],
+          abi,
+          functionName: "GET_CENTS",
+        });
+
+        const uri = await publicClient.readContract({
+          address: allSongs[i],
+          abi,
+          functionName: "GET_URI",
+        });
+        const uriCorrected = (uri as string).replace("ipfs://", "https://ipfs.io/ipfs/");
+        const response = await fetch(uriCorrected);
+        const tokenData = await response.json();
+        tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
+
+        data.name = tokenData.name;
+        data.image = tokenData.image?.replace("ipfs://", "https://ipfs.io/ipfs/");
+        data.cents = (cents as bigint).toString();
+        data.audio = tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/");
+      }
+
+      const songData = {
+        address: allSongs[i],
+        price,
+        balanceOf,
+        mintPriceBasedOnCents,
+        name: data.name,
+        image: data.image,
+        cents: data.cents,
+        audio: data.audio,
+      };
+
+      songDatas.push(songData);
     }
 
+    setAllSongDatas([...songDatas]);
+    setIsPlayings([...audioComps]);
+  }
+
+  useEffect(() => {
     yeah();
-  }, [allSongs, publicClient.account, walletClient?.account.address]);
+  }, [allSongs, publicClient.account, walletClient?.account.address, totalPriceUnowned]);
 
   const builtNfts: any[] = [];
 

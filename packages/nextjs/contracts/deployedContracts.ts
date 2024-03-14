@@ -2014,7 +2014,7 @@ const deployedContracts = {
   },
   31337: {
     PLAYLIST: {
-      address: "0xCace1b78160AE76398F486c8a18044da0d66d86D",
+      address: "0xCA8c8688914e0F7096c920146cd0Ad85cD7Ae8b9",
       abi: [
         {
           type: "constructor",
@@ -2219,7 +2219,7 @@ const deployedContracts = {
       },
     },
     MockAggregatorV2V3Interface: {
-      address: "0xD5ac451B0c50B9476107823Af206eD814a2e2580",
+      address: "0xB0f05d25e41FbC2b52013099ED9616f1206Ae21B",
       abi: [
         {
           type: "constructor",
@@ -2300,7 +2300,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     ALBUM: {
-      address: "0xF8e31cb472bc70500f08Cd84917E5A1912Ec8397",
+      address: "0x5FeaeBfB4439F3516c74939A9D04e95AFE82C4ae",
       abi: [
         {
           type: "constructor",
@@ -3132,7 +3132,7 @@ const deployedContracts = {
       },
     },
     SONG: {
-      address: "0xd6e1afe5cA8D00A2EFC01B89997abE2De47fdfAf",
+      address: "0x8bCe54ff8aB45CB075b044AE117b8fD91F9351aB",
       abi: [
         {
           type: "constructor",
@@ -4102,7 +4102,7 @@ const deployedContracts = {
   },
   84532: {
     PLAYLIST: {
-      address: "0x3C767bff237056FC5DfD79b2B95487C0E27aCcE8",
+      address: "0x9D9D525a5e26fcD5cC7609126f4f372f4dd734ab",
       abi: [
         {
           type: "constructor",
@@ -4307,7 +4307,7 @@ const deployedContracts = {
       },
     },
     ALBUM: {
-      address: "0x93BeFe0141A3d3015ff90301e9C64c6Af66D6a7e",
+      address: "0xF4B0Eddc7c4785Cf585B758FDCA7949058088BEB",
       abi: [
         {
           type: "constructor",
@@ -5139,7 +5139,7 @@ const deployedContracts = {
       },
     },
     SONG: {
-      address: "0xb6522998c113272692722d83f85D477f266619C5",
+      address: "0x10a97B44AF2CBc2ACFC4c3e48869Cde331bDC94b",
       abi: [
         {
           type: "constructor",

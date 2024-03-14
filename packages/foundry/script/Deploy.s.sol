@@ -59,7 +59,6 @@ contract DeployScript is ScaffoldETHDeploy {
             songOwner = 0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf;
             albumOwner = 0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf;
             playlistOwner = 0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf;
-
             aggregator = 0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1;
             sequencerUptimeFeed = address(0);
         }
@@ -107,7 +106,7 @@ contract DeployScript is ScaffoldETHDeploy {
         );
         vm.roll(block.number + 1);
 
-        uint256 CENTS = 100;
+        uint256 CENTS = 25;
         uint256 GRACE_PERIOD = 3600;
         SONG_PARAMS[] memory PARAMS = new SONG_PARAMS[](28);
         PARAMS[0] = SONG_PARAMS(
