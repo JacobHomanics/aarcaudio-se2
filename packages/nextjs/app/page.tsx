@@ -16,7 +16,7 @@ import { NftCard } from "~~/components/NftCard/NftCard";
 import { abi } from "~~/contracts/songAbi";
 import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
-const isCached = false;
+const isCached = true;
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount({
