@@ -2014,7 +2014,7 @@ const deployedContracts = {
   },
   31337: {
     PLAYLIST: {
-      address: "0x9E545E3C0baAB3E08CdfD552C960A1050f373042",
+      address: "0xCace1b78160AE76398F486c8a18044da0d66d86D",
       abi: [
         {
           type: "constructor",
@@ -2219,7 +2219,7 @@ const deployedContracts = {
       },
     },
     MockAggregatorV2V3Interface: {
-      address: "0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9",
+      address: "0xD5ac451B0c50B9476107823Af206eD814a2e2580",
       abi: [
         {
           type: "constructor",
@@ -2300,7 +2300,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     ALBUM: {
-      address: "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8",
+      address: "0xF8e31cb472bc70500f08Cd84917E5A1912Ec8397",
       abi: [
         {
           type: "constructor",
@@ -3132,7 +3132,7 @@ const deployedContracts = {
       },
     },
     SONG: {
-      address: "0x162A433068F51e18b7d13932F27e66a3f99E6890",
+      address: "0xd6e1afe5cA8D00A2EFC01B89997abE2De47fdfAf",
       abi: [
         {
           type: "constructor",

@@ -16,7 +16,7 @@ import { NftCard } from "~~/components/NftCard/NftCard";
 import { abi } from "~~/contracts/songAbi";
 import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
-const isCached = false;
+const isCached = true;
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount({
@@ -65,7 +65,15 @@ const Home: NextPage = () => {
     args: [connectedAddress],
   });
 
-  const albumNft = generateAlbumNft(false, hasRedeemed, ownsCollection, album, album1GoodMetadata, album1BadMetadata);
+  const albumNft = generateAlbumNft(
+    isCached,
+    hasRedeemed,
+    ownsCollection,
+    album,
+    album1GoodMetadata,
+    album1BadMetadata,
+    album_cents,
+  );
 
   const { writeAsync: claimAlbum } = useScaffoldContractWrite({
     contractName: "ALBUM",
@@ -362,7 +370,7 @@ const Home: NextPage = () => {
   // }
 
   // const dollars = (totalPriceCents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
-  const dollars = (Number(album_cents) / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
+  const dollars = (Number(albumNft.albumCents) / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
 
   let totalPriceCents2 = 0;
 
