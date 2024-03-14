@@ -156,9 +156,9 @@ contract DeployScript is ScaffoldETHDeploy {
         );
 
         PARAMS[6] = SONG_PARAMS(
-            "CLASSY ICY JUNGLE",
+            "CLASSY ICE JUNGLE",
             "CIJ",
-            "ipfs://bafkreidtt4okddciprjcs3r722ugl22knkj235z4u7lrwtbnr76gpcpjta",
+            "ipfs://bafkreifzfqdiqykw7qdddhtkntzi6bhytcxkg5frhuhjm53oc2mfiu4mwy",
             CENTS,
             GRACE_PERIOD
         );

@@ -388,6 +388,14 @@ const Home: NextPage = () => {
   return (
     <>
       <LinksCard />
+
+      {/* <button
+        onClick={async () => {
+          await withdrawFromAlbum();
+        }}
+      >
+        Withdraw From Album
+      </button> */}
       <audio
         ref={oceanRef}
         src={selectedSong}
