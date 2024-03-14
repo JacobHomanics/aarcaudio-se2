@@ -11,106 +11,93 @@ contract PLAYLIST is Ownable {
     using StructuredLinkedList for StructuredLinkedList.List;
 
     StructuredLinkedList.List LIST;
-    struct BaseStructure {
+    struct BASE_STRCTURE {
         address value;
     }
 
-    // Mapping from token ID to the structures
-    mapping(uint256 => BaseStructure) private _structureMap;
-    uint256 public progressiveId = 0;
-
-    function createStructure(address song) public {
-        progressiveId = progressiveId + 1;
-        _structureMap[progressiveId] = BaseStructure(song);
-    }
+    mapping(uint256 => BASE_STRCTURE) private S_STRUCTURE_MAP;
+    uint256 S_PROGRESSIVE_ID = 0;
 
     constructor(address OWNER) Ownable(OWNER) {}
 
-    function ADD_SONGS_BATCH(address[] memory songs) external {
-        for (uint256 i = 0; i < songs.length; i++) {
-            ADD_SONG(songs[i]);
+    function CREATE_STRUCTURE(address SONG) public onlyOwner {
+        S_PROGRESSIVE_ID = S_PROGRESSIVE_ID + 1;
+        S_STRUCTURE_MAP[S_PROGRESSIVE_ID] = BASE_STRCTURE(SONG);
+    }
+
+    function ADD_SONG(address SONG) public onlyOwner {
+        CREATE_STRUCTURE(SONG);
+        uint256 TOKEN_ID = S_PROGRESSIVE_ID;
+        LIST.pushBack(TOKEN_ID);
+    }
+
+    function ADD_SONGS_BATCH(address[] memory SONGS) external onlyOwner {
+        for (uint256 i = 0; i < SONGS.length; i++) {
+            ADD_SONG(SONGS[i]);
         }
     }
 
-    function ADD_SONG(address song) public onlyOwner {
-        createStructure(song);
-        uint256 tokenId = progressiveId;
-        LIST.pushBack(tokenId);
-    }
+    function REMOVE_SONG(address song) public onlyOwner {
+        uint256 SIZE_OF = LIST.sizeOf();
 
-    function REMOVE_SONG(address song) external onlyOwner {
-        uint256 sizeOf = LIST.sizeOf();
+        uint256 SELECTED_NODE = 0;
 
-        uint256 selectedNode = 0;
+        for (uint256 i = 1; i <= SIZE_OF; i++) {
+            (bool EXISTS, uint256 NEXT) = LIST.getNextNode(SELECTED_NODE);
+            SELECTED_NODE = NEXT;
 
-        for (uint256 i = 1; i <= sizeOf; i++) {
-            (bool exists, uint256 next) = LIST.getNextNode(selectedNode);
-            selectedNode = next;
-
-            if (exists) {
-                if (_structureMap[selectedNode].value == song) {
-                    LIST.remove(selectedNode);
+            if (EXISTS) {
+                if (S_STRUCTURE_MAP[SELECTED_NODE].value == song) {
+                    LIST.remove(SELECTED_NODE);
                 }
             }
         }
     }
 
-    function getSongByIndex(
-        uint256 index
+    function REMOVE_SONGS_BATCH(address[] memory SONGS) external onlyOwner {
+        for (uint256 i = 0; i < SONGS.length; i++) {
+            REMOVE_SONG(SONGS[i]);
+        }
+    }
+
+    function GET_SONG_BY_INDEX(
+        uint256 INDEX
     ) external view returns (address song) {
-        uint256 sizeOf = LIST.sizeOf();
+        uint256 SIZE_OF = LIST.sizeOf();
 
-        uint256 selectedNode = 0;
+        uint256 SELECTED_NODE = 0;
 
-        for (uint256 i = 1; i <= sizeOf; i++) {
-            (bool exists, uint256 next) = LIST.getNextNode(selectedNode);
-            selectedNode = next;
+        for (uint256 i = 1; i <= SIZE_OF; i++) {
+            (bool EXISTS, uint256 NEXT) = LIST.getNextNode(SELECTED_NODE);
+            SELECTED_NODE = NEXT;
 
-            if (exists) {
-                if (i == index) {
-                    song = _structureMap[selectedNode].value;
+            if (EXISTS) {
+                if (i == INDEX) {
+                    song = S_STRUCTURE_MAP[SELECTED_NODE].value;
                 }
             }
         }
     }
 
-    function getAllSongs() external view returns (address[] memory) {
-        uint256 sizeOf = LIST.sizeOf();
+    function GET_ALL_SONGS() external view returns (address[] memory) {
+        uint256 SIZE_OF = LIST.sizeOf();
 
-        address[] memory songs = new address[](sizeOf);
-        uint256 selectedNode = 0;
+        address[] memory SONGS = new address[](SIZE_OF);
+        uint256 SELECTED_NODE = 0;
 
-        for (uint256 i = 1; i <= sizeOf; i++) {
-            (bool exists, uint256 next) = LIST.getNextNode(selectedNode);
-            selectedNode = next;
+        for (uint256 i = 1; i <= SIZE_OF; i++) {
+            (bool EXISTS, uint256 NEXT) = LIST.getNextNode(SELECTED_NODE);
+            SELECTED_NODE = NEXT;
 
-            if (exists) {
-                songs[i - 1] = _structureMap[selectedNode].value;
+            if (EXISTS) {
+                SONGS[i - 1] = S_STRUCTURE_MAP[SELECTED_NODE].value;
             }
         }
 
-        return songs;
+        return SONGS;
     }
 
-    // function getCollectionLength() public view returns (uint256) {
-    //     return COLLECTION_LENGTH;
-    // }
-
-    // function getSong(uint256 id) public view returns (address) {
-    //     return SONGS[id];
-    // }
-
-    // function MINT(address RECIPIENT, uint256 SONG_ID) public payable {
-    //     // if (SONG_ID >= COLLECTION_LENGTH) {
-    //     //     revert AARCAUDIO_VOLUME_1__INVALID_MINT_TOKEN_ID();
-    //     // }
-
-    //     // SONG(SONGS[SONG_ID]).MINT(RECIPIENT);
-    // }
-
-    // function MINT_ALL(address RECIPIENT) external payable {
-    //     for (uint256 i = 0; i < COLLECTION_LENGTH; i++) {
-    //         MINT(RECIPIENT, i);
-    //     }
-    // }
+    function GET_PROGRESSIVE_ID() external view returns (uint256) {
+        return S_PROGRESSIVE_ID;
+    }
 }

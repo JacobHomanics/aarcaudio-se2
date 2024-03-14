@@ -5,79 +5,60 @@ import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
-
 import {AggregatorV2V3Interface} from "./chainlink/interfaces/AggregatorV2V3Interface.sol";
 
 contract SONG is Ownable, AccessControl, ERC721 {
     using Strings for uint256;
 
     error SONG__INVALID_MINT_NOT_ENOUGH_ETH();
-
-    // uint256 S_PRICE;
+    error SONG__SEQUENCER_DOWN();
+    error SONG__GRACE_PERIOD_NOT_OVER();
+    error SONG__NOT_OWNER();
     string S_URI;
     uint256 S_MINT_COUNT;
-
     uint256 S_CENTS;
 
-    AggregatorV2V3Interface internal s_dataFeed;
-    AggregatorV2V3Interface internal s_sequencerUptimeFeed;
-
-    uint256 private constant GRACE_PERIOD_TIME = 3600;
-
-    error SequencerDown();
-    error GracePeriodNotOver();
-
-    function getPrice() public view returns (uint256) {
-        // return S_PRICE;
-        return getMintPriceBasedOnCents();
-    }
-
-    function getURI() external view returns (string memory) {
-        return S_URI;
-    }
+    AggregatorV2V3Interface S_DATA_FEED;
+    AggregatorV2V3Interface S_SEQUENCER_UPTIME_FEED;
+    uint256 S_GRACE_PERIOD_TIME;
 
     constructor(
         address OWNER,
         string memory NAME,
         string memory SYMBOL,
-        // uint256 PRICE,
         string memory URI,
-        address dataFeed,
-        address sequencerUptimeFeed,
-        uint256 cents,
-        address[] memory admins
+        address DATA_FEED,
+        address SEQUENCER_UPTIME_FEED,
+        uint256 CENTS,
+        address[] memory ADMINS,
+        uint256 GRACE_PERIOD_TIME
     ) Ownable(OWNER) ERC721(NAME, SYMBOL) {
-        // S_PRICE = PRICE;
-        S_CENTS = cents;
-
+        S_CENTS = CENTS;
         S_URI = URI;
 
-        s_sequencerUptimeFeed = AggregatorV2V3Interface(sequencerUptimeFeed);
+        S_DATA_FEED = AggregatorV2V3Interface(DATA_FEED);
+        S_SEQUENCER_UPTIME_FEED = AggregatorV2V3Interface(
+            SEQUENCER_UPTIME_FEED
+        );
+        S_GRACE_PERIOD_TIME = GRACE_PERIOD_TIME;
 
-        s_dataFeed = AggregatorV2V3Interface(dataFeed);
-
-        for (uint256 i = 0; i < admins.length; i++) {
-            _grantRole(DEFAULT_ADMIN_ROLE, admins[i]);
+        for (uint256 i = 0; i < ADMINS.length; i++) {
+            _grantRole(DEFAULT_ADMIN_ROLE, ADMINS[i]);
         }
-
-        // sequencerUptimeFeed = AggregatorV2V3Interface(
-        //     0xBCF85224fc0756B9Fa45aA7892530B47e10b6433 //base MAINNET
-        // );
     }
 
     function WITHDRAW(address RECIPIENT) external onlyOwner {
         (bool SENT, ) = RECIPIENT.call{value: address(this).balance}("");
-        require(SENT, "FAILED TO SEND ETHER");
+        if (!SENT) revert SONG__NOT_OWNER();
     }
 
-    function GET_CENTS() public view returns (uint256) {
-        return S_CENTS;
-    }
+    function MINT(address RECIPIENT) public payable {
+        if (msg.value < GET_PRICE()) {
+            revert SONG__INVALID_MINT_NOT_ENOUGH_ETH();
+        }
 
-    function supportsInterface(
-        bytes4 interfaceId
-    ) public view override(ERC721, AccessControl) returns (bool) {
-        return super.supportsInterface(interfaceId);
+        _mint(RECIPIENT, S_MINT_COUNT);
+        S_MINT_COUNT++;
     }
 
     function SPECIAL_MINT(
@@ -87,24 +68,66 @@ contract SONG is Ownable, AccessControl, ERC721 {
         S_MINT_COUNT++;
     }
 
-    function MINT(address RECIPIENT) public payable {
-        if (msg.value < getPrice()) {
-            revert SONG__INVALID_MINT_NOT_ENOUGH_ETH();
-        }
-
-        _mint(RECIPIENT, S_MINT_COUNT);
-        S_MINT_COUNT++;
+    function GET_MINT_COUNT() external view returns (uint256) {
+        return S_MINT_COUNT;
     }
 
-    function getMintPriceBasedOnCents() public view returns (uint) {
-        int price = getChainlinkDataFeedLatestAnswer();
+    function GET_PRICE() public view returns (uint256) {
+        return GET_PRICE_BASED_ON_CENTS();
+    }
 
-        // uint currentFiatPrice = 77697017 * 1e10;
-        uint currentFiatPrice = uint(price) * 1e10;
-        uint fiatPrice = GET_CENTS() * 1e16;
+    function GET_URI() external view returns (string memory) {
+        return S_URI;
+    }
 
-        uint value = (fiatPrice * 1e18) / currentFiatPrice;
-        return value;
+    function GET_CENTS() public view returns (uint256) {
+        return S_CENTS;
+    }
+
+    function GET_PRICE_BASED_ON_CENTS() public view returns (uint PRICE) {
+        int RAW_PRICE = GET_CHAINLINK_DATA_FEED_LATEST_ANSWER();
+
+        uint CURRENT_FIAT_PRICE = uint(RAW_PRICE) * 1e10;
+        uint FIAT_PRICE = GET_CENTS() * 1e16;
+
+        PRICE = (FIAT_PRICE * 1e18) / CURRENT_FIAT_PRICE;
+    }
+
+    function GET_CHAINLINK_DATA_FEED_LATEST_ANSWER() public view returns (int) {
+        (, int256 ANSWER, uint256 STARTED_AT, , ) = S_SEQUENCER_UPTIME_FEED
+            .latestRoundData();
+
+        // Answer == 0: Sequencer is up
+        // Answer == 1: Sequencer is down
+        bool IS_SEQUENCER_UP = ANSWER == 0;
+        if (!IS_SEQUENCER_UP) {
+            revert SONG__SEQUENCER_DOWN();
+        }
+
+        uint256 TIME_SINCE_UP = block.timestamp - STARTED_AT;
+        if (TIME_SINCE_UP <= S_GRACE_PERIOD_TIME) {
+            revert SONG__GRACE_PERIOD_NOT_OVER();
+        }
+
+        (, int DATA, , , ) = S_DATA_FEED.latestRoundData();
+
+        return DATA;
+    }
+
+    function GET_DATA_FEED() external view returns (address DATA_FEED) {
+        DATA_FEED = address(S_DATA_FEED);
+    }
+
+    function GET_SEQUENCER_UPTIME_FEED()
+        external
+        view
+        returns (address SEQUENCER_UPTIME_FEED)
+    {
+        SEQUENCER_UPTIME_FEED = address(S_SEQUENCER_UPTIME_FEED);
+    }
+
+    function GET_GRACE_PERIOD_TIME() external view returns (uint256) {
+        return S_GRACE_PERIOD_TIME;
     }
 
     function tokenURI(
@@ -114,39 +137,9 @@ contract SONG is Ownable, AccessControl, ERC721 {
         return S_URI;
     }
 
-    function getChainlinkDataFeedLatestAnswer() public view returns (int) {
-        // prettier-ignore
-        (
-            /*uint80 roundID*/,
-            int256 answer,
-            uint256 startedAt,
-            /*uint256 updatedAt*/,
-            /*uint80 answeredInRound*/
-        ) = s_sequencerUptimeFeed.latestRoundData();
-
-        // Answer == 0: Sequencer is up
-        // Answer == 1: Sequencer is down
-        bool isSequencerUp = answer == 0;
-        if (!isSequencerUp) {
-            revert SequencerDown();
-        }
-
-        // Make sure the grace period has passed after the
-        // sequencer is back up.
-        uint256 timeSinceUp = block.timestamp - startedAt;
-        if (timeSinceUp <= GRACE_PERIOD_TIME) {
-            revert GracePeriodNotOver();
-        }
-
-        // prettier-ignore
-        (
-            /*uint80 roundID*/,
-            int data,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
-            /*uint80 answeredInRound*/
-        ) = s_dataFeed.latestRoundData();
-
-        return data;
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view override(ERC721, AccessControl) returns (bool) {
+        return super.supportsInterface(interfaceId);
     }
 }
