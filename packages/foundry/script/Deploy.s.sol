@@ -94,7 +94,7 @@ contract DeployScript is ScaffoldETHDeploy {
         ALBUM album = new ALBUM(
             address(playlist),
             albumOwner,
-            "AARCADE RUN",
+            "ARCADE RUN",
             "AAR",
             "ipfs://bafkreienrelxkykta5n5ox77mntpnuqjcgb3ddaizdngvxkp67mfafyxgm",
             "ipfs://bafkreid6latbk2ygomuz5jzdezxoqokdvsxh5puj6k66e3o5zym6acnhh4",

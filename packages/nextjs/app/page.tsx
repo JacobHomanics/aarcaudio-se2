@@ -319,7 +319,7 @@ const Home: NextPage = () => {
       key={index}
       contractAddress={{
         value: anNft.address,
-        classes: "font-medium text-blue-600 dark:text-blue-500 hover:underline text-xs m-1",
+        classes: "text-blue-600 dark:text-blue-500 hover:underline text-xs m-1",
       }}
       name={{
         value: anNft.name,
