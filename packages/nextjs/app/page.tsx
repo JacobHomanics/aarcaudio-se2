@@ -16,8 +16,8 @@ import { NftCard } from "~~/components/NftCard/NftCard";
 import { abi } from "~~/contracts/songAbi";
 import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
-//
-//
+const isCached = true;
+
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount({
     onConnect: () => {
@@ -123,32 +123,11 @@ const Home: NextPage = () => {
           functionName: "GET_PRICE",
         });
 
-        // const uri = await publicClient.readContract({
-        //   address: allSongs[i],
-        //   abi,
-        //   functionName: "getURI",
-        // });
-
-        const result = await fetch(`/AARCADE RUN/${i + 1}.json`, {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        });
-
-        const resultJson = await result.json();
-
         const mintPriceBasedOnCents = await publicClient.readContract({
           address: allSongs[i],
           abi,
           functionName: "GET_PRICE_BASED_ON_CENTS",
         });
-
-        // const cents = await publicClient.readContract({
-        //   address: allSongs[i],
-        //   abi,
-        //   functionName: "GET_CENTS",
-        // });
 
         let balanceOf;
         if (connectedAddress) {
@@ -177,13 +156,43 @@ const Home: NextPage = () => {
         //   };
         // }
 
-        // const uriCorrected = (uri as string).replace("ipfs://", "https://ipfs.io/ipfs/");
+        const data: any = {};
 
-        // const response = await fetch(uriCorrected);
+        if (isCached) {
+          const result = await fetch(`/AARCADE RUN/${i + 1}.json`, {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          });
 
-        // const tokenData = await response.json();
+          const resultJson = await result.json();
+          data.name = resultJson.name;
+          data.image = `/aarcaudio/images/glitch-art-studio ${i + 1}.gif`;
+          data.cents = 25;
+          data.audio = `/aarcaudio/songs/${i + 1}.mp3`;
+        } else {
+          const cents = await publicClient.readContract({
+            address: allSongs[i],
+            abi,
+            functionName: "GET_CENTS",
+          });
 
-        // tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
+          const uri = await publicClient.readContract({
+            address: allSongs[i],
+            abi,
+            functionName: "GET_URI",
+          });
+          const uriCorrected = (uri as string).replace("ipfs://", "https://ipfs.io/ipfs/");
+          const response = await fetch(uriCorrected);
+          const tokenData = await response.json();
+          tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://ipfs.io/ipfs/");
+
+          data.name = tokenData.name;
+          data.image = tokenData.image?.replace("ipfs://", "https://ipfs.io/ipfs/");
+          data.cents = (cents as bigint).toString();
+          data.audio = tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/");
+        }
 
         const songData = {
           address: allSongs[i],
@@ -194,7 +203,10 @@ const Home: NextPage = () => {
           // uri,
           // uriCorrected,
           // tokenData,
-          name: resultJson.name,
+          name: data.name,
+          image: data.image,
+          cents: data.cents,
+          audio: data.audio,
           // theMint /*mint*/,
         };
 
@@ -232,10 +244,10 @@ const Home: NextPage = () => {
       const nft = {
         address: allSongDatas[i].address,
         name: allSongDatas[i].name, //allSongDatas[i].tokenData?.name,
-        image: `/aarcaudio/images/glitch-art-studio ${i + 1}.gif`, //allSongDatas[i].tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        image: allSongDatas[i].image, //`/aarcaudio/images/glitch-art-studio ${i + 1}.gif`, //allSongDatas[i].tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
         price: formatEther(allSongDatas[i].price || BigInt(0)),
         mintPriceBasedOnCents: allSongDatas[i].mintPriceBasedOnCents.toString(),
-        cents: 25, //allSongDatas[i].cents.toString(),
+        cents: allSongDatas[i].cents.toString(),
         balanceOf: allSongDatas[i].balanceOf,
 
         actionBtn: theMint
