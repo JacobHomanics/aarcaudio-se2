@@ -16,7 +16,7 @@ import { NftCard } from "~~/components/NftCard/NftCard";
 import { abi } from "~~/contracts/songAbi";
 import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
-const isCached = true;
+const isCached = false;
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount({
@@ -139,23 +139,6 @@ const Home: NextPage = () => {
           });
         }
 
-        // let theMint;
-
-        // if (connectedAddress && walletClient?.account.address) {
-        //   theMint = async () => {
-        //     const { request } = await publicClient.simulateContract({
-        //       account: connectedAddress,
-        //       address: allSongs[i],
-        //       abi,
-        //       functionName: "MINT",
-        //       args: [connectedAddress],
-        //       value: mintPriceBasedOnCents as bigint,
-        //     });
-
-        //     await walletClient.writeContract(request);
-        //   };
-        // }
-
         const data: any = {};
 
         if (isCached) {
@@ -197,17 +180,12 @@ const Home: NextPage = () => {
         const songData = {
           address: allSongs[i],
           price,
-          // cents,
           balanceOf,
           mintPriceBasedOnCents,
-          // uri,
-          // uriCorrected,
-          // tokenData,
           name: data.name,
           image: data.image,
           cents: data.cents,
           audio: data.audio,
-          // theMint /*mint*/,
         };
 
         songDatas.push(songData);
@@ -243,8 +221,8 @@ const Home: NextPage = () => {
 
       const nft = {
         address: allSongDatas[i].address,
-        name: allSongDatas[i].name, //allSongDatas[i].tokenData?.name,
-        image: allSongDatas[i].image, //`/aarcaudio/images/glitch-art-studio ${i + 1}.gif`, //allSongDatas[i].tokenData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        name: allSongDatas[i].name,
+        image: allSongDatas[i].image,
         price: formatEther(allSongDatas[i].price || BigInt(0)),
         mintPriceBasedOnCents: allSongDatas[i].mintPriceBasedOnCents.toString(),
         cents: allSongDatas[i].cents.toString(),
@@ -266,11 +244,7 @@ const Home: NextPage = () => {
         audioControls: {
           isPlaying: isPlayings[i].value,
           onToggle: () => {
-            handleMe(
-              isPlayings[i].id,
-              isPlayings,
-              `/aarcaudio/songs/${i + 1}.mp3`, //allSongDatas[i].tokenData["audio_url"].replace("ipfs://", "https://ipfs.io/ipfs/"),
-            );
+            handleMe(isPlayings[i].id, isPlayings, allSongDatas[i].audio);
           },
         },
       };
