@@ -212,7 +212,7 @@ const Home: NextPage = () => {
     }
 
     yeah();
-    // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allSongs, connectedAddress, publicClient.account, walletClient?.account.address, totalPriceUnowned]);
 
   const builtNfts: any[] = [];
