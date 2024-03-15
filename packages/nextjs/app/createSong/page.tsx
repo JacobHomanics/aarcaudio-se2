@@ -61,7 +61,7 @@ const CreateSong: NextPage = () => {
     }
 
     run();
-  }, [newInstance]);
+  }, [newInstance, addSong]);
   async function onSubmit(event: any) {
     event.preventDefault();
     const target = event.target;

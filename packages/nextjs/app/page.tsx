@@ -114,102 +114,106 @@ const Home: NextPage = () => {
 
   const [isPlayings, setIsPlayings] = useState<{ id: number; value: boolean }[]>([]);
 
-  async function yeah() {
-    console.log("heree1");
+  useEffect(() => {
+    async function yeah() {
+      console.log("heree1");
 
-    if (!allSongs) return;
+      if (!allSongs) return;
 
-    console.log("heree2");
+      console.log("heree2");
 
-    const songDatas = [];
-    const audioComps = [];
+      const songDatas = [];
+      const audioComps = [];
 
-    for (let i = 0; i < allSongs?.length; i++) {
-      const audioComp = { id: i, value: false };
-      audioComps.push(audioComp);
+      for (let i = 0; i < allSongs?.length; i++) {
+        const audioComp = { id: i, value: false };
+        audioComps.push(audioComp);
 
-      const price = await publicClient.readContract({
-        address: allSongs[i],
-        abi,
-        functionName: "GET_PRICE",
-      });
-
-      const mintPriceBasedOnCents = await publicClient.readContract({
-        address: allSongs[i],
-        abi,
-        functionName: "GET_PRICE_BASED_ON_CENTS",
-      });
-
-      console.log("heree3");
-      let balanceOf;
-      if (connectedAddress) {
-        balanceOf = await publicClient.readContract({
+        const price = await publicClient.readContract({
           address: allSongs[i],
           abi,
-          functionName: "balanceOf",
-          args: [connectedAddress],
+          functionName: "GET_PRICE",
         });
+
+        const mintPriceBasedOnCents = await publicClient.readContract({
+          address: allSongs[i],
+          abi,
+          functionName: "GET_PRICE_BASED_ON_CENTS",
+        });
+
+        console.log("heree3");
+        let balanceOf;
+        if (connectedAddress) {
+          balanceOf = await publicClient.readContract({
+            address: allSongs[i],
+            abi,
+            functionName: "balanceOf",
+            args: [connectedAddress],
+          });
+        }
+
+        const data: any = {};
+
+        if (isCached) {
+          const result = await fetch(`/AARCADE RUN/${i + 1}.json`, {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          });
+
+          const resultJson = await result.json();
+          data.name = resultJson.name;
+          data.image = `/aarcaudio/images/glitch-art-studio ${i + 1}.gif`;
+          data.cents = 25;
+          data.audio = `/aarcaudio/songs/${i + 1}.mp3`;
+        } else {
+          const cents = await publicClient.readContract({
+            address: allSongs[i],
+            abi,
+            functionName: "GET_CENTS",
+          });
+
+          const uri = await publicClient.readContract({
+            address: allSongs[i],
+            abi,
+            functionName: "GET_URI",
+          });
+          const uriCorrected = (uri as string).replace("ipfs://", "https://nftstorage.link/ipfs/");
+          const response = await fetch(uriCorrected);
+          const tokenData = await response.json();
+          tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace(
+            "ipfs://",
+            "https://nftstorage.link/ipfs/",
+          );
+
+          data.name = tokenData.name;
+          data.image = tokenData.image?.replace("ipfs://", "https://nftstorage.link/ipfs/");
+          data.cents = (cents as bigint).toString();
+          data.audio = tokenData["audio_url"].replace("ipfs://", "https://nftstorage.link/ipfs/");
+        }
+
+        const songData = {
+          address: allSongs[i],
+          price,
+          balanceOf,
+          mintPriceBasedOnCents,
+          name: data.name,
+          image: data.image,
+          cents: data.cents,
+          audio: data.audio,
+        };
+
+        songDatas.push(songData);
       }
 
-      const data: any = {};
-
-      if (isCached) {
-        const result = await fetch(`/AARCADE RUN/${i + 1}.json`, {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        });
-
-        const resultJson = await result.json();
-        data.name = resultJson.name;
-        data.image = `/aarcaudio/images/glitch-art-studio ${i + 1}.gif`;
-        data.cents = 25;
-        data.audio = `/aarcaudio/songs/${i + 1}.mp3`;
-      } else {
-        const cents = await publicClient.readContract({
-          address: allSongs[i],
-          abi,
-          functionName: "GET_CENTS",
-        });
-
-        const uri = await publicClient.readContract({
-          address: allSongs[i],
-          abi,
-          functionName: "GET_URI",
-        });
-        const uriCorrected = (uri as string).replace("ipfs://", "https://nftstorage.link/ipfs/");
-        const response = await fetch(uriCorrected);
-        const tokenData = await response.json();
-        tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace("ipfs://", "https://nftstorage.link/ipfs/");
-
-        data.name = tokenData.name;
-        data.image = tokenData.image?.replace("ipfs://", "https://nftstorage.link/ipfs/");
-        data.cents = (cents as bigint).toString();
-        data.audio = tokenData["audio_url"].replace("ipfs://", "https://nftstorage.link/ipfs/");
-      }
-
-      const songData = {
-        address: allSongs[i],
-        price,
-        balanceOf,
-        mintPriceBasedOnCents,
-        name: data.name,
-        image: data.image,
-        cents: data.cents,
-        audio: data.audio,
-      };
-
-      songDatas.push(songData);
+      setAllSongDatas([...songDatas]);
+      setIsPlayings([...audioComps]);
     }
 
-    setAllSongDatas([...songDatas]);
-    setIsPlayings([...audioComps]);
-  }
-
-  useEffect(() => {
     yeah();
-  }, [allSongs, publicClient.account, walletClient?.account.address, totalPriceUnowned]);
+    // eslint-disable-line react-hooks/exhaustive-deps
+  }, [allSongs, connectedAddress, publicClient.account, walletClient?.account.address, totalPriceUnowned]);
 
   const builtNfts: any[] = [];
 

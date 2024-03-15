@@ -138,6 +138,7 @@ export const NftCard = (props: NftCardProps) => {
     <div className={props.cardClasses}>
       <p className={props.name?.classes}>{props.name?.value}</p>
 
+      {/* eslint-disable @next/next/no-img-element */}
       <img className={props.image?.classes} src={props.image?.value} alt={props.image?.alt} />
       {contractAddressOutput}
       {audioControlsOutput}
