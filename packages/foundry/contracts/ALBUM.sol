@@ -180,6 +180,10 @@ contract ALBUM is Ownable, ERC721 {
         PRICE = (FIAT_PRICE * 1e18) / CURRENT_FIAT_PRICE;
     }
 
+    function GET_PLAYLIST() external view returns (address _PLAYLIST) {
+        _PLAYLIST = address(S_PLAYLIST);
+    }
+
     function GET_CHAINLINK_DATA_FEED_LATEST_ANSWER() public view returns (int) {
         if (address(S_SEQUENCER_UPTIME_FEED) != address(0)) {
             (, int256 ANSWER, uint256 STARTED_AT, , ) = S_SEQUENCER_UPTIME_FEED

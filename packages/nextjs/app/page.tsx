@@ -5,6 +5,9 @@ import "@madzadev/audio-player/dist/index.css";
 import type { NextPage } from "next";
 import { useFetch } from "usehooks-ts";
 import { formatEther } from "viem";
+import { createWalletClient } from "viem";
+import { http } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
 // import { createPublicClient, http } from "viem";
 // import { mainnet } from "viem/chains";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
@@ -14,11 +17,19 @@ import { LinksCard } from "~~/components/LinksCard";
 import { NftCard } from "~~/components/NftCard/NftCard";
 // import { useMe } from "~~/components/hooks/hooks";
 import { abi } from "~~/contracts/songAbi";
-import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import {
+  loadBurnerSK,
+  useScaffoldContract,
+  useScaffoldContractRead,
+  useScaffoldContractWrite,
+} from "~~/hooks/scaffold-eth";
 
 const isCached = false;
 
 const Home: NextPage = () => {
+  // const { walletClient: wc2 } = useBurnerWallet();
+  // console.log(wc2);
+
   const { address: connectedAddress } = useAccount({
     onConnect: () => {
       if (!connectedAddress) refreshData();
@@ -116,11 +127,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     async function yeah() {
-      console.log("heree1");
-
       if (!allSongs) return;
-
-      console.log("heree2");
 
       const songDatas = [];
       const audioComps = [];
@@ -141,7 +148,6 @@ const Home: NextPage = () => {
           functionName: "GET_PRICE_BASED_ON_CENTS",
         });
 
-        console.log("heree3");
         let balanceOf;
         if (connectedAddress) {
           balanceOf = await publicClient.readContract({
@@ -180,6 +186,7 @@ const Home: NextPage = () => {
             functionName: "GET_URI",
           });
           const uriCorrected = (uri as string).replace("ipfs://", "https://nftstorage.link/ipfs/");
+
           const response = await fetch(uriCorrected);
           const tokenData = await response.json();
           tokenData["audio_url_corrected"] = tokenData["audio_url"]?.replace(
@@ -223,16 +230,35 @@ const Home: NextPage = () => {
 
       if (connectedAddress && walletClient?.account.address) {
         theMint = async () => {
-          const { request } = await publicClient.simulateContract({
-            account: connectedAddress,
-            address: allSongDatas[i].address,
-            abi,
-            functionName: "MINT",
-            args: [connectedAddress],
-            value: allSongDatas[i].mintPriceBasedOnCents as bigint,
-          });
+          if (connectedAddress === privateKeyToAccount(loadBurnerSK()).address) {
+            const { request } = await publicClient.simulateContract({
+              account: privateKeyToAccount(loadBurnerSK()),
+              address: allSongDatas[i].address,
+              abi,
+              functionName: "MINT",
+              args: [privateKeyToAccount(loadBurnerSK()).address],
+              value: allSongDatas[i].mintPriceBasedOnCents as bigint,
+            });
 
-          await walletClient.writeContract(request);
+            const client = createWalletClient({
+              account: privateKeyToAccount(loadBurnerSK()),
+              chain: publicClient.chain,
+              transport: http(),
+            });
+
+            await client.writeContract(request);
+          } else {
+            const { request } = await publicClient.simulateContract({
+              account: connectedAddress,
+              address: allSongDatas[i].address,
+              abi,
+              functionName: "MINT",
+              args: [connectedAddress],
+              value: allSongDatas[i].mintPriceBasedOnCents as bigint,
+            });
+
+            await walletClient.writeContract(request);
+          }
         };
       }
 
