@@ -9,9 +9,11 @@ export const getMetadata = ({
   description: string;
   imageRelativePath?: string;
 }): Metadata => {
-  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-    : `http://localhost:${process.env.PORT}`;
+  const baseUrl = "https://www.digitalshirtlounge.com/";
+
+  // process.env.NEXT_PUBLIC_VERCEL_URL
+  //   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  //   : `http://localhost:${process.env.PORT}`;
   const imageUrl = `${baseUrl}${imageRelativePath}`;
   return {
     title: title,
