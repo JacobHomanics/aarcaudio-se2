@@ -5,10 +5,8 @@ import { ThemeProvider } from "~~/components/ThemeProvider";
 import "~~/styles/globals.css";
 
 const baseUrl = "https://www.digitalshirtlounge.com/";
-// process.env.NEXT_PUBLIC_VERCEL_URL
-//   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-//   : `http://localhost:${process.env.PORT}`;
-const imageUrl = `${baseUrl}/album.gif`;
+
+const imageUrl = `${baseUrl}/thumbnail.gif`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
